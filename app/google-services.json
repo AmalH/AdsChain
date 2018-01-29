@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "331798918321",
+    "firebase_url": "https://adschain-f604c.firebaseio.com",
+    "project_id": "adschain-f604c",
+    "storage_bucket": "adschain-f604c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331798918321:android:5e03ad08010caaa7",
+        "android_client_info": {
+          "package_name": "amalhichri.androidprojects.com.adschain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331798918321-40b1egb2mcnjh187qc7arfanen3smeab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj-oDiFb2UaEEvRpEpn4-YE91-BSk4I8A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
