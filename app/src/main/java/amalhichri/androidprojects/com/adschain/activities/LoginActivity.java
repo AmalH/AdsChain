@@ -67,6 +67,13 @@ public class LoginActivity extends Activity {
         //initialize facebook sdk
         facebookApiInit();
 
+        (findViewById(R.id.signUpTxtVw)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+            }
+        });
+
     }
 
     /** Firebase login **/

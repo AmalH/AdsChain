@@ -15,7 +15,7 @@
         android:id="@+id/loginHeaderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Follow up with iKotliners"
+        android:text="Follow up with chainers"
         android:layout_marginTop="20dp"
         android:textColor="@color/base_color_1"
         android:gravity="center"
@@ -84,6 +84,18 @@
             android:textColor="@color/base_color_1"
             android:textSize="8pt"
             tools:ignore="MissingPrefix" />
+        <TextView
+            android:id="@+id/signUpTxtVw"
+            style="bold"
+            fontPath="fonts/graublau_slab_bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+            android:text="Not a Chainer yet ? Join now."
+            android:textColor="@color/base_color_1"
+            android:textSize="8pt"
+            android:textStyle="bold"
+            tools:ignore="MissingPrefix" />
 
         <!-- progress bar -->
         <ProgressBar
@@ -112,20 +124,10 @@
         android:drawableLeft="@drawable/ic_facebook_login"
         android:paddingLeft="10dp"
         android:layout_marginBottom="5dp"
-        android:text="Continue with Facebook"
+        android:text="Login with Facebook"
         android:textColor="#FFFFFF"
         android:onClick="loginWithFacebook"
         />
 
-    <com.rey.material.widget.Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#007bb6"
-        android:drawableLeft="@drawable/ic_linkedin_login"
-        android:paddingLeft="10dp"
-        android:text="Continue with linkedin"
-        android:textColor="#FFFFFF"
-        android:onClick="loginWithLinkedin"
-        />
 
 </LinearLayout>

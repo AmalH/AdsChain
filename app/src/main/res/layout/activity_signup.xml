@@ -15,7 +15,7 @@
         android:id="@+id/signupHeaderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join iKotliners community"
+        android:text="Join Chainers community"
         android:layout_marginTop="20dp"
         android:textColor="@color/base_color_1"
         android:gravity="center"
@@ -45,7 +45,6 @@
             app:et_labelTextSize="15dp"
             app:et_dividerHeight="2dp"
             app:et_supportMode="helperWithError"
-            app:et_helper="Enter password"
             android:hint=" E-mail"
             app:et_supportTextErrorColor="#F00"
             app:et_dividerErrorColor="#F00"/>
@@ -100,7 +99,7 @@
         <com.rey.material.widget.Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="100dp"
             android:background="#3B5998"
             android:drawableLeft="@drawable/ic_facebook_login"
             android:paddingLeft="10dp"

@@ -6,7 +6,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import amalhichri.androidprojects.com.adschain.R;
@@ -22,10 +21,10 @@ public class MainUiPagerAdapter extends PagerAdapter {
     private int mSize;
     private Context context;
     private int[] icons = new int[]{R.drawable.learn,R.drawable.code,R.drawable.compete,R.drawable.discuss};
-    private String[] textViewContents1 = new String[]{"Learn","Code","Compete","Discuss"};
-    private String[] textViewContents2 = new String[]{"Kotlin basics right at your finger tips",
-    "Write and run code on your mobile \n Java-Kotlin code conversion",
-    "Beat iKotliners and hold the Trophy!","Ask questions and give answers \n in iKotlin forum"};
+    private String[] textViewContents1 = new String[]{"Welcome to ChainIt","Call","Earn","Earn more"};
+    private String[] textViewContents2 = new String[]{"Connect and earn at once",
+    "Free calls and messages \n to any ChainIt user in the world ",
+    "Trade your free SMS to AFRIcoins","Trade more. Get more AFRIcoins"};
 
     public MainUiPagerAdapter(Context context) {
         this.context=context;
@@ -50,7 +49,7 @@ public class MainUiPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup view, int position) {
         View v= ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.mainui_viewpager_item, view, false);
-        ((ImageView)v.findViewById(R.id.main_ui_image)).setImageResource(icons[position]);
+     //   ((ImageView)v.findViewById(R.id.main_ui_image)).setImageResource(icons[position]);
         ((TextView)v.findViewById(R.id.main_ui_text1)).setText(textViewContents1[position]);
         ((TextView)v.findViewById(R.id.main_ui_text1)).setTypeface(Typeface.createFromAsset(context.getAssets(),"fonts/graublau_slab_bold.ttf"));
         ((TextView)v.findViewById(R.id.main_ui_text2)).setText(textViewContents2[position]);
