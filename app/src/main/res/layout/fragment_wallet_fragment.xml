@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="amalhichri.androidprojects.com.adschain.fragments.FirstFragmet">
+    tools:context="amalhichri.androidprojects.com.adschain.fragments.WalletFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Fragment 1" />
+        android:text="Fragment 2" />
 
 </FrameLayout>
