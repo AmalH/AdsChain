@@ -4,15 +4,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import amalhichri.androidprojects.com.adschain.fragments.FirstFragmet;
-import amalhichri.androidprojects.com.adschain.fragments.FourthFragmet;
-import amalhichri.androidprojects.com.adschain.fragments.SecondFragmet;
-import amalhichri.androidprojects.com.adschain.fragments.ThirdFragmet;
+import amalhichri.androidprojects.com.adschain.fragments.OthersFragment;
+import amalhichri.androidprojects.com.adschain.fragments.WalletFragment;
+import amalhichri.androidprojects.com.adschain.fragments.ConfigFragment;
 
 
 public class HomePageTabsAdapter extends FragmentPagerAdapter {
 
-    private int NUM_ITEMS = 4;
+    private int NUM_ITEMS = 3;
 
         public HomePageTabsAdapter(FragmentManager fm) {
             super(fm);
@@ -29,13 +28,11 @@ public class HomePageTabsAdapter extends FragmentPagerAdapter {
             case 0:
                 /** because to switch fragments inside a tab we need a root FrameLayout,
                  in which we load fragments in each time ( getFragmentManager.replce(root,newFrag) )**/
-                return new FirstFragmet();
+                return new WalletFragment();
             case 1:
-                return new SecondFragmet();
+                return new ConfigFragment();
             case 2:
-                return new ThirdFragmet();
-            case 3:
-                return new FourthFragmet();
+                return new OthersFragment();
             default:
                 return null;
         }

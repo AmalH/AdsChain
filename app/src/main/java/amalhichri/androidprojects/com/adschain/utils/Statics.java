@@ -42,6 +42,7 @@ public class Statics {
     public static void signUp(final String email, String password, final String fullName, final String pictureUrl, final Activity activity) {
         // we'll use a fullName in signup ui we're not providing firstName / lastName editTe
         //authenticate user through firebase
+        Log.d("Test","CALLED");
         Statics.auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
@@ -67,6 +68,11 @@ public class Statics {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d("Test","Facebook ato firebase success");
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("ERROR:",e.getMessage());
             }
         });
     }

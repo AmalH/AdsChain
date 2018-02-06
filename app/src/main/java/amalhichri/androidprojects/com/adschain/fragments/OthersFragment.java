@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import amalhichri.androidprojects.com.adschain.R;
 
 
-public class WalletFragment extends Fragment {
+public class OthersFragment extends Fragment {
 
 
     @Override
@@ -21,6 +21,6 @@ public class WalletFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_wallet_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_others_fragment, container, false);
     }
 }

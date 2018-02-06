@@ -3,15 +3,6 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <item name="colorPrimary">@color/base_color_1</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="android:actionOverflowButtonStyle">@style/MyCustomTheme.OverFlow</item>
-    </style>
-
-    <!-- a solution for menu dots color, but not optimised ! will chack it later  -->
-    <style name="MyCustomTheme" parent="Theme.AppCompat.Light">
-        <item name="android:actionOverflowButtonStyle">@style/MyCustomTheme.OverFlow</item>
-    </style>
-    <style name="MyCustomTheme.OverFlow">
-        <item name="android:src">@drawable/ic_main_menu</item>
     </style>
 
     <!-- Settings activity theme . -->

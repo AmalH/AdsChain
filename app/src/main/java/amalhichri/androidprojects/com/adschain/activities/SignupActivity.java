@@ -20,6 +20,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.linkedin.platform.LISessionManager;
 import com.rey.material.widget.EditText;
 
@@ -135,6 +136,7 @@ public class SignupActivity extends Activity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 isFacebook=true;
+                Log.d("OBJECT","WORKED");
                 final GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -194,9 +196,8 @@ public class SignupActivity extends Activity {
                     .onActivityResult(this,
                             requestCode, resultCode, data);
             isFacebook=false;
-
-        //if(!(FirebaseAuth.getInstance().getCurrentUser()==null))
-            //startActivity(new Intent(SignupActivity.this, HomeActivity.class));
+        if(!(FirebaseAuth.getInstance().getCurrentUser()==null))
+            startActivity(new Intent(SignupActivity.this, HomeActivity.class));
     }
 
 
