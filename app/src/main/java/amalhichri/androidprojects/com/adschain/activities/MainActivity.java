@@ -48,8 +48,8 @@ public class MainActivity extends Activity implements View.OnClickListener   {
             case(R.id.loginBtn):
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 break;
-           // case (R.id.signupBtn):
-              //  startActivity(new Intent(getApplicationContext(), amalhichri.androidprojects.com.adschain.activities.SignupActivity.class));
+            case (R.id.signupTxt):
+               startActivity(new Intent(getApplicationContext(), amalhichri.androidprojects.com.adschain.activities.SignupActivity.class));
         }
     }
 

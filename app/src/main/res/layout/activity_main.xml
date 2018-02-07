@@ -63,18 +63,18 @@
             android:textColor="@color/base_color_2"
             android:background="@color/base_color_1"
             android:onClick="onClick"/>
-        <!--<com.rey.material.widget.Button
-            android:id="@+id/signupBtn"
+        <TextView
+            android:id="@+id/signupTxt"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:gravity="center_horizontal"
             android:layout_margin="5dp"
-            android:text="Create new account"
+            android:text="Not a chainer yet? Join now"
             android:textSize="8pt"
             android:textStyle="bold"
-            fontPath="fonts/graublau_slab.ttf"
+            android:fontPath="fonts/graublau_slab.ttf"
             android:textColor="@color/base_color_1"
-            android:background="@color/base_color_2"
-            android:onClick="onClick"/>-->
+            android:onClick="onClick"/>
 
     </LinearLayout>
 </LinearLayout>

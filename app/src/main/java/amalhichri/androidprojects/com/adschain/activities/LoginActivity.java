@@ -31,6 +31,8 @@ import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -98,13 +100,12 @@ public class LoginActivity  extends Activity {
 
     /** Facebook login **/
     public void loginWithFacebook(View v) {
-        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-       /* if (AccessToken.getCurrentAccessToken() != null) {
+       if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
         } else {
             mAccessTokenTracker.startTracking();
             mLoginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile"));
-        }*/
+        }
     }
     // to initialize facebook api + retrieve user info
     private void facebookApiInit() {
@@ -150,7 +151,7 @@ public class LoginActivity  extends Activity {
             }
             @Override
             public void onError(FacebookException error) {
-
+                Log.d("ERROR",error.toString());
             }
         });
     }
