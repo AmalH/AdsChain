@@ -41,12 +41,12 @@
         android:layout_height="wrap_content"
         android:text=" SMS"/>
   </LinearLayout>
-  <LinearLayout
+  <WebView
+      android:id="@+id/chartWebView"
       android:layout_width="match_parent"
-      android:layout_height="200dp"
-      android:layout_marginTop="25dp"
-      android:background="#10000000">
-  </LinearLayout>
+      android:layout_height="230dp"
+      android:layout_marginTop="25dp">
+  </WebView>
   <RelativeLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
