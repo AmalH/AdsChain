@@ -19,8 +19,7 @@ public class WalletFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_wallet_fragment, container, false);
         ((WebView)(v.findViewById(R.id.chartWebView))).loadUrl("file:///android_asset/WalletChart.html");
         ((WebView)(v.findViewById(R.id.chartWebView))).getSettings().setJavaScriptEnabled(true);
