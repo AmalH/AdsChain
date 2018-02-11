@@ -12,13 +12,13 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import amalhichri.androidprojects.com.adschain.R;
@@ -143,14 +143,14 @@ public class HomeActivity extends AppCompatActivity {
         {
             try
             {
-                String SENT      = "SMS_SENT";
+                String SENT = "SMS_SENT";
                 final PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
-                final SmsManager smsMgr = SmsManager.getDefault();
-                (new Handler(Looper.getMainLooper())).postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                         public void run() {
-                            smsMgr.sendTextMessage("+21654821200", null, "hello", sentPI, null);
+                            Log.d("from there","from there");
+                            SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Android", sentPI, null);
                         }
-                        }, 8000);
+                        }, 1000*40);
                 registerReceiver(new BroadcastReceiver()
                 {
                     @Override
