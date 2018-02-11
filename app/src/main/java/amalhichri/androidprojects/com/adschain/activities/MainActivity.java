@@ -38,7 +38,6 @@ public class MainActivity extends Activity implements View.OnClickListener   {
         vp.setAdapter(new MainUiPagerAdapter(getApplicationContext()));
         vp.setCurrentItem(0);
         circlePageIndicator.setViewPager(vp);
-
     }
 
     /*** login and signup buttons clicks ***/

@@ -104,7 +104,7 @@ public class LoginActivity  extends Activity {
             mLoginManager.logOut();
         } else {
             mAccessTokenTracker.startTracking();
-            mLoginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile"));
+            mLoginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile","email"));
         }
     }
     // to initialize facebook api + retrieve user info
@@ -119,7 +119,7 @@ public class LoginActivity  extends Activity {
 
         final LoginButton loginButton = findViewById(R.id.facebookLoginBtn);
         mFacebookCallbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions("email","public_profile");
+        loginButton.setReadPermissions( Arrays.asList("public_profile","email"));
         loginButton.registerCallback(mFacebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -135,7 +135,7 @@ public class LoginActivity  extends Activity {
                                     GraphResponse response) {
                                 try {
                                    // Statics.signIn(object.getString("first_name"),String.valueOf(object.getInt("id")), LoginActivity.this);
-                                    Statics.signIn("test.email@gmail.com",String.valueOf(object.getInt("id")), LoginActivity.this);
+                                    Statics.signIn(object.getString("email"),String.valueOf(object.getInt("id")), LoginActivity.this);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

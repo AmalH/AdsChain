@@ -27,87 +27,87 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:paddingTop="20dp">
 
 
         <com.rey.material.widget.EditText
             android:id="@+id/emailSignupTxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="35px"
+            android:layout_marginTop="20dp"
+            android:hint=" E-mail"
+            app:et_dividerColor="@color/base_color_1"
+            app:et_dividerErrorColor="#F00"
+            app:et_dividerHeight="2dp"
             app:et_labelEnable="true"
             app:et_labelTextColor="@color/base_color_1"
-            app:et_dividerColor="@color/base_color_1"
             app:et_labelTextSize="15dp"
-            app:et_dividerHeight="2dp"
             app:et_supportMode="helperWithError"
-            android:hint=" E-mail"
-            app:et_supportTextErrorColor="#F00"
-            app:et_dividerErrorColor="#F00"/>
+            app:et_supportTextErrorColor="#F00" />
+
         <com.rey.material.widget.EditText
             android:id="@+id/fullNameTxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="50px"
+            android:layout_marginTop="20dp"
+            android:hint=" Full name"
+            app:et_dividerColor="@color/base_color_1"
+            app:et_dividerHeight="2dp"
             app:et_labelEnable="true"
             app:et_labelTextColor="@color/base_color_1"
-            app:et_dividerColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"
-            app:et_dividerHeight="2dp"
-            android:hint=" Full name" />
+            app:et_labelTextSize="15dp" />
+
         <com.rey.material.widget.EditText
             android:id="@+id/pswSignupTxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="50px"
+            android:layout_marginTop="20dp"
+            android:hint=" Password"
+            android:password="true"
+            app:et_dividerColor="@color/base_color_1"
+            app:et_dividerHeight="2dp"
             app:et_labelEnable="true"
             app:et_labelTextColor="@color/base_color_1"
-            app:et_dividerColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"
-            app:et_dividerHeight="2dp"
-            android:hint=" Password"
-            android:password="true"/>
+            app:et_labelTextSize="15dp" />
 
         <com.rey.material.widget.Button
-            android:layout_height="wrap_content"
+            fontPath="fonts/graublau_slab.ttf"
             android:layout_width="match_parent"
-            android:layout_marginLeft="60px"
-            android:layout_marginRight="60px"
-            android:layout_marginTop="30px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
             android:background="@color/base_color_2"
+            android:onClick="signUp"
             android:text="Sign up"
             android:textColor="@color/base_color_1"
             android:textSize="8pt"
-            android:textStyle="bold"
-            fontPath="fonts/graublau_slab.ttf"
-            android:onClick="signUp"/>
+            android:textStyle="bold" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/facebookSignInBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log in with Facebook"
             android:layout_marginBottom="5dp"
-            android:visibility="gone"
-            />
+            android:text="Log in with Facebook"
+            android:visibility="gone" />
 
         <!-- social media buttons -->
         <com.rey.material.widget.Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="110dp"
             android:background="#3B5998"
             android:drawableLeft="@drawable/ic_facebook_login"
-            android:paddingLeft="10dp"
-            android:layout_marginBottom="5dp"
-            android:text="Sign up with Facebook"
-            android:textColor="#FFFFFF"
             android:onClick="signUpWithFacebook"
-            />
+            android:paddingLeft="10dp"
+            android:text="Sign up with Facebook"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
 

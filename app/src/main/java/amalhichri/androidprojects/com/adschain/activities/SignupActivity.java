@@ -21,7 +21,6 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.linkedin.platform.LISessionManager;
 import com.rey.material.widget.EditText;
 
 import org.json.JSONException;
@@ -30,17 +29,14 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import amalhichri.androidprojects.com.adschain.R;
-import amalhichri.androidprojects.com.adschain.models.User;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SignupActivity extends Activity {
 
-    static boolean isFacebook= false;
     private LoginManager mLoginManager;
     private AccessTokenTracker mAccessTokenTracker;
     private CallbackManager mFacebookCallbackManager;
-    private User userFromLinkedIn;
 
 
 
@@ -107,15 +103,13 @@ public class SignupActivity extends Activity {
     }
 
 
-
     /** sign up with facebook **/
     public void signUpWithFacebook(View v) {
-        isFacebook = true;
         if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
         } else {
             mAccessTokenTracker.startTracking();
-            mLoginManager.logInWithReadPermissions(SignupActivity.this, Arrays.asList("public_profile"));
+            mLoginManager.logInWithReadPermissions(SignupActivity.this, Arrays.asList("public_profile","email"));
         }
     }
     // to initialize facebook api + retrieve user info
@@ -125,17 +119,18 @@ public class SignupActivity extends Activity {
         mAccessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,AccessToken currentAccessToken) {
+                Log.d("TEST","TEST "+currentAccessToken.toString());
             }
         };
 
         final LoginButton loginButton = findViewById(R.id.facebookSignInBtn);
         mFacebookCallbackManager = CallbackManager.Factory.create();
 
-        loginButton.setReadPermissions("email","public_profile");
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email"));
         loginButton.registerCallback(mFacebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                isFacebook=true;
                 Log.d("OBJECT","WORKED");
                 final GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -183,19 +178,13 @@ public class SignupActivity extends Activity {
                 Log.d("ERROR",error.toString());
             }
         });
-
-
     }
 
     /** onActivityResult **/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-            LISessionManager.getInstance(getApplicationContext())
-                    .onActivityResult(this,
-                            requestCode, resultCode, data);
-            isFacebook=false;
+        mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         if(!(FirebaseAuth.getInstance().getCurrentUser()==null))
             startActivity(new Intent(SignupActivity.this, HomeActivity.class));
     }
@@ -219,10 +208,6 @@ public class SignupActivity extends Activity {
            return true;
         else
             return false;
-    }
-
-    private void setErrorText(EditText editText,String errorMsg){
-
     }
 
 

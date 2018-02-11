@@ -7,26 +7,34 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
+          ['',''],
+          ['Monday',3],
+          ['Tuesday',2],
+          ['Wednesday',7],
+          ['Thursday',5]
         ]);
 
         var options = {
-          title: 'Company Performance',
-          curveType: 'function',
-          legend: { position: 'bottom' }
-        };
-
+        curveType: 'function',
+          title: '',
+        legend: { position: 'none' },
+        chartArea: {
+            left: 40,
+            top: 10,
+            width: 900,
+            height: 300
+        },
+         backgroundColor: {
+        fill: '#3b5670',
+        fillOpacity: 0.5
+      },
+    };
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
         chart.draw(data, options);
       }
     </script>
 </head>
-<body>
-<div id="curve_chart" style="width: 300dp; height: 230dp"></div>
+<body style="background: rgba(59,86,112, 0.4);">
+<div id="curve_chart"></div>
 </body>
 </html>

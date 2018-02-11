@@ -72,7 +72,8 @@
             android:text="Not a chainer yet? Join now"
             android:textSize="8pt"
             android:textStyle="bold"
-            android:fontPath="fonts/graublau_slab.ttf"
+            fontPath="fonts/graublau_slab.ttf"
+            tools:ignore="MissingPrefix"
             android:textColor="@color/base_color_1"
             android:onClick="onClick"/>
 
