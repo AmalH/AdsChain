@@ -2,6 +2,7 @@ package amalhichri.androidprojects.com.adschain.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.adapters.HomePageTabsAdapter;
+import amalhichri.androidprojects.com.adschain.utils.AlarmReceiver;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HomeActivity extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
     private ColorMatrix matrix;
     private FragmentManager fragmentManager;
     private String SimState = "";
+    private PendingIntent pendingIntent;
+    private AlarmManager manager;
 
 
     @Override
@@ -44,14 +47,17 @@ public class HomeActivity extends AppCompatActivity {
 
         fragmentManager =getSupportFragmentManager();
 
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+
         /** sart sending sms in background **/
         final int PERMISSION_REQUEST_CODE = 1;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(Manifest.permission.SEND_SMS)
-                    == PackageManager.PERMISSION_DENIED) {
-                String[] permissions = {Manifest.permission.SEND_SMS};
+                    == PackageManager.PERMISSION_DENIED) {String[] permissions = {Manifest.permission.SEND_SMS};
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
             } else {
                 sendSms();
@@ -137,38 +143,45 @@ public class HomeActivity extends AppCompatActivity {
 
 
     /***  sending sms **/
+
     private void sendSms()
     {
+        Log.d("Here 1","here");
         if(isSimExists())
         {
+            Log.d("Here 2","here");
             try
             {
                 String SENT = "SMS_SENT";
-                final PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
-                new Handler().postDelayed(new Runnable() {
+                final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent(SENT), 0);
+                SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Android", sentPI, null);
+               /* new Handler().postDelayed(new Runnable() {
                         public void run() {
                             Log.d("from there","from there");
                             SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Android", sentPI, null);
                         }
-                        }, 1000*40);
-                registerReceiver(new BroadcastReceiver()
-                {
+                        }, 1000*40);*/
+
+                getApplicationContext().registerReceiver(new BroadcastReceiver() {
                     @Override
-                    public void onReceive(Context arg0, Intent arg1)
-                    {
+                    public void onReceive(Context arg0, Intent arg1) {
                         int resultCode = getResultCode();
-                        switch (resultCode)
-                        {
+                        Log.d("code", String.valueOf(resultCode));
+                        switch (resultCode) {
                             case Activity.RESULT_OK:
-                                Toast.makeText(getBaseContext(), "SMS sent",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
                                 break;
-                            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:  Toast.makeText(getBaseContext(), "Generic failure",Toast.LENGTH_LONG).show();
+                            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
                                 break;
-                            case SmsManager.RESULT_ERROR_NO_SERVICE:       Toast.makeText(getBaseContext(), "No service",Toast.LENGTH_LONG).show();
+                            case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
                                 break;
-                            case SmsManager.RESULT_ERROR_NULL_PDU:         Toast.makeText(getBaseContext(), "Null PDU",Toast.LENGTH_LONG).show();
+                            case SmsManager.RESULT_ERROR_NULL_PDU:
+                                Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
                                 break;
-                            case SmsManager.RESULT_ERROR_RADIO_OFF:        Toast.makeText(getBaseContext(), "Radio off",Toast.LENGTH_LONG).show();
+                            case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }
@@ -219,7 +232,8 @@ public class HomeActivity extends AppCompatActivity {
     }
     // For receiving sms
 
-    class SMSReceiver extends BroadcastReceiver
+
+    /*class SMSReceiver extends BroadcastReceiver
     {
         private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
@@ -231,6 +245,6 @@ public class HomeActivity extends AppCompatActivity {
                 // Sms Received Your code here
             }
         }
-    }
+    }*/
 
 }
