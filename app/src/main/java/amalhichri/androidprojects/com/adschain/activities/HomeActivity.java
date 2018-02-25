@@ -1,13 +1,13 @@
 package amalhichri.androidprojects.com.adschain.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -16,14 +16,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.widget.Toast;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.adapters.HomePageTabsAdapter;
 import amalhichri.androidprojects.com.adschain.utils.AlarmReceiver;
+import amalhichri.androidprojects.com.adschain.utils.SMSService;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HomeActivity extends AppCompatActivity {
@@ -35,7 +33,6 @@ public class HomeActivity extends AppCompatActivity {
     private static ColorMatrixColorFilter filter;
     private ColorMatrix matrix;
     private FragmentManager fragmentManager;
-    private String SimState = "";
     private PendingIntent pendingIntent;
     private AlarmManager manager;
 
@@ -60,7 +57,21 @@ public class HomeActivity extends AppCompatActivity {
                     == PackageManager.PERMISSION_DENIED) {String[] permissions = {Manifest.permission.SEND_SMS};
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
             } else {
-                sendSms();
+                // check if user has free sms :
+                    // depending on his operator run certain ussd
+               // Log.d("Test","HHH "+((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName());
+                if(((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
+                {
+                    JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
+                    ComponentName componentName = new ComponentName(getApplicationContext(), SMSService.class);
+                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).setOverrideDeadline(10).setRequiresCharging(true).build();
+                    jobScheduler.schedule(jobInfo);
+                }
+                else{
+
+                }
+
+                  //sendSms();
             }
         }
 
@@ -144,92 +155,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /***  sending sms **/
 
-    private void sendSms()
-    {
-        Log.d("Here 1","here");
-        if(isSimExists())
-        {
-            Log.d("Here 2","here");
-            try
-            {
-                String SENT = "SMS_SENT";
-                final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent(SENT), 0);
-                SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Android", sentPI, null);
-               /* new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            Log.d("from there","from there");
-                            SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Android", sentPI, null);
-                        }
-                        }, 1000*40);*/
 
-                getApplicationContext().registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context arg0, Intent arg1) {
-                        int resultCode = getResultCode();
-                        Log.d("code", String.valueOf(resultCode));
-                        switch (resultCode) {
-                            case Activity.RESULT_OK:
-                                Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_NULL_PDU:
-                                Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                }, new IntentFilter(SENT));
-
-
-            }
-            catch (Exception e)
-            {
-                Toast.makeText(this, e.getMessage()+"!\n"+"Failed to send SMS", Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
-        }
-        else
-        {
-            Toast.makeText(this, SimState+ " " + "Cannot send SMS", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public boolean isSimExists() {
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        int SIM_STATE = telephonyManager.getSimState();
-
-        if (SIM_STATE == TelephonyManager.SIM_STATE_READY)
-            return true;
-        else {
-            switch (SIM_STATE) {
-                case TelephonyManager.SIM_STATE_ABSENT: // SimState =
-                    // "No Sim Found!";
-                    break;
-                case TelephonyManager.SIM_STATE_NETWORK_LOCKED: // SimState =
-                    // "Network Locked!";
-                    break;
-                case TelephonyManager.SIM_STATE_PIN_REQUIRED: // SimState =
-                    // "PIN Required to access SIM!";
-                    break;
-                case TelephonyManager.SIM_STATE_PUK_REQUIRED: // SimState =
-                    // "PUK Required to access SIM!";
-                    // // Personal
-                    // Unblocking Code
-                    break;
-                case TelephonyManager.SIM_STATE_UNKNOWN: // SimState =
-                    // "Unknown SIM State!";
-                    break;
-            }
-            return false;
-        }
-    }
     // For receiving sms
 
 
