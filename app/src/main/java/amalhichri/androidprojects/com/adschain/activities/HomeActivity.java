@@ -11,16 +11,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.widget.Toast;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.adapters.HomePageTabsAdapter;
-import amalhichri.androidprojects.com.adschain.utils.AlarmReceiver;
 import amalhichri.androidprojects.com.adschain.utils.SMSService;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -44,8 +45,8 @@ public class HomeActivity extends AppCompatActivity {
 
         fragmentManager =getSupportFragmentManager();
 
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        //Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        //pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
 
         /** sart sending sms in background **/
@@ -53,25 +54,26 @@ public class HomeActivity extends AppCompatActivity {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
-            if (checkSelfPermission(Manifest.permission.SEND_SMS)
-                    == PackageManager.PERMISSION_DENIED) {String[] permissions = {Manifest.permission.SEND_SMS};
+            if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
+                String[] permissions = {Manifest.permission.SEND_SMS};
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-            } else {
-                // check if user has free sms :
-                    // depending on his operator run certain ussd
-               // Log.d("Test","HHH "+((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName());
+            }else {
+                // check if user has free sms depending on his operator run certain ussd
+                //startService(new Intent(this, USSDService.class));
+               // dailNumber("*120*5*2");
+
+                // Log.d("Test","HHH "+((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName());
                 if(((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
                 {
+                    // if user has sms
                     JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
                     ComponentName componentName = new ComponentName(getApplicationContext(), SMSService.class);
-                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).setOverrideDeadline(10).setRequiresCharging(true).build();
+                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).build(); // setPeriodic(10000)
                     jobScheduler.schedule(jobInfo);
                 }
                 else{
-
+                    Toast.makeText(getApplicationContext(), "You have no free SMS plans !", Toast.LENGTH_LONG).show();
                 }
-
-                  //sendSms();
             }
         }
 
@@ -152,25 +154,9 @@ public class HomeActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-
-    /***  sending sms **/
-
-
-    // For receiving sms
-
-
-    /*class SMSReceiver extends BroadcastReceiver
-    {
-        private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
-
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            if (intent != null && intent.getAction() != null && ACTION.compareToIgnoreCase(intent.getAction()) == 0)
-            {
-                // Sms Received Your code here
-            }
-        }
-    }*/
+    private void dailNumber(String code) {
+        String ussdCode = "*" + code + Uri.encode("#");
+        startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + ussdCode)));
+    }
 
 }

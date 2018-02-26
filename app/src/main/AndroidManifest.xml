@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
 
     <meta-data
         android:name="android.support.VERSION"
@@ -39,11 +41,21 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <receiver android:name=".utils.AlarmReceiver"></receiver>
+       <!-- <receiver android:name=".utils.AlarmReceiver"><receiver> -->
 
         <service android:name=".utils.SMSService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
         ...
+
+        <service android:name=".utils.USSDService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data android:name="android.accessibilityservice"
+                android:resource="@xml/config_ussd_service" /> // created below
+        </service>
+
 
     </application>
 

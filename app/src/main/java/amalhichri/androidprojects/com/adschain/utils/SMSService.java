@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -51,8 +50,6 @@ public class  SMSService extends JobService {
         @Override
         protected Void doInBackground(Void... params) {
             sendSms();
-           // Toast.makeText(getApplicationContext(),"Working here",Toast.LENGTH_LONG).show();
-            // Log.d("DoItTask", "Working here...");
             return null;
         }
     }
@@ -64,24 +61,14 @@ public class  SMSService extends JobService {
         {
             try
             {
-                String SENT = "SMS_SENT";
-                final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent(SENT), 0);
-                SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Android", sentPI, null);
-               /* new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            Log.d("from there","from there");
-                            SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Android", sentPI, null);
-                        }
-                        }, 1000*40);*/
-
+                final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent("SMS_SENT"), 0);
+                SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Amal", sentPI, null);
                 getApplicationContext().registerReceiver(new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context arg0, Intent arg1) {
                         int resultCode = getResultCode();
-                        Log.d("code", String.valueOf(resultCode));
                         switch (resultCode) {
                             case Activity.RESULT_OK:
-                                Log.d("Result: ","SMS sent");
                                 Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
                                 break;
                             case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
@@ -98,7 +85,7 @@ public class  SMSService extends JobService {
                                 break;
                         }
                     }
-                }, new IntentFilter(SENT));
+                }, new IntentFilter("SMS_SENT"));
             }
             catch (Exception e)
             {
