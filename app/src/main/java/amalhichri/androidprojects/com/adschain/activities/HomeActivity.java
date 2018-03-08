@@ -3,9 +3,6 @@ package amalhichri.androidprojects.com.adschain.activities;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,12 +14,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
-import android.widget.Toast;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.adapters.HomePageTabsAdapter;
-import amalhichri.androidprojects.com.adschain.utils.SMSService;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HomeActivity extends AppCompatActivity {
@@ -58,22 +52,17 @@ public class HomeActivity extends AppCompatActivity {
                 String[] permissions = {Manifest.permission.SEND_SMS};
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
             }else {
-                // check if user has free sms depending on his operator run certain ussd
-                //startService(new Intent(this, USSDService.class));
-               // dailNumber("*120*5*2");
-
-                // Log.d("Test","HHH "+((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName());
-                if(((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
+                /*if(((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
                 {
                     // if user has sms
                     JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
                     ComponentName componentName = new ComponentName(getApplicationContext(), SMSService.class);
-                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).build(); // setPeriodic(10000)
+                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).setPeriodic(5000).build(); // setPeriodic(10000)
                     jobScheduler.schedule(jobInfo);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "You have no free SMS plans !", Toast.LENGTH_LONG).show();
-                }
+                }*/
             }
         }
 
