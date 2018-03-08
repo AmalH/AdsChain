@@ -51,6 +51,10 @@ public class HomeActivity extends AppCompatActivity {
             if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
                 String[] permissions = {Manifest.permission.SEND_SMS};
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+            }
+            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_DENIED) {
+                String[] permissions = {Manifest.permission.READ_CONTACTS};
+                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
             }else {
                 /*if(((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
                 {

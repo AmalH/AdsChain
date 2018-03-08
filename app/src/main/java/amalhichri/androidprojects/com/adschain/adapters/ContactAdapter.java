@@ -25,13 +25,11 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
 
     List<Contact> data;
     Context ctx;
-    boolean mode;
     private int lastPosition = -1;
 
     public ContactAdapter(List<Contact> data, Context ctx ) {
         this.data = data;
         this.ctx = ctx;
-
     }
 
     @Override
@@ -57,7 +55,6 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
         setAnimation(holder.itemView, position);
     }
 
-
     @Override
     public int getItemCount() {
         return data.size();
@@ -79,9 +76,6 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
         }
     }
 
-
-
-
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv ;
@@ -90,13 +84,10 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
 
         public ContactViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cv);
-            txt_contact = (TextView) itemView.findViewById(R.id.txt_name);
-            txt_num = (TextView) itemView.findViewById(R.id.txt_num);
-            ck = (CheckBox) itemView.findViewById(R.id.ck);
+            cv = itemView.findViewById(R.id.cv);
+            txt_contact = itemView.findViewById(R.id.txt_name);
+            txt_num = itemView.findViewById(R.id.txt_num);
+            ck =  itemView.findViewById(R.id.ck);
         }
-
-
-
     }
 }
