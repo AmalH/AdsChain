@@ -1,8 +1,11 @@
 package amalhichri.androidprojects.com.adschain.fragments;
 
+import android.Manifest;
 import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -49,8 +52,22 @@ public class ConfigFragment extends Fragment {
         ((CheckBox)v.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
+                if(isChecked){
+                    /** fetching contacts **/
+                    if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
+                        int hasWriteContactsPermission = getContext().checkSelfPermission(Manifest.permission.READ_CONTACTS);
+                        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED  ) { //|| hasWriteSmsPermission != PackageManager.PERMISSION_GRANTED //|| hasWriteStatePermission != PackageManager.PERMISSION_GRANTED
+                            requestPermissions(new String[] {Manifest.permission.READ_CONTACTS }, //Manifest.permission.READ_PHONE_STATE
+                                    1);
+                            return;
+                        }
+                       //int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+                        //  int hasWriteSmsPermission =  getContext().checkSelfPermission(Manifest.permission.SEND_SMS);
+
+                    }
+                    fetchContacts();
                     ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).expand();
+                }
                 if(!isChecked)
                     ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).collapse();
             }
@@ -79,9 +96,6 @@ public class ConfigFragment extends Fragment {
                 }
             }
         });
-
-        /** fetching contacts **/
-        fetchContacts();
         return v;
     }
 
@@ -90,6 +104,7 @@ public class ConfigFragment extends Fragment {
         contacts = new ArrayList<>();
         String phoneNumber = null;
         String email = null;
+
 
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
         String _ID = ContactsContract.Contacts._ID;

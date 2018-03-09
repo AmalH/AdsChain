@@ -1,14 +1,10 @@
 package amalhichri.androidprojects.com.adschain.activities;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -43,17 +39,10 @@ public class HomeActivity extends AppCompatActivity {
         //pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
 
-        /** sart sending sms in background **/
-        final int PERMISSION_REQUEST_CODE = 1;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
                 String[] permissions = {Manifest.permission.SEND_SMS};
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-            }
-            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_DENIED) {
-                String[] permissions = {Manifest.permission.READ_CONTACTS};
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
             }else {
                 /*if(((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
@@ -66,9 +55,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "You have no free SMS plans !", Toast.LENGTH_LONG).show();
-                }*/
+                }
             }
-        }
+        }*/
 
         /** will be used to change tab icons colors on select/deselect */
         matrix = new ColorMatrix();
@@ -147,9 +136,5 @@ public class HomeActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private void dailNumber(String code) {
-        String ussdCode = "*" + code + Uri.encode("#");
-        startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + ussdCode)));
-    }
 
 }

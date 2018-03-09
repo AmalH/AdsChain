@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Limited to"/>
+                android:text="Choose contacts"/>
            <!-- <Spinner
                 android:id="@+id/contactsLimitSpinner"
                 android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Unlimited"/>
+            android:text="Limited"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
