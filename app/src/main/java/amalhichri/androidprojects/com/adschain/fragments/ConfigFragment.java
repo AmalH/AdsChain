@@ -16,13 +16,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.rey.material.widget.CheckBox;
+import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,6 @@ import amalhichri.androidprojects.com.adschain.models.Contact;
 
 public class ConfigFragment extends Fragment {
 
-    private ArrayAdapter<String> spinnerAdapter;
-    private List<String> options= new ArrayList<>();
     List<Contact> contacts;
     private  RecyclerView rcv_cotact;
 
@@ -46,14 +44,19 @@ public class ConfigFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+
         final View v=inflater.inflate(R.layout.fragment_config_fragment, container, false);
+
         rcv_cotact = v.findViewById(R.id.rcv_contact);
         ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).collapse();
+
+
+        /**---------- Choosing contacts ----------**/
         ((CheckBox)v.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    /** fetching contacts **/
+                    /** give contacts permission if not granted **/
                     if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
                         int hasWriteContactsPermission = getContext().checkSelfPermission(Manifest.permission.READ_CONTACTS);
                         if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED  ) { //|| hasWriteSmsPermission != PackageManager.PERMISSION_GRANTED //|| hasWriteStatePermission != PackageManager.PERMISSION_GRANTED
@@ -62,14 +65,37 @@ public class ConfigFragment extends Fragment {
                             return;
                         }
                        //int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
-                        //  int hasWriteSmsPermission =  getContext().checkSelfPermission(Manifest.permission.SEND_SMS);
-
                     }
+                    /** fetch contacts and show list **/
                     fetchContacts();
                     ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).expand();
                 }
                 if(!isChecked)
                     ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).collapse();
+            }
+        });
+
+
+        /**---------- Turning sending on/off ----------**/
+        ((Switch)v.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(Switch view, boolean checked) {
+                if(checked){
+                    /** give sms permission if not granted **/
+                    if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
+                        int hasWriteSmsPermission =  getContext().checkSelfPermission(Manifest.permission.SEND_SMS);
+                        if (hasWriteSmsPermission != PackageManager.PERMISSION_GRANTED  ) {
+                            requestPermissions(new String[] {Manifest.permission.SEND_SMS },
+                                    2);
+                            return;
+                        }
+                    }
+                    /** call turning on sending sms in background **/
+                }
+                if(!checked)
+                /** call turning off sending sms in background **/
+                    ;
+
             }
         });
 
@@ -99,13 +125,10 @@ public class ConfigFragment extends Fragment {
         return v;
     }
 
-    // helper methods
+    /**---- helper methods -----**/
     public void fetchContacts() {
         contacts = new ArrayList<>();
         String phoneNumber = null;
-        String email = null;
-
-
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
         String _ID = ContactsContract.Contacts._ID;
         String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
@@ -113,9 +136,6 @@ public class ConfigFragment extends Fragment {
         Uri PhoneCONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
         String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
-        Uri EmailCONTENT_URI =  ContactsContract.CommonDataKinds.Email.CONTENT_URI;
-        String EmailCONTACT_ID = ContactsContract.CommonDataKinds.Email.CONTACT_ID;
-        String DATA = ContactsContract.CommonDataKinds.Email.DATA;
 
         StringBuffer output = new StringBuffer();
         ContentResolver contentResolver = getContext().getContentResolver();
@@ -147,7 +167,6 @@ public class ConfigFragment extends Fragment {
                 }
 
             }
-
             LinearLayoutManager llm = new LinearLayoutManager(getContext());
             rcv_cotact.setLayoutManager(llm);
             ContactAdapter adp = new ContactAdapter(contacts , getContext());

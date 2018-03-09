@@ -154,8 +154,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Not sending "/>
+                android:text="Sending "/>
             <com.rey.material.widget.Switch
+                android:id="@+id/stopSdingSms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
