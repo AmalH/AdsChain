@@ -35,30 +35,6 @@ public class HomeActivity extends AppCompatActivity {
 
         fragmentManager =getSupportFragmentManager();
 
-        //Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        //pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-
-
-        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
-                String[] permissions = {Manifest.permission.SEND_SMS};
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-            }else {
-                /*if(((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
-                {
-                    // if user has sms
-                    JobScheduler jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
-                    ComponentName componentName = new ComponentName(getApplicationContext(), SMSService.class);
-                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).setPeriodic(5000).build(); // setPeriodic(10000)
-                    jobScheduler.schedule(jobInfo);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "You have no free SMS plans !", Toast.LENGTH_LONG).show();
-                }
-            }
-        }*/
-
         /** will be used to change tab icons colors on select/deselect */
         matrix = new ColorMatrix();
         matrix.setSaturation(0);

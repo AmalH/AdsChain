@@ -1,7 +1,11 @@
 package amalhichri.androidprojects.com.adschain.fragments;
 
 import android.Manifest;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,6 +15,7 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -30,6 +35,9 @@ import java.util.List;
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.adapters.ContactAdapter;
 import amalhichri.androidprojects.com.adschain.models.Contact;
+import amalhichri.androidprojects.com.adschain.utils.SMSService;
+
+import static android.content.Context.JOB_SCHEDULER_SERVICE;
 
 
 public class ConfigFragment extends Fragment {
@@ -121,6 +129,7 @@ public class ConfigFragment extends Fragment {
 
 /**-------------------------- Turning sending off/on  --------------------------**/
         ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            JobScheduler jobScheduler = (JobScheduler) getContext().getSystemService(JOB_SCHEDULER_SERVICE);
             @Override
             public void onCheckedChanged(Switch view, boolean checked) {
                 if(checked){
@@ -133,11 +142,23 @@ public class ConfigFragment extends Fragment {
                             return;
                         }
                     }
+                    /** sending sms , this is just a test, will configure it with number of sms/contacts **/
+                    if(((TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
+                    {
+                        Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
+                        ComponentName componentName = new ComponentName(getContext(), SMSService.class);
+                        JobInfo jobInfo = new JobInfo.Builder(1, componentName).setPeriodic(5000).build(); // setPeriodic(10000)
+                        jobScheduler.schedule(jobInfo);
+                    }
+                    else{
+                        Toast.makeText(getContext(), "You have no free SMS plans !", Toast.LENGTH_LONG).show();
+                    }
                     /** call turning on sending sms in background **/
                 }
-                if(!checked)
-                /** call turning off sending sms in background **/
-                    ;
+                if(!checked){
+                    jobScheduler.cancelAll();
+                    Toast.makeText(getContext(), "pending jobs:" +jobScheduler.getAllPendingJobs().toString(), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -214,6 +235,10 @@ public class ConfigFragment extends Fragment {
             }
         }
         rcv_cotact.getAdapter().notifyDataSetChanged();
+
+    }
+
+    private void startSmsProcess(){
 
     }
 }
