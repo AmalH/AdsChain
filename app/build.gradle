@@ -49,6 +49,8 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.2.0'
     // expandable layout
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
+    // checkbox group
+    compile 'com.xeoh.android:checkboxgroup:1.0.1'
     /********** for user regsitration || database ***********/
     // firebase core
     compile 'com.google.firebase:firebase-core:11.8.0'

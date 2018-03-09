@@ -45,14 +45,13 @@ public class ConfigFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-        final View v=inflater.inflate(R.layout.fragment_config_fragment, container, false);
+        final View view=inflater.inflate(R.layout.fragment_config_fragment, container, false);
 
-        rcv_cotact = v.findViewById(R.id.rcv_contact);
-        ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).collapse();
+        rcv_cotact = view.findViewById(R.id.rcv_contact);
+        ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout)).collapse();
 
-
-        /**---------- Choosing contacts ----------**/
-        ((CheckBox)v.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+/**------------------------ Choosing contacts ------------------------**/
+        ((CheckBox)view.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
@@ -68,16 +67,60 @@ public class ConfigFragment extends Fragment {
                     }
                     /** fetch contacts and show list **/
                     fetchContacts();
-                    ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).expand();
+                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout)).expand();
                 }
-                if(!isChecked)
-                    ((ExpandableRelativeLayout) v.findViewById(R.id.expandableLayout)).collapse();
+            }
+        });
+        (view.findViewById(R.id.unlimitedContactsChkBx)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        (view.findViewById(R.id.saveContatcsBtn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout)).collapse();
+            }
+        });
+        /** filter on choosing contacts **/
+        ((EditText)view.findViewById(R.id.edt_fltr)).addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 0) {
+                    String n = String.valueOf(((EditText)view.findViewById(R.id.edt_fltr)).getText().toString().charAt(0));
+
+                    if (s.length() == 1) {
+                        if (n.equals("9") || n.equals("2") || n.equals("5") || n.equals("4")) {
+                            //Toast.makeText(getContext(), "chaged :: n="+n, Toast.LENGTH_SHORT).show();
+                            setFilter(n);
+                        }
+                    } else {
+                        if (n.equals("9") || n.equals("2") || n.equals("5") || n.equals("4")) {
+                            n += String.valueOf(((EditText)view.findViewById(R.id.edt_fltr)).getText().toString().charAt(1));
+                            setFilter(n);
+                        }
+                    }
+                }
             }
         });
 
+/**-------------------------- Setting SMS nb limit --------------------------**/
+        (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        (view.findViewById(R.id.limitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
 
-        /**---------- Turning sending on/off ----------**/
-        ((Switch)v.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+/**-------------------------- Turning sending off/on  --------------------------**/
+        ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(Switch view, boolean checked) {
                 if(checked){
@@ -95,37 +138,13 @@ public class ConfigFragment extends Fragment {
                 if(!checked)
                 /** call turning off sending sms in background **/
                     ;
-
             }
         });
 
-        /** filter on choosing contacts **/
-        ((EditText)v.findViewById(R.id.edt_fltr)).addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() > 0) {
-                    String n = String.valueOf(((EditText)v.findViewById(R.id.edt_fltr)).getText().toString().charAt(0));
-
-                    if (s.length() == 1) {
-                        if (n.equals("9") || n.equals("2") || n.equals("5") || n.equals("4")) {
-                            //Toast.makeText(getContext(), "chaged :: n="+n, Toast.LENGTH_SHORT).show();
-                            setFilter(n);
-                        }
-                    } else {
-                        if (n.equals("9") || n.equals("2") || n.equals("5") || n.equals("4")) {
-                            n += String.valueOf(((EditText)v.findViewById(R.id.edt_fltr)).getText().toString().charAt(1));
-                            setFilter(n);
-                        }
-                    }
-                }
-            }
-        });
-        return v;
+        return view;
     }
+/**-------------------------- Helper methods  --------------------------**/
 
-    /**---- helper methods -----**/
     public void fetchContacts() {
         contacts = new ArrayList<>();
         String phoneNumber = null;

@@ -46,6 +46,7 @@
         </LinearLayout>
 
         <com.rey.material.widget.CheckBox
+            android:id="@+id/unlimitedSmsChkBx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -67,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:text="Contacts Limit"/>
+            android:text="Receivers Limit"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,7 +97,7 @@
             app:ael_orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:orientation="vertical">
                 <EditText
                     android:id="@+id/edt_fltr"
@@ -118,19 +119,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/base_color_1"></View>
-                <android.support.v7.widget.RecyclerView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:id="@+id/rcv_contact">
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+                <com.rey.material.widget.Button
+                    android:id="@+id/saveContatcsBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/rcv_contact"></android.support.v7.widget.RecyclerView>
+                    android:text="Done"/>
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
 
         <com.rey.material.widget.CheckBox
+            android:id="@+id/unlimitedContactsChkBx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="Limited"/>
+            android:text="Send to all contacts"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
