@@ -1,7 +1,5 @@
 package amalhichri.androidprojects.com.adschain.activities;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -24,8 +22,6 @@ public class HomeActivity extends AppCompatActivity {
     private static ColorMatrixColorFilter filter;
     private ColorMatrix matrix;
     private FragmentManager fragmentManager;
-    private PendingIntent pendingIntent;
-    private AlarmManager manager;
 
 
     @Override
@@ -97,7 +93,7 @@ public class HomeActivity extends AppCompatActivity {
     private static void setUpTabIcons(TabLayout tbs){
         tbs.getTabAt(0).setIcon(R.drawable.ic_wallet_tab2);
         tbs.getTabAt(1).setIcon(R.drawable.ic_configurations_tab1);
-        tbs.getTabAt(2).setIcon(R.drawable.ic_others);
+        tbs.getTabAt(2).setIcon(R.drawable.ic_settings_tab3);
         allTabIconsToDeselected(tbs);
     }
     /** to prevent back to loginActivity **/

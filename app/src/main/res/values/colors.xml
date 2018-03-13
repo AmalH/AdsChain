@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <!-- app base colors -->
     <color name="primaryDark">#16374b</color>
     <color name="base_color_1">#3b5670</color>
@@ -9,5 +8,5 @@
 
     <!-- backgrounds -->
     <color name="main_background">#f7f7f7</color>
-
+    
 </resources>

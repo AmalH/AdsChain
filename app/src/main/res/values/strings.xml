@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChainIt</string>
+    <string name="app_name">AdsChain</string>
     <string name="facebook_app_id">2018199191796890</string>
     <string name="title_activity_config">ConfigActivity</string>
 </resources>

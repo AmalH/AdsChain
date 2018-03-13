@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
+    android:paddingTop="40dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:orientation="vertical"
@@ -13,12 +13,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="30dp">
         <TextView
             android:id="@+id/limitedSmsTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
+            android:textColor="@color/base_color_1"
+            android:textStyle="bold"
             android:text="SMS Limit"/>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,15 +36,16 @@
                 android:text="Limited"/>
             <EditText
                 android:id="@+id/limitedSmsEditTxt"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="5"
+                android:inputType="number"
+                android:defaultFocusHighlightEnabled="true"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="per month"/>
+                android:text="   per month"/>
         </LinearLayout>
 
         <com.rey.material.widget.CheckBox
@@ -59,8 +62,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
         <TextView
@@ -68,6 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
+            android:textColor="@color/base_color_1"
+            android:textStyle="bold"
             android:text="Receivers Limit"/>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -151,12 +156,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="Messaging data status"
+            android:textColor="@color/base_color_1"
             android:textSize="18dp"/>
         <LinearLayout
             android:layout_width="wrap_content"

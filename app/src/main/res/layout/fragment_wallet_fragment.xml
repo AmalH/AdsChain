@@ -13,6 +13,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
+      android:textColor="@color/base_color_1"
       android:text="Today"
       android:textSize="28dp"
       />
@@ -25,6 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/base_color_1"
         android:text="0"
         android:textSize="22dp"/>
     <TextView
@@ -35,6 +37,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/base_color_1"
         android:text="0"
         android:textSize="22dp"/>
     <TextView
@@ -67,6 +70,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_toRightOf="@id/seprtr"
+        android:textColor="@color/base_color_1"
       android:text="AdCoins"
       android:layout_marginLeft="10dp"
       android:textSize="20dp"/>
