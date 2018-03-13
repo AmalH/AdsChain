@@ -37,6 +37,7 @@ public class Statics {
 
     public static FirebaseAuth auth = FirebaseAuth.getInstance();
     public static DatabaseReference usersTable = FirebaseDatabase.getInstance().getReference("users");
+    public static DatabaseReference dealTable = FirebaseDatabase.getInstance().getReference("deals");
 
 
     public static void signUp(final String email, String password, final String fullName, final String pictureUrl, final Activity activity) {

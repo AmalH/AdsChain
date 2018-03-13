@@ -54,7 +54,7 @@ public class  SMSService extends JobService {
         }
     }
 
-    // send in background
+    // send sms in background
     private void sendSms()
     {
         if(isSimExists())
@@ -128,5 +128,6 @@ public class  SMSService extends JobService {
             return false;
         }
     }
+
 
 }

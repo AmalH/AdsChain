@@ -1,23 +1,30 @@
 package amalhichri.androidprojects.com.adschain.fragments;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +33,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.rey.material.widget.CheckBox;
 import com.rey.material.widget.Switch;
 
@@ -33,9 +45,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import amalhichri.androidprojects.com.adschain.R;
+import amalhichri.androidprojects.com.adschain.activities.MainActivity;
 import amalhichri.androidprojects.com.adschain.adapters.ContactAdapter;
 import amalhichri.androidprojects.com.adschain.models.Contact;
+import amalhichri.androidprojects.com.adschain.models.Deal;
 import amalhichri.androidprojects.com.adschain.utils.SMSService;
+import amalhichri.androidprojects.com.adschain.utils.Statics;
 
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
 
@@ -44,10 +59,25 @@ public class ConfigFragment extends Fragment {
 
     List<Contact> contacts;
     private  RecyclerView rcv_cotact;
+    private int smsNbLimit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        /*** adding / updating userDeal in database ***/
+        Statics.dealTable.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .setValue(new Deal(FirebaseAuth.getInstance().getCurrentUser().getUid(),smsNbLimit,0))
+                .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Failure",e.getMessage());
+            }
+        });
+
+        /*** updating server with deals***/
+        updateServerWithDeals();
     }
 
     @Override
@@ -82,7 +112,6 @@ public class ConfigFragment extends Fragment {
         (view.findViewById(R.id.unlimitedContactsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
         (view.findViewById(R.id.saveContatcsBtn)).setOnClickListener(new View.OnClickListener() {
@@ -119,11 +148,13 @@ public class ConfigFragment extends Fragment {
         (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                smsNbLimit=-1;
             }
         });
         (view.findViewById(R.id.limitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
             }
         });
 
@@ -238,7 +269,50 @@ public class ConfigFragment extends Fragment {
 
     }
 
-    private void startSmsProcess(){
+    private void updateServerWithDeals(){
+        // update shared server with current deals
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                PendingIntent pIntent = PendingIntent.getActivity(getContext(), (int) System.currentTimeMillis(), intent, 0);
 
+                Notification n  = new Notification.Builder(getContext())
+                        .setContentTitle("additional user deal: ")
+                        .setContentText("New user deal: ")
+                        .setSmallIcon(R.drawable.ic_backarrow)
+                        .setContentIntent(pIntent)
+                        .setAutoCancel(true)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .build();
+
+                ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, n);
+                Log.d("Deal checked : ","ok");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Failed to load comments.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        Statics.dealTable.addChildEventListener(childEventListener);
     }
 }
