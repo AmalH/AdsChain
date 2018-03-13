@@ -9,56 +9,68 @@
     android:orientation="vertical"
     tools:context="amalhichri.androidprojects.com.adschain.fragments.WalletFragment">
 
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="20dp">
-        <TextView
-            android:id="@+id/limitedSmsTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="@color/base_color_1"
-            android:textStyle="bold"
-            android:text="SMS Limit"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical">
-            <com.rey.material.widget.CheckBox
-                android:id="@+id/limitedSmsChkBx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Limited"/>
-            <EditText
-                android:id="@+id/limitedSmsEditTxt"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:inputType="number"
-                android:defaultFocusHighlightEnabled="true"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="   per month"/>
-        </LinearLayout>
 
-        <com.rey.material.widget.CheckBox
-            android:id="@+id/unlimitedSmsChkBx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="Unlimited"/>
-    </LinearLayout>
-    <View
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/expandableLayout1"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:layout_height="wrap_content"
+        app:ael_expanded="true"
+        app:ael_duration="500"
+        app:ael_orientation="vertical" >
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/limitedSmsTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textColor="@color/base_color_1"
+                android:textStyle="bold"
+                android:text="SMS Limit"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+                <com.rey.material.widget.CheckBox
+                    android:id="@+id/limitedSmsChkBx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Limited"/>
+                <EditText
+                    android:id="@+id/limitedSmsEditTxt"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:inputType="number"
+                    android:defaultFocusHighlightEnabled="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   per month"/>
+            </LinearLayout>
+            <com.rey.material.widget.CheckBox
+                android:id="@+id/unlimitedSmsChkBx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical"
+                android:text="Unlimited"/>
+            <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+        </LinearLayout>
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,7 +101,7 @@
 
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-            android:id="@+id/expandableLayout"
+            android:id="@+id/expandableLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:ael_expanded="false"

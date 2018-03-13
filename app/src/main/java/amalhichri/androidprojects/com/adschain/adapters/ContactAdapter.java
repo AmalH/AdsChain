@@ -41,8 +41,8 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
     @Override
     public void onBindViewHolder(ContactAdapter.ContactViewHolder holder, int position) {
         holder.txt_contact.setText(data.get(position).getNom());
-//        holder.txt_num.setText(data.get(position).getNum());
-        holder.ck.setChecked(data.get(position).isEtat());
+        // holder.txt_num.setText(data.get(position).getNum());
+        //holder.ck.setChecked(data.get(position).isEtat());
         final int p = position;
         holder.ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                @Override

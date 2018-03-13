@@ -86,7 +86,7 @@ public class ConfigFragment extends Fragment {
         final View view=inflater.inflate(R.layout.fragment_config_fragment, container, false);
 
         rcv_cotact = view.findViewById(R.id.rcv_contact);
-        ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout)).collapse();
+        ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
 
 /**------------------------ Choosing contacts ------------------------**/
         ((CheckBox)view.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -105,7 +105,8 @@ public class ConfigFragment extends Fragment {
                     }
                     /** fetch contacts and show list **/
                     fetchContacts();
-                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout)).expand();
+                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).collapse();
+                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).expand();
                 }
             }
         });
@@ -117,7 +118,8 @@ public class ConfigFragment extends Fragment {
         (view.findViewById(R.id.saveContatcsBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout)).collapse();
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).expand();
             }
         });
         /** filter on choosing contacts **/
@@ -198,6 +200,7 @@ public class ConfigFragment extends Fragment {
 /**-------------------------- Helper methods  --------------------------**/
 
     public void fetchContacts() {
+
         contacts = new ArrayList<>();
         String phoneNumber = null;
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
@@ -212,12 +215,8 @@ public class ConfigFragment extends Fragment {
         ContentResolver contentResolver = getContext().getContentResolver();
         Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
 
-        // Loop for every contact in the phone
-
         if (cursor.getCount() > 0) {
-
             while (cursor.moveToNext()) {
-
                 String contact_id = cursor.getString(cursor.getColumnIndex( _ID ));
                 String name = cursor.getString(cursor.getColumnIndex( DISPLAY_NAME ));
                 int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex( HAS_PHONE_NUMBER )));
@@ -236,13 +235,11 @@ public class ConfigFragment extends Fragment {
                     phoneCursor.close();
                     contacts.add(c);
                 }
-
             }
             LinearLayoutManager llm = new LinearLayoutManager(getContext());
             rcv_cotact.setLayoutManager(llm);
             ContactAdapter adp = new ContactAdapter(contacts , getContext());
             rcv_cotact.setAdapter(adp);
-
         }
 
     }
@@ -312,7 +309,6 @@ public class ConfigFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         };
-
         Statics.dealTable.addChildEventListener(childEventListener);
     }
 }
