@@ -13,7 +13,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="20dp">
         <TextView
             android:id="@+id/limitedSmsTxt"
             android:layout_width="wrap_content"
@@ -62,8 +62,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -78,18 +78,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp">
+            android:gravity="center_vertical">
             <com.rey.material.widget.CheckBox
                 android:id="@+id/limitedContactsChkBx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="Choose contacts"/>
-           <!-- <Spinner
-                android:id="@+id/contactsLimitSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></Spinner> -->
         </LinearLayout>
 
 
@@ -156,7 +151,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"

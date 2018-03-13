@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
+    <!--<android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cv"
         android:elevation="4dp"
         android:translationZ="3dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true">-->
 
         <LinearLayout
             android:orientation="horizontal"
@@ -19,33 +18,30 @@
             android:layout_height="wrap_content">
 
             <CheckBox
-                android:text=""
-                android:layout_width="5dp"
+                android:text="                "
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ck"
-                android:layout_weight="1"
-                android:buttonTint="@android:color/holo_orange_dark" />
+                android:id="@+id/ck" />
 
             <TextView
                 android:text="contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="7pt"
                 android:id="@+id/txt_name"
                 android:layout_weight="1"
-                android:textStyle="normal|bold"
-                android:layout_marginLeft="-50dp"
-                android:textColor="@android:color/holo_orange_dark" />
+                android:layout_marginLeft="-50dp"/>
 
-            <TextView
+           <!-- <TextView
                 android:text="97779360"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_num"
                 android:layout_weight="1"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textStyle="normal|bold" />
+                android:textStyle="normal|bold" />-->
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+   <!-- </android.support.v7.widget.CardView> -->
 
 </LinearLayout>
