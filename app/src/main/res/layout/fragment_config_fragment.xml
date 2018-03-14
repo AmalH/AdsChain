@@ -10,13 +10,6 @@
     tools:context="amalhichri.androidprojects.com.adschain.fragments.WalletFragment">
 
 
-    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-        android:id="@+id/expandableLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:ael_expanded="true"
-        app:ael_duration="500"
-        app:ael_orientation="vertical" >
         <LinearLayout
             android:id="@+id/main"
             android:layout_width="match_parent"
@@ -30,46 +23,59 @@
                 android:textColor="@color/base_color_1"
                 android:textStyle="bold"
                 android:text="SMS Limit"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/expandableLayout1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical">
-                <com.rey.material.widget.CheckBox
-                    android:id="@+id/limitedSmsChkBx"
+                app:ael_expanded="true"
+                android:layout_marginTop="20dp"
+                app:ael_duration="500"
+                app:ael_orientation="vertical" >
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="Limited"/>
-                <EditText
-                    android:id="@+id/limitedSmsEditTxt"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="number"
-                    android:defaultFocusHighlightEnabled="true"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="   per month"/>
-            </LinearLayout>
-            <com.rey.material.widget.CheckBox
-                android:id="@+id/unlimitedSmsChkBx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center_vertical"
-                android:text="Unlimited"/>
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+                        <com.rey.material.widget.CheckBox
+                            android:id="@+id/limitedSmsChkBx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="Limited"/>
+                        <EditText
+                            android:gravity="center_horizontal"
+                            android:id="@+id/limitedSmsEditTxt"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:inputType="number"
+                            android:hint="x sms"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="   per month"/>
+                    </LinearLayout>
+                    <com.rey.material.widget.CheckBox
+                        android:id="@+id/unlimitedSmsChkBx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+                        android:text="Unlimited"/>
+                </LinearLayout>
+
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
             <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"/>
         </LinearLayout>
-    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,9 +102,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:checked="false"
                 android:text="Choose contacts"/>
         </LinearLayout>
-
+        <com.rey.material.widget.CheckBox
+            android:id="@+id/unlimitedContactsChkBx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Send to all contacts"/>
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
             android:id="@+id/expandableLayout2"
@@ -109,52 +121,39 @@
             app:ael_orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="290dp"
                 android:orientation="vertical">
                 <EditText
                     android:id="@+id/edt_fltr"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:inputType="number"
-                    android:text=""
-                    android:ems="10"
-                    android:layout_weight="1"
-                    android:maxLength="2"/>
-                <TextView
-                    android:text="tapez * pour choisir tous les numéros d'un opérateur Exmpl : 9* (TT)"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/note"
-                    android:textAlignment="center"
-                    android:textSize="16sp" />
-                <View
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:hint="tapez * pour choisir tous les numéros d'un opérateur Exmpl : 9* (TT)"/>
+                <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/base_color_1"></View>
+                    android:background="@color/base_color_1"></View>-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="260dp"
+                    android:layout_margin="0dp"
+                    android:orientation="vertical">
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="210dp"
                         android:id="@+id/rcv_contact">
                     </android.support.v7.widget.RecyclerView>
+                    <com.rey.material.widget.Button
+                        android:id="@+id/saveContatcsBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Done"/>
                 </LinearLayout>
-                <com.rey.material.widget.Button
-                    android:id="@+id/saveContatcsBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Done"/>
+
             </LinearLayout>
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
-
-        <com.rey.material.widget.CheckBox
-            android:id="@+id/unlimitedContactsChkBx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="Send to all contacts"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -172,6 +171,13 @@
             android:text="Messaging data status"
             android:textColor="@color/base_color_1"
             android:textSize="18dp"/>
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/expandableLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ael_expanded="true"
+            app:ael_duration="500"
+            app:ael_orientation="vertical">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -186,6 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

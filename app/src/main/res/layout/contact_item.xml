@@ -32,16 +32,23 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="-50dp"/>
 
-           <!-- <TextView
-                android:text="97779360"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txt_num"
-                android:layout_weight="1"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textStyle="normal|bold" />-->
+           <!-- -->
 
         </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="35dp">
+
+        <TextView
+            android:text="97779360"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_num"
+            android:textSize="5pt"
+            android:layout_weight="1" />
+
+    </LinearLayout>
    <!-- </android.support.v7.widget.CardView> -->
 
 </LinearLayout>

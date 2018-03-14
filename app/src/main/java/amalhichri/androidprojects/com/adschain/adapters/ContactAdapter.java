@@ -41,7 +41,7 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
     @Override
     public void onBindViewHolder(ContactAdapter.ContactViewHolder holder, int position) {
         holder.txt_contact.setText(data.get(position).getNom());
-        // holder.txt_num.setText(data.get(position).getNum());
+        holder.txt_num.setText(data.get(position).getNum());
         //holder.ck.setChecked(data.get(position).isEtat());
         final int p = position;
         holder.ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -78,14 +78,14 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
 
        // CardView cv ;
-       TextView txt_contact ; //txt_num
+       TextView txt_contact ,txt_num;
         CheckBox ck;
 
         public ContactViewHolder(View itemView) {
             super(itemView);
            // cv = itemView.findViewById(R.id.cv);
             txt_contact = itemView.findViewById(R.id.txt_name);
-            //txt_num = itemView.findViewById(R.id.txt_num);
+            txt_num = itemView.findViewById(R.id.txt_num);
             ck =  itemView.findViewById(R.id.ck);
         }
     }

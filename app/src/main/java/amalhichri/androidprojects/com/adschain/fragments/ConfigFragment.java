@@ -86,7 +86,6 @@ public class ConfigFragment extends Fragment {
         final View view=inflater.inflate(R.layout.fragment_config_fragment, container, false);
 
         rcv_cotact = view.findViewById(R.id.rcv_contact);
-        ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
 
 /**------------------------ Choosing contacts ------------------------**/
         ((CheckBox)view.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -101,27 +100,32 @@ public class ConfigFragment extends Fragment {
                                     1);
                             return;
                         }
-                       //int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+                       // int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
                     }
                     /** fetch contacts and show list **/
                     fetchContacts();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).collapse();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).expand();
+                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).collapse();
                 }
             }
         });
+
         (view.findViewById(R.id.unlimitedContactsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
+
         (view.findViewById(R.id.saveContatcsBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
                 ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).expand();
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).expand();
             }
         });
+
         /** filter on choosing contacts **/
         ((EditText)view.findViewById(R.id.edt_fltr)).addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -159,6 +163,24 @@ public class ConfigFragment extends Fragment {
                 smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
             }
         });
+
+        ((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
 /**-------------------------- Turning sending off/on  --------------------------**/
         ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
