@@ -62,9 +62,6 @@ public class HomeActivity extends AppCompatActivity {
                     case 1:
                         tab.getIcon().clearColorFilter();
                         break;
-                    case 2:
-                        tab.getIcon().clearColorFilter();
-                        break;
                 }
             }
 
@@ -86,14 +83,13 @@ public class HomeActivity extends AppCompatActivity {
 
     /*** helper methods ***/
     private static void allTabIconsToDeselected(TabLayout tablayout){
-        for(int i=1;i<3;i++){
+        for(int i=1;i<2;i++){
             tablayout.getTabAt(i).getIcon().setColorFilter(filter);
         }
     }
     private static void setUpTabIcons(TabLayout tbs){
         tbs.getTabAt(0).setIcon(R.drawable.ic_wallet_tab2);
         tbs.getTabAt(1).setIcon(R.drawable.ic_configurations_tab1);
-        tbs.getTabAt(2).setIcon(R.drawable.ic_settings_tab3);
         allTabIconsToDeselected(tbs);
     }
     /** to prevent back to loginActivity **/

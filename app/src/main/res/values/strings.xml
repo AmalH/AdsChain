@@ -2,4 +2,8 @@
     <string name="app_name">AdsChain</string>
     <string name="facebook_app_id">2018199191796890</string>
     <string name="title_activity_config">ConfigActivity</string>
+
+    <string name="nexmo_application_id">63a7cf79-3000-4784-9c41-95dc03206bf7</string>
+    <string name="nexmo_shared_secret">a500e63be12b7f6</string>
+
 </resources>

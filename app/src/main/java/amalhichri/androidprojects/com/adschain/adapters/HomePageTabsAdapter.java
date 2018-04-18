@@ -4,14 +4,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import amalhichri.androidprojects.com.adschain.fragments.OthersFragment;
-import amalhichri.androidprojects.com.adschain.fragments.WalletFragment;
 import amalhichri.androidprojects.com.adschain.fragments.ConfigFragment;
+import amalhichri.androidprojects.com.adschain.fragments.WalletFragment;
 
 
 public class HomePageTabsAdapter extends FragmentPagerAdapter {
 
-    private int NUM_ITEMS = 3;
+    private int NUM_ITEMS = 2;
 
         public HomePageTabsAdapter(FragmentManager fm) {
             super(fm);
@@ -31,8 +30,6 @@ public class HomePageTabsAdapter extends FragmentPagerAdapter {
                 return new WalletFragment();
             case 1:
                 return new ConfigFragment();
-            case 2:
-                return new OthersFragment();
             default:
                 return null;
         }

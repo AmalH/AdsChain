@@ -31,11 +31,45 @@
                 android:layout_marginTop="20dp"
                 app:ael_duration="500"
                 app:ael_orientation="vertical" >
+                <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nbSmsRadioGrp">
+                        <RadioButton
+                            android:id="@+id/limitedSmsChkBx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Limited"
+                            style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
+                        <RadioButton
+                            android:id="@+id/unlimitedSmsChkBx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Unlimited"
+                            style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
+                    </RadioGroup>
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="top"
+                            android:layout_toRightOf="@+id/nbSmsRadioGrp">
+
+                            <EditText
+                                android:gravity="center_horizontal"
+                                android:id="@+id/limitedSmsEditTxt"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:inputType="number"
+                                android:hint="x sms"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="   per month"/>
+
+                   <!-- <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -67,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:gravity="center_vertical"
-                        android:text="Unlimited"/>
+                        android:text="Unlimited"/>-->
                 </LinearLayout>
 
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
@@ -97,20 +131,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
-            <com.rey.material.widget.CheckBox
-                android:id="@+id/limitedContactsChkBx"
+            <RadioGroup
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:checked="false"
-                android:text="Choose contacts"/>
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/limitedContactsChkBx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose contact"
+                    style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
+                <RadioButton
+                    android:id="@+id/unlimitedContactsChkBx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Send to all contacts"
+                    style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
+            </RadioGroup>
         </LinearLayout>
-        <com.rey.material.widget.CheckBox
-            android:id="@+id/unlimitedContactsChkBx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="Send to all contacts"/>
 
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
             android:id="@+id/expandableLayout2"

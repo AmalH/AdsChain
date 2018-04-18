@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,15 +29,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.rey.material.widget.CheckBox;
 import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
@@ -48,7 +45,6 @@ import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.activities.MainActivity;
 import amalhichri.androidprojects.com.adschain.adapters.ContactAdapter;
 import amalhichri.androidprojects.com.adschain.models.Contact;
-import amalhichri.androidprojects.com.adschain.models.Deal;
 import amalhichri.androidprojects.com.adschain.utils.SMSService;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
 
@@ -66,7 +62,7 @@ public class ConfigFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        /*** adding / updating userDeal in database ***/
+        /*** adding / updating userDeal in database
         Statics.dealTable.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .setValue(new Deal(FirebaseAuth.getInstance().getCurrentUser().getUid(),smsNbLimit,0))
                 .addOnFailureListener(new OnFailureListener() {
@@ -76,8 +72,8 @@ public class ConfigFragment extends Fragment {
             }
         });
 
-        /*** updating server with deals***/
-        updateServerWithDeals();
+        /*** updating server with deals
+        updateServerWithDeals();***/
     }
 
     @Override
@@ -88,10 +84,11 @@ public class ConfigFragment extends Fragment {
         rcv_cotact = view.findViewById(R.id.rcv_contact);
 
 /**------------------------ Choosing contacts ------------------------**/
-        ((CheckBox)view.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((RadioButton)view.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    // disable the first checkbox
                     /** give contacts permission if not granted **/
                     if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
                         int hasWriteContactsPermission = getContext().checkSelfPermission(Manifest.permission.READ_CONTACTS);
@@ -111,9 +108,12 @@ public class ConfigFragment extends Fragment {
             }
         });
 
-        (view.findViewById(R.id.unlimitedContactsChkBx)).setOnClickListener(new View.OnClickListener() {
+
+        ((RadioButton)view.findViewById(R.id.unlimitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                }
             }
         });
 
@@ -150,7 +150,7 @@ public class ConfigFragment extends Fragment {
             }
         });
 
-/**-------------------------- Setting SMS nb limit --------------------------**/
+/**-------------------------- Setting SMS nb limit -------------------------- **/
         (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +160,8 @@ public class ConfigFragment extends Fragment {
         (view.findViewById(R.id.limitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
+                if(!(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString()).equals(""))
+                    smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
             }
         });
 
@@ -218,7 +219,14 @@ public class ConfigFragment extends Fragment {
         });
 
         return view;
+
     }
+
+    /**-------------------------- Signout  --------------------------**/
+    //Statics.auth.signOut();
+    //startActivity(new Intent(getActivity(), MainActivity.class));
+
+
 /**-------------------------- Helper methods  --------------------------**/
 
     public void fetchContacts() {
