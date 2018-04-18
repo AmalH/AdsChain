@@ -1,9 +1,6 @@
 package amalhichri.androidprojects.com.adschain.fragments;
 
 import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -12,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,19 +19,17 @@ import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.rey.material.widget.Spinner;
 import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
@@ -151,6 +145,16 @@ public class ConfigFragment extends Fragment {
         });
 
 /**-------------------------- Setting SMS nb limit -------------------------- **/
+
+        List<String> opts = new ArrayList<String>();
+        opts.add("Per month");
+        opts.add("Per week");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,opts);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner)(view.findViewById(R.id.rptPeriodSpinner))).setAdapter(dataAdapter);
+
+
+
         (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +164,9 @@ public class ConfigFragment extends Fragment {
         (view.findViewById(R.id.limitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+               // ((view.findViewById(R.id.limitedSmsEditTxt))).requestFocus();
+
                 if(!(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString()).equals(""))
                     smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
             }
@@ -218,13 +225,20 @@ public class ConfigFragment extends Fragment {
             }
         });
 
+        /**-------------------------- Signout  --------------------------**/
+        (view.findViewById(R.id.logoutTvw)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Statics.auth.signOut();
+                startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        });
+
         return view;
 
     }
 
-    /**-------------------------- Signout  --------------------------**/
-    //Statics.auth.signOut();
-    //startActivity(new Intent(getActivity(), MainActivity.class));
+
 
 
 /**-------------------------- Helper methods  --------------------------**/
@@ -296,7 +310,7 @@ public class ConfigFragment extends Fragment {
 
     }
 
-    private void updateServerWithDeals(){
+    /*private void updateServerWithDeals(){
         // update shared server with current deals
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -340,5 +354,5 @@ public class ConfigFragment extends Fragment {
             }
         };
         Statics.dealTable.addChildEventListener(childEventListener);
-    }
+    }*/
 }

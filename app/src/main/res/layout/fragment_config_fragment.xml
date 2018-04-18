@@ -3,17 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="40dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:orientation="vertical"
     tools:context="amalhichri.androidprojects.com.adschain.fragments.WalletFragment">
 
 
-        <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="3dp"
+            android:background="@color/base_color_2"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="    12,6 AdCoins    "
+            android:textColor="@color/base_color_2"
+            android:textStyle="bold"
+            android:textSize="10pt"
+            android:layout_centerHorizontal="true"/>
+        <View
+            android:layout_width="100dp"
+            android:layout_height="3dp"
+            android:background="@color/base_color_2"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/limitedSmsTxt"
@@ -53,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="top"
-                            android:layout_toRightOf="@+id/nbSmsRadioGrp">
+                            android:layout_toRightOf="@+id/nbSmsRadioGrp" >
 
                             <EditText
                                 android:gravity="center_horizontal"
@@ -64,44 +94,14 @@
                                 android:inputType="number"
                                 android:hint="x sms"
                                 />
+                    <com.rey.material.widget.Spinner
+                        android:id="@+id/rptPeriodSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></com.rey.material.widget.Spinner>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="   per month"/>
-
-                   <!-- <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        android:gravity="center_vertical">
-                        <com.rey.material.widget.CheckBox
-                            android:id="@+id/limitedSmsChkBx"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="Limited"/>
-                        <EditText
-                            android:gravity="center_horizontal"
-                            android:id="@+id/limitedSmsEditTxt"
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:inputType="number"
-                            android:hint="x sms"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="   per month"/>
-                    </LinearLayout>
-                    <com.rey.material.widget.CheckBox
-                        android:id="@+id/unlimitedSmsChkBx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center_vertical"
-                        android:text="Unlimited"/>-->
                 </LinearLayout>
 
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
@@ -110,7 +110,6 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"/>
         </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -192,10 +191,7 @@
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -229,7 +225,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/logoutTvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8pt"
+            android:textStyle="bold"
+            android:text="Logout of AdsChain"
+            android:textColor="@color/base_color_1"/>
     </LinearLayout>
 </LinearLayout>

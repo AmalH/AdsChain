@@ -3,16 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingBottom="10dp"
     tools:context="amalhichri.androidprojects.com.adschain.fragments.WalletFragment">
 
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="3dp"
+        android:background="@color/base_color_2"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="    12,6 AdCoins    "
+        android:textColor="@color/base_color_2"
+        android:textStyle="bold"
+        android:textSize="10pt"
+        android:layout_centerHorizontal="true"/>
+    <View
+        android:layout_width="100dp"
+        android:layout_height="3dp"
+        android:background="@color/base_color_2"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"/>
+
+  </RelativeLayout>
   <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
+      android:layout_marginTop="30dp"
       android:textColor="@color/base_color_1"
       android:text="Today"
       android:textSize="28dp"

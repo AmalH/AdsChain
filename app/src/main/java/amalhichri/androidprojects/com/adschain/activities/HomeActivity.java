@@ -88,8 +88,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
     private static void setUpTabIcons(TabLayout tbs){
-        tbs.getTabAt(0).setIcon(R.drawable.ic_wallet_tab2);
-        tbs.getTabAt(1).setIcon(R.drawable.ic_configurations_tab1);
+        tbs.getTabAt(0).setIcon(R.drawable.ic_wallet);
+        tbs.getTabAt(1).setIcon(R.drawable.ic_configurations);
         allTabIconsToDeselected(tbs);
     }
     /** to prevent back to loginActivity **/

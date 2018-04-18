@@ -20,7 +20,6 @@ public class MainUiPagerAdapter extends PagerAdapter {
 
     private int mSize;
     private Context context;
-    private int[] icons = new int[]{R.drawable.learn,R.drawable.code,R.drawable.compete,R.drawable.discuss};
     private String[] textViewContents1 = new String[]{"Welcome to AdChain","Configure","Earn","Earn more"};
     private String[] textViewContents2 = new String[]{"Do nothing and earn AdCoins",
     "Choose you SMS limit and contacts  \n to make Ads and Money ",
