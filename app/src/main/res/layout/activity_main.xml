@@ -16,11 +16,11 @@
 
     <!-- Logo-->
     <ImageView
-        android:layout_width="300px"
+        android:layout_width="600px"
         android:layout_height="0dp"
-        android:layout_weight="6.36"
-        android:src="@drawable/logohorizontal"
-        android:layout_marginTop="25dp"/>
+        android:layout_weight="10"
+        android:src="@drawable/logohorizontal_"
+        android:layout_marginTop="27dp"/>
 
     <!-- ViewFlipper -->
     <LinearLayout
@@ -37,8 +37,8 @@
             android:id="@+id/circlePageIndicator"
             android:layout_width="match_parent"
             app:ci_drawable="@color/base_color_1"
-            app:ci_width="6dp"
-            app:ci_height="6dp"
+            app:ci_width="8dp"
+            app:ci_height="8dp"
             android:layout_height="48dp"/>
 
     </LinearLayout>
@@ -60,8 +60,8 @@
             android:textSize="8pt"
             android:textStyle="bold"
             fontPath="fonts/graublau_slab.ttf"
-            android:textColor="@color/base_color_2"
-            android:background="@color/base_color_1"
+            android:textColor="@color/base_color_1"
+            android:background="@color/base_color_2"
             android:onClick="onClick"/>
         <TextView
             android:id="@+id/signupTxt"

@@ -9,26 +9,46 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.models.Contact;
 
-/**
- * Created by Worm-root on 29/01/2018.
- */
+public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.ContactViewHolder> implements Filterable{
 
-public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.ContactViewHolder>{
-
-    List<Contact> data;
-    Context ctx;
+    private Context context;
+    private List<Contact> contactList;
+    private List<Contact> contactListFiltered;
+    private ContactsAdapterListener listener;
     private int lastPosition = -1;
 
-    public ContactAdapter(List<Contact> data, Context ctx ) {
-        this.data = data;
-        this.ctx = ctx;
+    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+        TextView txt_contact ,txt_num;
+        CheckBox ck;
+        public ContactViewHolder(View itemView) {
+            super(itemView);
+            txt_contact = itemView.findViewById(R.id.txt_name);
+            txt_num = itemView.findViewById(R.id.txt_num);
+            ck =  itemView.findViewById(R.id.ck);
+        }
+    }
+
+    public ContactAdapter(Context context, List<Contact> contactList, ContactsAdapterListener listener) {
+        this.context = context;
+        this.listener = listener;
+        this.contactList = contactList;
+        this.contactListFiltered = contactList;
+    }
+
+    public void filterList(ArrayList<Contact> filteredList) {
+        this.contactList = filteredList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,14 +60,14 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
 
     @Override
     public void onBindViewHolder(ContactAdapter.ContactViewHolder holder, int position) {
-        holder.txt_contact.setText(data.get(position).getNom());
-        holder.txt_num.setText(data.get(position).getNum());
-        //holder.ck.setChecked(data.get(position).isEtat());
+        holder.txt_contact.setText(contactList.get(position).getNom());
+        holder.txt_num.setText(contactList.get(position).getNum());
+        //holder.ck.setChecked(contactList.get(position).isEtat());
         final int p = position;
         holder.ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   data.get(p).setEtat(isChecked);
+                   contactList.get(p).setEtat(isChecked);
                }
           }
         );
@@ -56,37 +76,60 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return contactList.size();
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
 
     private void setAnimation(View viewToAnimate, int position)
     {
-        // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition)
         {
-            Animation animation = AnimationUtils.loadAnimation(ctx, R.anim.enter_from_bottom_item);
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.enter_from_bottom_item);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
     }
 
-    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    contactListFiltered = contactList;
+                } else {
+                    List<Contact> filteredList = new ArrayList<>();
+                    for (Contact row : contactList) {
+                        //row.getNom().toLowerCase().contains(charString.toLowerCase()) ||
+                        if ( row.getNum().contains(charSequence)) {
+                            filteredList.add(row);
+                            Toast.makeText(context, "Selected: " + row.getNum(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    contactListFiltered = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = contactListFiltered;
+                return filterResults;
+            }
 
-       // CardView cv ;
-       TextView txt_contact ,txt_num;
-        CheckBox ck;
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                contactListFiltered = (ArrayList<Contact>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 
-        public ContactViewHolder(View itemView) {
-            super(itemView);
-           // cv = itemView.findViewById(R.id.cv);
-            txt_contact = itemView.findViewById(R.id.txt_name);
-            txt_num = itemView.findViewById(R.id.txt_num);
-            ck =  itemView.findViewById(R.id.ck);
-        }
+
+
+
+public interface ContactsAdapterListener {
+        void onContactSelected(Contact contact);
+    }
+
+    public void setContactList(List<Contact> contactList) {
+        this.contactList = contactList;
     }
 }

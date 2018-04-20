@@ -51,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
                 android:textColor="@color/base_color_1"
-                android:textStyle="bold"
                 android:text="SMS Limit"/>
             <com.github.aakira.expandablelayout.ExpandableRelativeLayout
                 android:id="@+id/expandableLayout1"
@@ -96,19 +95,18 @@
                                 />
                     <com.rey.material.widget.Spinner
                         android:id="@+id/rptPeriodSpinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></com.rey.material.widget.Spinner>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="   per month"/>
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        />
+
                 </LinearLayout>
 
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
             <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+                android:layout_marginTop="10dp"
+            android:background="@color/base_color_1"/>
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,7 +121,6 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textColor="@color/base_color_1"
-            android:textStyle="bold"
             android:text="Receivers Limit"/>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -165,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:maxLength="2"
-                    android:hint="tapez * pour choisir tous les numéros d'un opérateur Exmpl : 9* (TT)"/>
+                    android:hint="Search: type first two numbers as operator's indication:"/>
                 <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
@@ -192,6 +189,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/base_color_1"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -200,7 +203,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:text="Messaging data status"
             android:textColor="@color/base_color_1"
             android:textSize="18dp"/>
@@ -232,7 +234,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/base_color_1"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -243,7 +245,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8pt"
-            android:textStyle="bold"
             android:text="Logout of AdsChain"
             android:textColor="@color/base_color_1"/>
     </LinearLayout>

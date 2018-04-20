@@ -51,4 +51,10 @@ public class Contact {
     public void setEtat(boolean etat) {
         this.etat = etat;
     }
+
+
+    @Override
+    public String toString() {
+        return  num ;
+    }
 }

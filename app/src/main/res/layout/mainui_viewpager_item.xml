@@ -13,15 +13,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textSize="15pt"
+        android:textSize="17pt"
+        android:gravity="center_horizontal"
         android:textColor="@color/base_color_1"/>
 
     <TextView
         android:id="@+id/main_ui_text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:textSize="8.8pt"
+        android:layout_marginTop="20dp"
+        android:textSize="10pt"
         android:textStyle="italic"
         android:gravity="center_horizontal"
         android:textColor="@color/base_color_1"/>

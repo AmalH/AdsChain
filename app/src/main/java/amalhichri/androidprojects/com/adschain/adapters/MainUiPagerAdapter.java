@@ -20,9 +20,9 @@ public class MainUiPagerAdapter extends PagerAdapter {
 
     private int mSize;
     private Context context;
-    private String[] textViewContents1 = new String[]{"Welcome to AdChain","Configure","Earn","Earn more"};
+    private String[] textViewContents1 = new String[]{"Welcome to AdsChain","Configure","Earn","Earn more"};
     private String[] textViewContents2 = new String[]{"Do nothing and earn AdCoins",
-    "Choose you SMS limit and contacts  \n to make Ads and Money ",
+    "Choose SMS and contacts limit  \n to make Ads and Money ",
     "Trade your free SMS to AdsCoins","Trade more. Get more AdCoins"};
 
     public MainUiPagerAdapter(Context context) {

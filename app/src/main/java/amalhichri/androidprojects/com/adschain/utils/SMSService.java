@@ -13,6 +13,8 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by Amal on 25/02/2018.
  */
@@ -21,6 +23,12 @@ public class  SMSService extends JobService {
 
     JobParameters params;
     DoItTask doIt;
+
+    ArrayList<String> sendTo;
+
+    public SMSService( ArrayList<String> sendTo){
+        this.sendTo=sendTo;
+    }
 
     @Override
     public boolean onStartJob(JobParameters params) {
@@ -62,30 +70,32 @@ public class  SMSService extends JobService {
             try
             {
                 final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent("SMS_SENT"), 0);
-                SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Amal", sentPI, null);
-                getApplicationContext().registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context arg0, Intent arg1) {
-                        int resultCode = getResultCode();
-                        switch (resultCode) {
-                            case Activity.RESULT_OK:
-                                Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_NULL_PDU:
-                                Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
-                                break;
+                for(int l=0; l<=this.sendTo.size(); l++){
+                    SmsManager.getDefault().sendTextMessage(sendTo.get(l), null, "hello from Amal", sentPI, null);
+                    getApplicationContext().registerReceiver(new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context arg0, Intent arg1) {
+                            int resultCode = getResultCode();
+                            switch (resultCode) {
+                                case Activity.RESULT_OK:
+                                    Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                    Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                    Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_NULL_PDU:
+                                    Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                    Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
+                                    break;
+                            }
                         }
-                    }
-                }, new IntentFilter("SMS_SENT"));
+                    }, new IntentFilter("SMS_SENT"));                }
+
             }
             catch (Exception e)
             {

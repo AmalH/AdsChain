@@ -5,7 +5,6 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -16,20 +15,17 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-import com.rey.material.widget.Spinner;
 import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
@@ -45,33 +41,24 @@ import amalhichri.androidprojects.com.adschain.utils.Statics;
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
 
 
-public class ConfigFragment extends Fragment {
+public class ConfigFragment extends Fragment implements ContactAdapter.ContactsAdapterListener{
 
-    List<Contact> contacts;
+    private static List<Contact> contacts;
     private  RecyclerView rcv_cotact;
     private int smsNbLimit;
+    private ContactAdapter contactAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        this.contacts = new ArrayList<>();
+        fetchContacts();
 
-        /*** adding / updating userDeal in database
-        Statics.dealTable.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .setValue(new Deal(FirebaseAuth.getInstance().getCurrentUser().getUid(),smsNbLimit,0))
-                .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Failure",e.getMessage());
-            }
-        });
-
-        /*** updating server with deals
-        updateServerWithDeals();***/
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         final View view=inflater.inflate(R.layout.fragment_config_fragment, container, false);
 
@@ -94,7 +81,7 @@ public class ConfigFragment extends Fragment {
                        // int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
                     }
                     /** fetch contacts and show list **/
-                    fetchContacts();
+                    updateListWithContacts();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).collapse();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).expand();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).collapse();
@@ -126,34 +113,20 @@ public class ConfigFragment extends Fragment {
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() > 0) {
-                    String n = String.valueOf(((EditText)view.findViewById(R.id.edt_fltr)).getText().toString().charAt(0));
-
-                    if (s.length() == 1) {
-                        if (n.equals("9") || n.equals("2") || n.equals("5") || n.equals("4")) {
-                            //Toast.makeText(getContext(), "chaged :: n="+n, Toast.LENGTH_SHORT).show();
-                            setFilter(n);
-                        }
-                    } else {
-                        if (n.equals("9") || n.equals("2") || n.equals("5") || n.equals("4")) {
-                            n += String.valueOf(((EditText)view.findViewById(R.id.edt_fltr)).getText().toString().charAt(1));
-                            setFilter(n);
-                        }
+                final ArrayList<Contact> filteredList = new ArrayList<>();
+                for (int i = 0; i < ConfigFragment.contacts.size(); i++) {
+                    Toast.makeText(getContext(), "nums:  !"+ConfigFragment.contacts.get(i), Toast.LENGTH_LONG).show();
+                  /*if (ConfigFragment.ConfigFragment.contacts.get(i).contains(s.toString())) {
+                        filteredList.add(ConfigFragment.contacts.get(i));
                     }
+                    contactAdapter.filterList(filreredList());
+                    */
                 }
+               // contactAdapter.getFilter().filter(s.toString());
+              //  Toast.makeText(getContext(), "adapter:  !"+contactAdapter.getFilter().toString(), Toast.LENGTH_LONG).show();
             }
         });
-
 /**-------------------------- Setting SMS nb limit -------------------------- **/
-
-        List<String> opts = new ArrayList<String>();
-        opts.add("Per month");
-        opts.add("Per week");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,opts);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ((Spinner)(view.findViewById(R.id.rptPeriodSpinner))).setAdapter(dataAdapter);
-
-
 
         (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,31 +134,14 @@ public class ConfigFragment extends Fragment {
                 smsNbLimit=-1;
             }
         });
+
         (view.findViewById(R.id.limitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                // ((view.findViewById(R.id.limitedSmsEditTxt))).requestFocus();
-
                 if(!(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString()).equals(""))
                     smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
-            }
-        });
-
-        ((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -206,16 +162,10 @@ public class ConfigFragment extends Fragment {
                         }
                     }
                     /** sending sms , this is just a test, will configure it with number of sms/contacts **/
-                    if(((TelephonyManager)getContext().getSystemService(Context.TELEPHONY_SERVICE)).getNetworkOperatorName().equals("Orange Tn"))
-                    {
                         Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
                         ComponentName componentName = new ComponentName(getContext(), SMSService.class);
                         JobInfo jobInfo = new JobInfo.Builder(1, componentName).setPeriodic(5000).build(); // setPeriodic(10000)
                         jobScheduler.schedule(jobInfo);
-                    }
-                    else{
-                        Toast.makeText(getContext(), "You have no free SMS plans !", Toast.LENGTH_LONG).show();
-                    }
                     /** call turning on sending sms in background **/
                 }
                 if(!checked){
@@ -243,10 +193,14 @@ public class ConfigFragment extends Fragment {
 
 /**-------------------------- Helper methods  --------------------------**/
 
+    private void updateListWithContacts(){
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rcv_cotact.setLayoutManager(llm);
+        contactAdapter= new ContactAdapter(getContext(),ConfigFragment.contacts ,this);
+        rcv_cotact.setAdapter(contactAdapter);
+    }
     public void fetchContacts() {
-
-        contacts = new ArrayList<>();
-        String phoneNumber = null;
+        String phoneNumber ;
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
         String _ID = ContactsContract.Contacts._ID;
         String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
@@ -277,82 +231,13 @@ public class ConfigFragment extends Fragment {
                         c.setNum(phoneNumber);
                     }
                     phoneCursor.close();
-                    contacts.add(c);
-                }
-            }
-            LinearLayoutManager llm = new LinearLayoutManager(getContext());
-            rcv_cotact.setLayoutManager(llm);
-            ContactAdapter adp = new ContactAdapter(contacts , getContext());
-            rcv_cotact.setAdapter(adp);
-        }
-
-    }
-    private void setFilter(String f){
-        Toast.makeText(getContext(), "f in filter = "+f, Toast.LENGTH_SHORT).show();
-        for (Contact c: contacts) {
-            if(f.length() == 1){
-                if(String.valueOf(c.getNum().charAt(0)).equals(String.valueOf(f.charAt(0)))){
-                    c.setEtat(true);
-                    //Toast.makeText(getContext(), "chaged :: ok", Toast.LENGTH_SHORT).show();
-                }else{
-                    c.setEtat(false);
-                    //Toast.makeText(getContext(), "chaged :: NO", Toast.LENGTH_SHORT).show();
-                }
-            }else{
-                if(String.valueOf(c.getNum().charAt(0)).equals(String.valueOf(f.charAt(0))) && String.valueOf(c.getNum().charAt(1)).equals(String.valueOf(f.charAt(1)))){
-                    c.setEtat(true);
-                }else{
-                    c.setEtat(false);
+                    ConfigFragment.contacts.add(c);
                 }
             }
         }
-        rcv_cotact.getAdapter().notifyDataSetChanged();
-
     }
-
-    /*private void updateServerWithDeals(){
-        // update shared server with current deals
-        ChildEventListener childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                PendingIntent pIntent = PendingIntent.getActivity(getContext(), (int) System.currentTimeMillis(), intent, 0);
-
-                Notification n  = new Notification.Builder(getContext())
-                        .setContentTitle("additional user deal: ")
-                        .setContentText("New user deal: ")
-                        .setSmallIcon(R.drawable.ic_backarrow)
-                        .setContentIntent(pIntent)
-                        .setAutoCancel(true)
-                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        .build();
-
-                ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, n);
-                Log.d("Deal checked : ","ok");
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d("SMS_deal", "onChildAdded:" + dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-        Statics.dealTable.addChildEventListener(childEventListener);
-    }*/
+    @Override
+    public void onContactSelected(Contact contact) {
+        Toast.makeText(getContext(), "Selected: " + contact.getNom() + ", " + contact.getNum(), Toast.LENGTH_LONG).show();
+    }
 }
