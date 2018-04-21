@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.rey.material.widget.EditText;
 
 import amalhichri.androidprojects.com.adschain.activities.HomeActivity;
+import amalhichri.androidprojects.com.adschain.activities.LoginActivity;
 import amalhichri.androidprojects.com.adschain.models.User;
 
 /**
@@ -59,16 +60,15 @@ public class Statics {
                         usersTable.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userToAdd).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d("Failure",e.getMessage());
+                                //Log.d("Failure",e.getMessage());
                             }
                         });
-                        Toast.makeText(activity, "added to database ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, "Successfully signed to AdsChain!", Toast.LENGTH_LONG).show();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("Test","Facebook ato firebase success");
-
+                activity.startActivity(new Intent(activity, LoginActivity.class));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -84,10 +84,11 @@ public class Statics {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(activity, "logged in", Toast.LENGTH_LONG).show();
+                           // Toast.makeText(activity, "logged in", Toast.LENGTH_LONG).show();
                             activity.startActivity(new Intent(activity, HomeActivity.class));
                         } else {
-                            Toast.makeText(activity, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(activity, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, "", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

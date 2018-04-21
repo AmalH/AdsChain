@@ -53,8 +53,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 
         super.onCreate(savedInstanceState);
         this.contacts = new ArrayList<>();
-        fetchContacts();
-
     }
 
     @Override
@@ -81,7 +79,8 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                        // int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
                     }
                     /** fetch contacts and show list **/
-                    updateListWithContacts();
+                    fetchContacts();
+                   // updateListWithContacts();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).collapse();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).expand();
                     ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).collapse();
@@ -193,12 +192,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 
 /**-------------------------- Helper methods  --------------------------**/
 
-    private void updateListWithContacts(){
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        rcv_cotact.setLayoutManager(llm);
-        contactAdapter= new ContactAdapter(getContext(),ConfigFragment.contacts ,this);
-        rcv_cotact.setAdapter(contactAdapter);
-    }
+
     public void fetchContacts() {
         String phoneNumber ;
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
@@ -235,6 +229,10 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                 }
             }
         }
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rcv_cotact.setLayoutManager(llm);
+        contactAdapter= new ContactAdapter(getContext(),ConfigFragment.contacts ,this);
+        rcv_cotact.setAdapter(contactAdapter);
     }
     @Override
     public void onContactSelected(Contact contact) {

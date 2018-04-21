@@ -26,7 +26,10 @@
             android:layout_height="60dp"
             android:layout_gravity="top"
             android:scrollIndicators=""
-            app:tabIndicatorHeight="0dp"
+            app:tabPaddingEnd="0dp"
+            app:tabPaddingStart="0dp"
+            app:tabIndicatorColor="@color/base_color_1"
+            android:background="@color/base_color_2"
             app:tabMode="fixed"
             app:tabGravity="fill"/>
 
