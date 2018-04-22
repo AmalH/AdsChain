@@ -6,11 +6,13 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +32,7 @@ import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.activities.MainActivity;
@@ -215,10 +218,22 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    /** pass selected contacts to jobScheduler **/
+                    PersistableBundle bundle = new PersistableBundle();
+                    List<String> sendTo = new ArrayList<>();
+                    SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
+                    Map<String,?> keys = sendToListShp.getAll();
+                    for(Map.Entry<String,?> entry : keys.entrySet()){
+                        sendTo.add(entry.getValue().toString());
+                    }
+                    bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
                     /** sending sms , this is just a test, will configure it with number of sms/contacts **/
                     Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
+                    /** ------------------------- TEST TEST ----------------------------- **/
                     ComponentName componentName = new ComponentName(getContext(), SMSService.class);
-                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).setPeriodic(5000).build(); // setPeriodic(10000)
+                    JobInfo jobInfo = new JobInfo.Builder(1, componentName)
+                            .setExtras(bundle)
+                            .setPeriodic(5000).build(); // setPeriodic(10000)
                     jobScheduler.schedule(jobInfo);
                     /** call turning on sending sms in background **/
                 } else {

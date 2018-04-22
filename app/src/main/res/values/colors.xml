@@ -2,11 +2,9 @@
 <resources>
 
     <!-- app base colors -->
-    <color name="primaryDark">#16374b</color>
+    <color name="primaryDark">#C65000</color>
     <color name="base_color_1">#471D00</color>
     <color name="base_color_2">#ff6600</color>
-   <!-- <color name="base_color_2">#e99631  3b5670</color>  f7f7f7 -->
-    <!-- backgrounds -->
     <color name="main_background">#FFFBF8</color>
     
 </resources>

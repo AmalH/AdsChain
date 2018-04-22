@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
@@ -16,7 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * Created by Amal on 25/02/2018.
@@ -27,14 +26,14 @@ public class  SMSService extends JobService {
     JobParameters params;
     DoItTask doIt;
 
-    ArrayList<String> sendTo;
-    SharedPreferences sendToListShp;
+    private static ArrayList<String> sendTo;
 
 
     @Override
     public boolean onStartJob(JobParameters params) {
         this.params = params;
-        Toast.makeText(this, "TestService : Work to be called from here", Toast.LENGTH_LONG).show();
+        sendTo = new ArrayList<String>(Arrays.asList(params.getExtras().getStringArray("selectedContacts")));
+        //Toast.makeText(this, "Value1 :  "+  params.getExtras().getStringArray("selectedContacts").length, Toast.LENGTH_LONG).show();
         doIt = new DoItTask();
         doIt.execute();
         return false;
@@ -49,6 +48,7 @@ public class  SMSService extends JobService {
     }
 
     private class DoItTask extends AsyncTask<Void, Void, Void> {
+
         @Override
         protected void onPostExecute(Void aVoid) {
             Toast.makeText(getApplicationContext(),"Clean up the task here and call jobFinished...",Toast.LENGTH_LONG).show();
@@ -58,6 +58,7 @@ public class  SMSService extends JobService {
 
         @Override
         protected Void doInBackground(Void... params) {
+           // Toast.makeText(this, "Value1 :  "+  params.getExtras().getStringArray("selectedContacts").length, Toast.LENGTH_LONG).show();
             sendSms();
             return null;
         }
@@ -66,43 +67,41 @@ public class  SMSService extends JobService {
     // send sms in background
     private void sendSms()
     {
+       // Toast.makeText(getApplicationContext(), "Value1 :  "+  sendTo.toString(), Toast.LENGTH_LONG).show();
+
+        Log.d("TEST TEST",sendTo.toString());
         if(isSimExists())
         {
             try
             {
                 final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent("SMS_SENT"), 0);
-                sendToListShp = getApplicationContext().getSharedPreferences("sendToList",0);
-                Map<String,?> keys = sendToListShp.getAll();
+               for(int i=0;i<sendTo.size();i++){
+                   SmsManager.getDefault().sendTextMessage(sendTo.get(i), null,   "hello from Amal", sentPI, null);
+                   getApplicationContext().registerReceiver(new BroadcastReceiver() {
+                       @Override
+                       public void onReceive(Context arg0, Intent arg1) {
+                           int resultCode = getResultCode();
+                           switch (resultCode) {
+                               case Activity.RESULT_OK:
+                                   Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
+                                   break;
+                               case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                   Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
+                                   break;
+                               case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                   Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
+                                   break;
+                               case SmsManager.RESULT_ERROR_NULL_PDU:
+                                   Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
+                                   break;
+                               case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                   Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
+                                   break;
+                           }
+                       }
+                   }, new IntentFilter("SMS_SENT"));
+               }
 
-                for(Map.Entry<String,?> entry : keys.entrySet()){
-                    Log.d("map values",entry.getKey() + ": " +
-                            entry.getValue().toString());
-                }
-
-                SmsManager.getDefault().sendTextMessage("54821200", null,   "hello from Amal", sentPI, null);
-                    getApplicationContext().registerReceiver(new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context arg0, Intent arg1) {
-                            int resultCode = getResultCode();
-                            switch (resultCode) {
-                                case Activity.RESULT_OK:
-                                    Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
-                                    break;
-                                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                    Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
-                                    break;
-                                case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                    Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
-                                    break;
-                                case SmsManager.RESULT_ERROR_NULL_PDU:
-                                    Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
-                                    break;
-                                case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                    Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
-                                    break;
-                            }
-                        }
-                    }, new IntentFilter("SMS_SENT"));
 
             }
             catch (Exception e)
