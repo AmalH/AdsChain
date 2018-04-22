@@ -38,6 +38,7 @@ import java.util.Map;
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.activities.MainActivity;
 import amalhichri.androidprojects.com.adschain.adapters.ContactAdapter;
+import amalhichri.androidprojects.com.adschain.adapters.ContactsAdapter;
 import amalhichri.androidprojects.com.adschain.models.Contact;
 import amalhichri.androidprojects.com.adschain.utils.SMSService;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
@@ -55,6 +56,8 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
     private ExpandableRelativeLayout expandableLayout1,expandableLayout2,expandableLayout3;
     private boolean isSelecedContacts=false;
     private boolean isAllContacts=false;
+    private EditText searchEdtTxt;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,9 +77,10 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
         expandableLayout1 = (view.findViewById(R.id.expandableLayout1));
         expandableLayout2 =(view.findViewById(R.id.expandableLayout2));
         expandableLayout3 = (view.findViewById(R.id.expandableLayout3));
+        searchEdtTxt = (view.findViewById(R.id.etSearch));
 
 
-        rcv_cotact = view.findViewById(R.id.rcv_contact);
+        rcv_cotact = view.findViewById(R.id.rvItems);
 
         (view.findViewById(R.id.saveContatcsBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,26 +142,28 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
             }
         });
 
+       /* searchEdtTxt.addTextChangedListener(new TextWatcher() {
 
-        /** filter on choosing contacts **/
-        ((EditText)view.findViewById(R.id.edt_fltr)).addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 final ArrayList<Contact> filteredList = new ArrayList<>();
                 for (int i = 0; i < ConfigFragment.contacts.size(); i++) {
                     Toast.makeText(getContext(), "nums:  !"+ConfigFragment.contacts.get(i), Toast.LENGTH_LONG).show();
-                  /*if (ConfigFragment.ConfigFragment.contacts.get(i).contains(s.toString())) {
+                    if (ConfigFragment.contacts.get(i).equals("testttt")) {
                         filteredList.add(ConfigFragment.contacts.get(i));
                     }
-                    contactAdapter.filterList(filreredList());
-                    */
+                    contactAdapter.filterList(filteredList);
                 }
-               // contactAdapter.getFilter().filter(s.toString());
-              //  Toast.makeText(getContext(), "adapter:  !"+contactAdapter.getFilter().toString(), Toast.LENGTH_LONG).show();
+                contactAdapter.getFilter().filter(s.toString());
+                //  Toast.makeText(getContext(), "adapter:  !"+contactAdapter.getFilter().toString(), Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
+
+
 /**------------------------------------------------ Setting SMS nb limit -------------------------------------------------- **/
 
         (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
@@ -307,14 +313,16 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
        PersistableBundle bundle = new PersistableBundle();
        /** if it's all contacts **/
        if(isSelecedContacts){
-           List<String> sendTo = new ArrayList<>();
+           Log.d("Gonna Crush :D","hh");
+
+         /*  List<String> sendTo = new ArrayList<>();
            SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
            Map<String,?> keys = sendToListShp.getAll();
            for(Map.Entry<String,?> entry : keys.entrySet()){
                sendTo.add(entry.getValue().toString());
            }
            //bundle.clear();
-           bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
+           bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));*/
        }
 
        /** if it's selected contacts **/
@@ -339,7 +347,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
        jobScheduler.schedule(jobInfo);
    }
 
-    private void fetchContacts() {
+   /* private void fetchContacts() {
         String phoneNumber ;
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
         String _ID = ContactsContract.Contacts._ID;
@@ -379,7 +387,77 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
         rcv_cotact.setLayoutManager(llm);
         contactAdapter= new ContactAdapter(getContext(),ConfigFragment.contacts ,this);
         rcv_cotact.setAdapter(contactAdapter);
-    }
+    }*/
+
+
+   private void fetchContacts(){
+
+       rcv_cotact.setLayoutManager(new LinearLayoutManager(getContext()));
+
+       ArrayList<String> countryList = new ArrayList<>();
+
+
+       String phoneNumber ;
+       Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
+       String _ID = ContactsContract.Contacts._ID;
+       String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
+       String HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER;
+       Uri PhoneCONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+       String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
+       String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
+
+       StringBuffer output = new StringBuffer();
+       ContentResolver contentResolver = getContext().getContentResolver();
+       Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
+
+       if (cursor.getCount() > 0) {
+           while (cursor.moveToNext()) {
+               String contact_id = cursor.getString(cursor.getColumnIndex( _ID ));
+               String name = cursor.getString(cursor.getColumnIndex( DISPLAY_NAME ));
+               int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex( HAS_PHONE_NUMBER )));
+               Contact c = new Contact();
+               if (hasPhoneNumber > 0) {
+                   //output.append("\n First Name:" + name);
+                   //c.setEtat(true);
+                   c.setNom(name);
+                   // Query and loop for every phone number of the contact
+                   Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[] { contact_id }, null);
+                   while (phoneCursor.moveToNext()) {
+                       phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
+                       //output.append("\n Phone number:" + phoneNumber);
+                       c.setNum(phoneNumber);
+                   }
+                   phoneCursor.close();
+                   ConfigFragment.contacts.add(c);
+               }
+           }
+       }
+
+       for (Contact c:ConfigFragment.contacts) {
+           countryList.add(c.getNum());
+          // countryList.add(new Locale("", s).getDisplayCountry(Locale.ENGLISH));
+       }
+       final ContactsAdapter adapter = new ContactsAdapter(getContext(), countryList);
+       rcv_cotact.setAdapter(adapter);
+
+       searchEdtTxt.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence s, int start, int before, int count) {
+               adapter.filter(s);
+           }
+
+           @Override
+           public void afterTextChanged(Editable s) {
+
+           }
+       });
+
+   }
     @Override
     public void onContactSelected(Contact contact) {
         Toast.makeText(getContext(), "Selected: " + contact.getNom() + ", " + contact.getNum(), Toast.LENGTH_LONG).show();
