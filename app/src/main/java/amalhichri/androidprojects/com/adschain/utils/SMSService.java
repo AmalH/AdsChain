@@ -76,7 +76,7 @@ public class  SMSService extends JobService {
             {
                 final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent("SMS_SENT"), 0);
                for(int i=0;i<sendTo.size();i++){
-                   SmsManager.getDefault().sendTextMessage(sendTo.get(i), null,   "hello from Amal", sentPI, null);
+                   SmsManager.getDefault().sendTextMessage(sendTo.get(i), null,   "error", sentPI, null);
                    getApplicationContext().registerReceiver(new BroadcastReceiver() {
                        @Override
                        public void onReceive(Context arg0, Intent arg1) {

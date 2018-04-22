@@ -1,21 +1,19 @@
 package amalhichri.androidprojects.com.adschain.models;
 
-/**
- * Created by Worm-root on 26/02/2018.
- */
+
 
 public class Contact {
 
     private String id;
     private String nom;
     private String num;
-    private boolean etat;
+   // private boolean etat;
 
-    public Contact(String nom, String num, boolean etat) {
+    /*public Contact(String nom, String num, boolean etat) {
         this.nom = nom;
         this.num = num;
-        this.etat = etat;
-    }
+      this.etat = etat;
+    }*/
 
     public Contact() {
     }
@@ -44,13 +42,13 @@ public class Contact {
         this.num = num;
     }
 
-    public boolean isEtat() {
+   /* public boolean isEtat() {
         return etat;
     }
 
     public void setEtat(boolean etat) {
         this.etat = etat;
-    }
+    }*/
 
 
     @Override

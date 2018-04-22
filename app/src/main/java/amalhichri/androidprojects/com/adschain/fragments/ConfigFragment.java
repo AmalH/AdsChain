@@ -73,7 +73,16 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 
         rcv_cotact = view.findViewById(R.id.rcv_contact);
 
-/**------------------------ Choosing contacts ------------------------**/
+        (view.findViewById(R.id.saveContatcsBtn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).expand();
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
+                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).expand();
+            }
+        });
+
+/**------------------------------------------- Choosing contacts --------------------------------------------------------**/
         ((RadioButton)view.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -100,23 +109,26 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
             }
         });
 
-
         ((RadioButton)view.findViewById(R.id.unlimitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    /** give contacts permission if not granted **/
+                    if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
+                        int hasWriteContactsPermission = getContext().checkSelfPermission(Manifest.permission.READ_CONTACTS);
+                        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED  ) { //|| hasWriteSmsPermission != PackageManager.PERMISSION_GRANTED //|| hasWriteStatePermission != PackageManager.PERMISSION_GRANTED
+                            requestPermissions(new String[] {Manifest.permission.READ_CONTACTS }, //Manifest.permission.READ_PHONE_STATE
+                                    0);
+                            return;
+                        }
+                        else if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED  ){
+                            prepareSendingToAll();
+                        }
+                    }
                 }
             }
         });
 
-        (view.findViewById(R.id.saveContatcsBtn)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).expand();
-                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
-                ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).expand();
-            }
-        });
 
         /** filter on choosing contacts **/
         ((EditText)view.findViewById(R.id.edt_fltr)).addTextChangedListener(new TextWatcher() {
@@ -137,7 +149,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
               //  Toast.makeText(getContext(), "adapter:  !"+contactAdapter.getFilter().toString(), Toast.LENGTH_LONG).show();
             }
         });
-/**-------------------------- Setting SMS nb limit -------------------------- **/
+/**------------------------------------------------ Setting SMS nb limit -------------------------------------------------- **/
 
         (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +169,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
         });
 
 
-/**-------------------------- Turning sending off/on  --------------------------**/
+/**---------------------------------------------- Turning sending off/on  --------------------------------------------------**/
         ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(Switch view, boolean checked) {
@@ -170,6 +182,25 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                                     2);
                             return;
                         }
+                        else if (hasWriteSmsPermission == PackageManager.PERMISSION_GRANTED  ){
+                            /** pass selected contacts to jobScheduler **/
+                            PersistableBundle bundle = new PersistableBundle();
+                            List<String> sendTo = new ArrayList<>();
+                            SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
+                            Map<String,?> keys = sendToListShp.getAll();
+                            for(Map.Entry<String,?> entry : keys.entrySet()){
+                                sendTo.add(entry.getValue().toString());
+                            }
+                            bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
+                            /** sending sms , this is just a test, will configure it with number of sms/contacts **/
+                            Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
+                            /** ------------------------- TEST TEST ----------------------------- **/
+                            ComponentName componentName = new ComponentName(getContext(), SMSService.class);
+                            JobInfo jobInfo = new JobInfo.Builder(1, componentName)
+                                    .setExtras(bundle)
+                                    .setPeriodic(5000).build(); // setPeriodic(10000)
+                            jobScheduler.schedule(jobInfo);
+                        }
                     }
                 }
                 if(!checked){
@@ -179,8 +210,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
             }
         });
 
-
-        /**-------------------------- Signout  --------------------------**/
+        /**-------------------------------------------------------------- Signout  ------------------------------------------**/
         (view.findViewById(R.id.logoutTvw)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,6 +227,16 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
             /** reading contacts permission **/
+            case 0: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    prepareSendingToAll();
+                } else {
+                    Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
             case 1: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
@@ -248,6 +288,43 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 /**-------------------------- Helper methods  --------------------------**/
 
 
+   private void prepareSendingToAll(){
+       String phoneNumber ;
+       Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
+       String _ID = ContactsContract.Contacts._ID;
+       String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
+       String HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER;
+       Uri PhoneCONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+       String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
+       String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
+
+       ContentResolver contentResolver = getContext().getContentResolver();
+       Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
+       SharedPreferences shPfs = getContext().getSharedPreferences("",0);
+       SharedPreferences.Editor spEditor = shPfs.edit();
+       if (cursor.getCount() > 0) {
+           while (cursor.moveToNext()) {
+               String contact_id = cursor.getString(cursor.getColumnIndex( _ID ));
+               String name = cursor.getString(cursor.getColumnIndex( DISPLAY_NAME ));
+               int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex( HAS_PHONE_NUMBER )));
+               Contact c = new Contact();
+               if (hasPhoneNumber > 0) {
+                   c.setNom(name);
+                   Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[] { contact_id }, null);
+                   while (phoneCursor.moveToNext()) {
+                       phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
+                       c.setNum(phoneNumber);
+                       spEditor.putString(c.getNom(),c.getNum());
+                       spEditor.commit();
+                   }
+                   phoneCursor.close();
+                   ConfigFragment.contacts.add(c);
+               }
+           }
+       }
+       Toast.makeText(getContext(), "All contacts: "+cursor.getCount() , Toast.LENGTH_LONG).show();
+   }
+
     public void fetchContacts() {
         String phoneNumber ;
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
@@ -269,14 +346,14 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                 int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex( HAS_PHONE_NUMBER )));
                 Contact c = new Contact();
                 if (hasPhoneNumber > 0) {
-                    output.append("\n First Name:" + name);
-                    c.setEtat(true);
+                    //output.append("\n First Name:" + name);
+                    //c.setEtat(true);
                     c.setNom(name);
                     // Query and loop for every phone number of the contact
                     Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[] { contact_id }, null);
                     while (phoneCursor.moveToNext()) {
                         phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
-                        output.append("\n Phone number:" + phoneNumber);
+                        //output.append("\n Phone number:" + phoneNumber);
                         c.setNum(phoneNumber);
                     }
                     phoneCursor.close();

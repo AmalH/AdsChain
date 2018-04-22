@@ -74,7 +74,7 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
                @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                    if(isChecked){
-                       contactList.get(p).setEtat(isChecked);
+                      // contactList.get(p).setEtat(isChecked);
                        spEditor.putString(contactList.get(p).getNom(),contactList.get(p).getNum());
                        spEditor.commit();
                    }
