@@ -42,8 +42,8 @@
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="15dp"
       android:textColor="@color/base_color_1"
-      android:text="Today"
-      android:textSize="28dp"
+      android:text="My wallet"
+      android:textSize="20dp"
       />
   <LinearLayout
       android:layout_width="wrap_content"

@@ -8,12 +8,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by Amal on 25/02/2018.
@@ -25,6 +28,8 @@ public class  SMSService extends JobService {
     DoItTask doIt;
 
     ArrayList<String> sendTo;
+    SharedPreferences sendToListShp;
+
 
     @Override
     public boolean onStartJob(JobParameters params) {
@@ -66,7 +71,15 @@ public class  SMSService extends JobService {
             try
             {
                 final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent("SMS_SENT"), 0);
-                    SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Amal", sentPI, null);
+                sendToListShp = getApplicationContext().getSharedPreferences("sendToList",0);
+                Map<String,?> keys = sendToListShp.getAll();
+
+                for(Map.Entry<String,?> entry : keys.entrySet()){
+                    Log.d("map values",entry.getKey() + ": " +
+                            entry.getValue().toString());
+                }
+
+                SmsManager.getDefault().sendTextMessage("54821200", null,   "hello from Amal", sentPI, null);
                     getApplicationContext().registerReceiver(new BroadcastReceiver() {
                         @Override
                         public void onReceive(Context arg0, Intent arg1) {

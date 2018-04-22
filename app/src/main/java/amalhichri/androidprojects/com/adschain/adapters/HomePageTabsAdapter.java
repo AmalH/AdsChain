@@ -25,11 +25,9 @@ public class HomePageTabsAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                /** because to switch fragments inside a tab we need a root FrameLayout,
-                 in which we load fragments in each time ( getFragmentManager.replce(root,newFrag) )**/
-                return new WalletFragment();
-            case 1:
                 return new ConfigFragment();
+            case 1:
+                return new WalletFragment();
             default:
                 return null;
         }

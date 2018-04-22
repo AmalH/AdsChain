@@ -1,6 +1,7 @@
 package amalhichri.androidprojects.com.adschain.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,9 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
     private List<Contact> contactListFiltered;
     private ContactsAdapterListener listener;
     private int lastPosition = -1;
+    SharedPreferences sendToShPfs;
+    SharedPreferences.Editor spEditor;
+
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView txt_contact ,txt_num;
@@ -44,6 +48,8 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
         this.listener = listener;
         this.contactList = contactList;
         this.contactListFiltered = contactList;
+        this.sendToShPfs = context.getSharedPreferences("sendToList",0);
+        this.spEditor = sendToShPfs.edit();
     }
 
     public void filterList(ArrayList<Contact> filteredList) {
@@ -67,7 +73,16 @@ public class ContactAdapter extends  RecyclerView.Adapter<ContactAdapter.Contact
         holder.ck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   contactList.get(p).setEtat(isChecked);
+                   if(isChecked){
+                       contactList.get(p).setEtat(isChecked);
+                       spEditor.putString(contactList.get(p).getNom(),contactList.get(p).getNum());
+                       spEditor.commit();
+                   }
+                   if(!isChecked){
+                       spEditor.remove(contactList.get(p).getNom());
+                       spEditor.commit();
+                   }
+
                }
           }
         );

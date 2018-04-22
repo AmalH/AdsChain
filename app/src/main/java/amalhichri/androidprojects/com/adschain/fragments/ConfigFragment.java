@@ -75,7 +75,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    // disable the first checkbox
                     /** give contacts permission if not granted **/
                     if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
                         int hasWriteContactsPermission = getContext().checkSelfPermission(Manifest.permission.READ_CONTACTS);
@@ -83,6 +82,14 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                             requestPermissions(new String[] {Manifest.permission.READ_CONTACTS }, //Manifest.permission.READ_PHONE_STATE
                                     1);
                             return;
+                        }
+                        else if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED  ){
+                            /** fetch contacts and show list **/
+                            fetchContacts();
+                            // updateListWithContacts();
+                            expandableLayout1.collapse();
+                            expandableLayout2.expand();
+                            expandableLayout3.collapse();
                         }
                        // int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
                     }
@@ -161,7 +168,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                             return;
                         }
                     }
-
                 }
                 if(!checked){
                     jobScheduler.cancelAll();
