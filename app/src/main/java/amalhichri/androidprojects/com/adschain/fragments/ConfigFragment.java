@@ -47,18 +47,26 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
     private  RecyclerView rcv_cotact;
     private int smsNbLimit;
     private ContactAdapter contactAdapter;
+    private JobScheduler jobScheduler;
+    private ExpandableRelativeLayout expandableLayout1,expandableLayout2,expandableLayout3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         this.contacts = new ArrayList<>();
+        jobScheduler = (JobScheduler) getContext().getSystemService(JOB_SCHEDULER_SERVICE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         final View view=inflater.inflate(R.layout.fragment_config_fragment, container, false);
+
+        expandableLayout1 = (view.findViewById(R.id.expandableLayout1));
+        expandableLayout2 =(view.findViewById(R.id.expandableLayout2));
+        expandableLayout3 = (view.findViewById(R.id.expandableLayout3));
+
 
         rcv_cotact = view.findViewById(R.id.rcv_contact);
 
@@ -78,12 +86,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                         }
                        // int hasWriteStatePermission =  getContext().checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
                     }
-                    /** fetch contacts and show list **/
-                    fetchContacts();
-                   // updateListWithContacts();
-                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).collapse();
-                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).expand();
-                    ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).collapse();
                 }
             }
         });
@@ -147,7 +149,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 
 /**-------------------------- Turning sending off/on  --------------------------**/
         ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            JobScheduler jobScheduler = (JobScheduler) getContext().getSystemService(JOB_SCHEDULER_SERVICE);
             @Override
             public void onCheckedChanged(Switch view, boolean checked) {
                 if(checked){
@@ -160,12 +161,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                             return;
                         }
                     }
-                    /** sending sms , this is just a test, will configure it with number of sms/contacts **/
-                        Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
-                        ComponentName componentName = new ComponentName(getContext(), SMSService.class);
-                        JobInfo jobInfo = new JobInfo.Builder(1, componentName).setPeriodic(5000).build(); // setPeriodic(10000)
-                        jobScheduler.schedule(jobInfo);
-                    /** call turning on sending sms in background **/
+
                 }
                 if(!checked){
                     jobScheduler.cancelAll();
@@ -173,6 +169,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                 }
             }
         });
+
 
         /**-------------------------- Signout  --------------------------**/
         (view.findViewById(R.id.logoutTvw)).setOnClickListener(new View.OnClickListener() {
@@ -187,7 +184,44 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            /** reading contacts permission **/
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    /** fetch contacts and show list **/
+                    fetchContacts();
+                    // updateListWithContacts();
+                    expandableLayout1.collapse();
+                    expandableLayout2.expand();
+                    expandableLayout3.collapse();
 
+                } else {
+                    Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            /** sending sms permission **/
+            case 2: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    /** sending sms , this is just a test, will configure it with number of sms/contacts **/
+                    Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
+                    ComponentName componentName = new ComponentName(getContext(), SMSService.class);
+                    JobInfo jobInfo = new JobInfo.Builder(1, componentName).setPeriodic(5000).build(); // setPeriodic(10000)
+                    jobScheduler.schedule(jobInfo);
+                    /** call turning on sending sms in background **/
+                } else {
+                    Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
 
 
 /**-------------------------- Helper methods  --------------------------**/

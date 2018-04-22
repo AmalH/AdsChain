@@ -26,10 +26,6 @@ public class  SMSService extends JobService {
 
     ArrayList<String> sendTo;
 
-    public SMSService( ArrayList<String> sendTo){
-        this.sendTo=sendTo;
-    }
-
     @Override
     public boolean onStartJob(JobParameters params) {
         this.params = params;
@@ -70,8 +66,7 @@ public class  SMSService extends JobService {
             try
             {
                 final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent("SMS_SENT"), 0);
-                for(int l=0; l<=this.sendTo.size(); l++){
-                    SmsManager.getDefault().sendTextMessage(sendTo.get(l), null, "hello from Amal", sentPI, null);
+                    SmsManager.getDefault().sendTextMessage("54821200", null, "hello from Amal", sentPI, null);
                     getApplicationContext().registerReceiver(new BroadcastReceiver() {
                         @Override
                         public void onReceive(Context arg0, Intent arg1) {
@@ -94,7 +89,7 @@ public class  SMSService extends JobService {
                                     break;
                             }
                         }
-                    }, new IntentFilter("SMS_SENT"));                }
+                    }, new IntentFilter("SMS_SENT"));
 
             }
             catch (Exception e)

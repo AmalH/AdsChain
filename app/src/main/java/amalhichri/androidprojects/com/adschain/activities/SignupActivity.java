@@ -50,7 +50,7 @@ public class SignupActivity extends Activity {
         facebookApiInit();
 
         // material editTexts error msg
-        ((EditText) findViewById(R.id.emailSignupTxt)).setOnKeyListener(new View.OnKeyListener(){
+        (findViewById(R.id.emailSignupTxt)).setOnKeyListener(new View.OnKeyListener(){
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)
@@ -58,7 +58,7 @@ public class SignupActivity extends Activity {
                 return false;
             }
         });
-        ((EditText) findViewById(R.id.emailSignupTxt)).setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        (findViewById(R.id.emailSignupTxt)).setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override public void onFocusChange(    View v,    boolean hasFocus){
                 if (hasFocus) ((EditText) findViewById(R.id.emailSignupTxt)).setError(null);
             }
