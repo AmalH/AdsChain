@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,8 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
     private ContactAdapter contactAdapter;
     private JobScheduler jobScheduler;
     private ExpandableRelativeLayout expandableLayout1,expandableLayout2,expandableLayout3;
+    private boolean isSelecedContacts=false;
+    private boolean isAllContacts=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
         super.onCreate(savedInstanceState);
         this.contacts = new ArrayList<>();
         jobScheduler = (JobScheduler) getContext().getSystemService(JOB_SCHEDULER_SERVICE);
+        isSelecedContacts=false;
+        isAllContacts=false;
     }
 
     @Override
@@ -87,6 +92,8 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    isSelecedContacts=true;
+                    isAllContacts=false;
                     /** give contacts permission if not granted **/
                     if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
                         int hasWriteContactsPermission = getContext().checkSelfPermission(Manifest.permission.READ_CONTACTS);
@@ -113,6 +120,8 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    isSelecedContacts=false;
+                    isAllContacts=true;
                     /** give contacts permission if not granted **/
                     if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
                         int hasWriteContactsPermission = getContext().checkSelfPermission(Manifest.permission.READ_CONTACTS);
@@ -183,23 +192,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                             return;
                         }
                         else if (hasWriteSmsPermission == PackageManager.PERMISSION_GRANTED  ){
-                            /** pass selected contacts to jobScheduler **/
-                            PersistableBundle bundle = new PersistableBundle();
-                            List<String> sendTo = new ArrayList<>();
-                            SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
-                            Map<String,?> keys = sendToListShp.getAll();
-                            for(Map.Entry<String,?> entry : keys.entrySet()){
-                                sendTo.add(entry.getValue().toString());
-                            }
-                            bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
-                            /** sending sms , this is just a test, will configure it with number of sms/contacts **/
-                            Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
-                            /** ------------------------- TEST TEST ----------------------------- **/
-                            ComponentName componentName = new ComponentName(getContext(), SMSService.class);
-                            JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-                                    .setExtras(bundle)
-                                    .setPeriodic(5000).build(); // setPeriodic(10000)
-                            jobScheduler.schedule(jobInfo);
+                            sendingOnOff();
                         }
                     }
                 }
@@ -258,24 +251,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    /** pass selected contacts to jobScheduler **/
-                    PersistableBundle bundle = new PersistableBundle();
-                    List<String> sendTo = new ArrayList<>();
-                    SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
-                    Map<String,?> keys = sendToListShp.getAll();
-                    for(Map.Entry<String,?> entry : keys.entrySet()){
-                        sendTo.add(entry.getValue().toString());
-                    }
-                    bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
-                    /** sending sms , this is just a test, will configure it with number of sms/contacts **/
-                    Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
-                    /** ------------------------- TEST TEST ----------------------------- **/
-                    ComponentName componentName = new ComponentName(getContext(), SMSService.class);
-                    JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-                            .setExtras(bundle)
-                            .setPeriodic(5000).build(); // setPeriodic(10000)
-                    jobScheduler.schedule(jobInfo);
-                    /** call turning on sending sms in background **/
+                  sendingOnOff();
                 } else {
                     Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
@@ -289,6 +265,8 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 
 
    private void prepareSendingToAll(){
+      SharedPreferences sendToShPfs = getContext().getSharedPreferences("sendToListAll",0);
+      SharedPreferences.Editor editor= sendToShPfs.edit();
        String phoneNumber ;
        Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
        String _ID = ContactsContract.Contacts._ID;
@@ -300,8 +278,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
 
        ContentResolver contentResolver = getContext().getContentResolver();
        Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
-       SharedPreferences shPfs = getContext().getSharedPreferences("",0);
-       SharedPreferences.Editor spEditor = shPfs.edit();
        if (cursor.getCount() > 0) {
            while (cursor.moveToNext()) {
                String contact_id = cursor.getString(cursor.getColumnIndex( _ID ));
@@ -314,18 +290,56 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                    while (phoneCursor.moveToNext()) {
                        phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
                        c.setNum(phoneNumber);
-                       spEditor.putString(c.getNom(),c.getNum());
-                       spEditor.commit();
                    }
                    phoneCursor.close();
-                   ConfigFragment.contacts.add(c);
+                   //ConfigFragment.contacts.add(c);
                }
+               //sendToAll.add(c.getNum());
+               editor.putString(c.getNum(),c.getNum());
+               editor.commit();
            }
        }
        Toast.makeText(getContext(), "All contacts: "+cursor.getCount() , Toast.LENGTH_LONG).show();
    }
 
-    public void fetchContacts() {
+   private void sendingOnOff(){
+       /** pass selected contacts to jobScheduler **/
+       PersistableBundle bundle = new PersistableBundle();
+       /** if it's all contacts **/
+       if(isSelecedContacts){
+           List<String> sendTo = new ArrayList<>();
+           SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
+           Map<String,?> keys = sendToListShp.getAll();
+           for(Map.Entry<String,?> entry : keys.entrySet()){
+               sendTo.add(entry.getValue().toString());
+           }
+           //bundle.clear();
+           bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
+       }
+
+       /** if it's selected contacts **/
+       else if(isAllContacts){
+                                   List<String> sendToAll = new ArrayList<>();
+                                    SharedPreferences sendToListShpAll = getContext().getSharedPreferences("sendToListAll",0);
+                                    Map<String,?> keys = sendToListShpAll.getAll();
+                                    for(Map.Entry<String,?> entry : keys.entrySet()){
+                                        sendToAll.add(entry.getValue().toString());
+                                    }
+                                    //bundle.clear();
+                                    bundle.putStringArray("selectedContacts",sendToAll.toArray(new String[sendToAll.size()]));
+                                    Log.d("TEST TEST ","hh"+bundle.getStringArray("selectedContacts").toString());
+       }
+       /** sending sms , this is just a test, will configure it with number of sms/contacts **/
+       Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
+       /** ------------------------- TEST TEST ----------------------------- **/
+       ComponentName componentName = new ComponentName(getContext(), SMSService.class);
+       JobInfo jobInfo = new JobInfo.Builder(1, componentName)
+               .setExtras(bundle)
+               .setPeriodic(5000).build(); // setPeriodic(10000)
+       jobScheduler.schedule(jobInfo);
+   }
+
+    private void fetchContacts() {
         String phoneNumber ;
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
         String _ID = ContactsContract.Contacts._ID;

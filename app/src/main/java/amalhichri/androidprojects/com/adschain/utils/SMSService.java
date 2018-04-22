@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ public class  SMSService extends JobService {
     public boolean onStartJob(JobParameters params) {
         this.params = params;
         sendTo = new ArrayList<String>(Arrays.asList(params.getExtras().getStringArray("selectedContacts")));
-        //Toast.makeText(this, "Value1 :  "+  params.getExtras().getStringArray("selectedContacts").length, Toast.LENGTH_LONG).show();
         doIt = new DoItTask();
         doIt.execute();
         return false;
@@ -69,7 +67,6 @@ public class  SMSService extends JobService {
     {
        // Toast.makeText(getApplicationContext(), "Value1 :  "+  sendTo.toString(), Toast.LENGTH_LONG).show();
 
-        Log.d("TEST TEST",sendTo.toString());
         if(isSimExists())
         {
             try
