@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="7pt"
-            android:id="@+id/tvNum"
+            android:id="@+id/tvName"
             android:layout_weight="1"
             android:layout_marginLeft="-50dp"/>
 
@@ -34,7 +34,7 @@
         android:paddingLeft="35dp">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

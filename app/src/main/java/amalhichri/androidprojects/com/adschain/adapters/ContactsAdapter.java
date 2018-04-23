@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import amalhichri.androidprojects.com.adschain.R;
+import amalhichri.androidprojects.com.adschain.models.Contact;
 import amalhichri.androidprojects.com.adschain.utils.RvSearchDemoHolder;
 
 
@@ -19,16 +20,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<RvSearchDemoHolder> {
     private ArrayList<String> numsCopy;
     private LayoutInflater inflater;
 
+    private ArrayList<Contact> contacts;
+    private ArrayList<Contact> contactsCopy;
 
-    public ContactsAdapter(Context context, ArrayList<String> countries,ArrayList<String> nums) {
-        this.countries = countries;
-        this.nums = nums;
-        this.countriesCopy = new ArrayList<>();
-        this.numsCopy = new ArrayList<>();
-        countriesCopy.addAll(countries);
-        numsCopy.addAll(nums);
+
+
+    public ContactsAdapter(Context context, ArrayList<Contact> contacts) {
+        this.contacts=contacts;
+        this.contactsCopy = new ArrayList<>();
+        contactsCopy.addAll(contacts);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
 
     @Override
     public RvSearchDemoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,29 +40,32 @@ public class ContactsAdapter extends RecyclerView.Adapter<RvSearchDemoHolder> {
 
     @Override
     public void onBindViewHolder(RvSearchDemoHolder holder, int position) {
-        holder.bind(countries.get(position),nums.get(position));
+        holder.bind(contacts.get(position).getNom(),contacts.get(position).getNum());
     }
 
     @Override
     public int getItemCount() {
-        return countries.size();
+        return contacts.size();
     }
 
     public void filter(CharSequence sequence) {
-        ArrayList<String> temp = new ArrayList<>();
+        ArrayList<Contact> temp = new ArrayList<>();
         if (!TextUtils.isEmpty(sequence)) {
-            for (String s : countries) {
-                if (s.toLowerCase().contains(sequence)) {
-                    temp.add(s);
+            for (Contact c: contacts) {
+                if ((c.getNum().toLowerCase().startsWith(sequence.toString()))) {
+                    temp.add(c);
                 }
             }
         } else {
-            temp.addAll(countriesCopy);
+            temp.addAll(contactsCopy);
         }
-        countries.clear();
-        countries.addAll(temp);
+        contacts.clear();
+        contacts.addAll(temp);
+        //nums.clear();
+        //nums.addAll(tempNums);
         notifyDataSetChanged();
         temp.clear();
+        //tempNums.clear();
     }
 }
 

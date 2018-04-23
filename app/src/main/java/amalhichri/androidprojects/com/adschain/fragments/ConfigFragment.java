@@ -37,7 +37,6 @@ import java.util.Map;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.activities.MainActivity;
-import amalhichri.androidprojects.com.adschain.adapters.ContactAdapter;
 import amalhichri.androidprojects.com.adschain.adapters.ContactsAdapter;
 import amalhichri.androidprojects.com.adschain.models.Contact;
 import amalhichri.androidprojects.com.adschain.utils.SMSService;
@@ -46,12 +45,11 @@ import amalhichri.androidprojects.com.adschain.utils.Statics;
 import static android.content.Context.JOB_SCHEDULER_SERVICE;
 
 
-public class ConfigFragment extends Fragment implements ContactAdapter.ContactsAdapterListener{
+public class ConfigFragment extends Fragment{
 
-    private static List<Contact> contacts;
+    private static ArrayList<Contact> contacts;
     private  RecyclerView rcv_cotact;
     private int smsNbLimit;
-    private ContactAdapter contactAdapter;
     private JobScheduler jobScheduler;
     private ExpandableRelativeLayout expandableLayout1,expandableLayout2,expandableLayout3;
     private boolean isSelecedContacts=false;
@@ -347,49 +345,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
        jobScheduler.schedule(jobInfo);
    }
 
-   /* private void fetchContacts() {
-        String phoneNumber ;
-        Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
-        String _ID = ContactsContract.Contacts._ID;
-        String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
-        String HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER;
-        Uri PhoneCONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
-        String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
-
-        StringBuffer output = new StringBuffer();
-        ContentResolver contentResolver = getContext().getContentResolver();
-        Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
-
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                String contact_id = cursor.getString(cursor.getColumnIndex( _ID ));
-                String name = cursor.getString(cursor.getColumnIndex( DISPLAY_NAME ));
-                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex( HAS_PHONE_NUMBER )));
-                Contact c = new Contact();
-                if (hasPhoneNumber > 0) {
-                    //output.append("\n First Name:" + name);
-                    //c.setEtat(true);
-                    c.setNom(name);
-                    // Query and loop for every phone number of the contact
-                    Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[] { contact_id }, null);
-                    while (phoneCursor.moveToNext()) {
-                        phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
-                        //output.append("\n Phone number:" + phoneNumber);
-                        c.setNum(phoneNumber);
-                    }
-                    phoneCursor.close();
-                    ConfigFragment.contacts.add(c);
-                }
-            }
-        }
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        rcv_cotact.setLayoutManager(llm);
-        contactAdapter= new ContactAdapter(getContext(),ConfigFragment.contacts ,this);
-        rcv_cotact.setAdapter(contactAdapter);
-    }*/
-
-
    private void fetchContacts(){
 
        rcv_cotact.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -433,7 +388,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
            countryList.add(c.getNom());
            numsList.add(c.getNum());
        }
-       final ContactsAdapter adapter = new ContactsAdapter(getContext(), numsList,countryList);
+       final ContactsAdapter adapter = new ContactsAdapter(getContext(), ConfigFragment.contacts);
        rcv_cotact.setAdapter(adapter);
 
        searchEdtTxt.addTextChangedListener(new TextWatcher() {
@@ -454,8 +409,4 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
        });
 
    }
-    @Override
-    public void onContactSelected(Contact contact) {
-        Toast.makeText(getContext(), "Selected: " + contact.getNom() + ", " + contact.getNum(), Toast.LENGTH_LONG).show();
-    }
 }
