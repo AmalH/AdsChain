@@ -395,6 +395,7 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
        rcv_cotact.setLayoutManager(new LinearLayoutManager(getContext()));
 
        ArrayList<String> countryList = new ArrayList<>();
+       ArrayList<String> numsList = new ArrayList<>();
 
 
        String phoneNumber ;
@@ -406,7 +407,6 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
        String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
        String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
 
-       StringBuffer output = new StringBuffer();
        ContentResolver contentResolver = getContext().getContentResolver();
        Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
 
@@ -417,14 +417,10 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex( HAS_PHONE_NUMBER )));
                Contact c = new Contact();
                if (hasPhoneNumber > 0) {
-                   //output.append("\n First Name:" + name);
-                   //c.setEtat(true);
                    c.setNom(name);
-                   // Query and loop for every phone number of the contact
                    Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[] { contact_id }, null);
                    while (phoneCursor.moveToNext()) {
                        phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
-                       //output.append("\n Phone number:" + phoneNumber);
                        c.setNum(phoneNumber);
                    }
                    phoneCursor.close();
@@ -434,10 +430,10 @@ public class ConfigFragment extends Fragment implements ContactAdapter.ContactsA
        }
 
        for (Contact c:ConfigFragment.contacts) {
-           countryList.add(c.getNum());
-          // countryList.add(new Locale("", s).getDisplayCountry(Locale.ENGLISH));
+           countryList.add(c.getNom());
+           numsList.add(c.getNum());
        }
-       final ContactsAdapter adapter = new ContactsAdapter(getContext(), countryList);
+       final ContactsAdapter adapter = new ContactsAdapter(getContext(), numsList,countryList);
        rcv_cotact.setAdapter(adapter);
 
        searchEdtTxt.addTextChangedListener(new TextWatcher() {

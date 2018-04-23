@@ -12,14 +12,16 @@ import amalhichri.androidprojects.com.adschain.R;
 
 public class RvSearchDemoHolder extends RecyclerView.ViewHolder {
 
-    private final TextView tvName;
+    private final TextView tvName,tvNum;
 
     public RvSearchDemoHolder(View itemView) {
         super(itemView);
-        tvName = (TextView) itemView.findViewById(R.id.tvName);
+        tvName = itemView.findViewById(R.id.tvName);
+        tvNum =  itemView.findViewById(R.id.tvNum);
     }
 
-    public void bind(String name) {
+    public void bind(String name,String num) {
         tvName.setText(name);
+        tvNum.setText(num);
     }
 }

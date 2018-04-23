@@ -2,8 +2,6 @@ package amalhichri.androidprojects.com.adschain.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -16,14 +14,19 @@ import amalhichri.androidprojects.com.adschain.utils.RvSearchDemoHolder;
 
 public class ContactsAdapter extends RecyclerView.Adapter<RvSearchDemoHolder> {
     private ArrayList<String> countries;
+    private ArrayList<String> nums;
     private ArrayList<String> countriesCopy;
+    private ArrayList<String> numsCopy;
     private LayoutInflater inflater;
 
 
-    public ContactsAdapter(Context context, ArrayList<String> countries) {
+    public ContactsAdapter(Context context, ArrayList<String> countries,ArrayList<String> nums) {
         this.countries = countries;
+        this.nums = nums;
         this.countriesCopy = new ArrayList<>();
+        this.numsCopy = new ArrayList<>();
         countriesCopy.addAll(countries);
+        numsCopy.addAll(nums);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -34,7 +37,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<RvSearchDemoHolder> {
 
     @Override
     public void onBindViewHolder(RvSearchDemoHolder holder, int position) {
-        holder.bind(countries.get(position));
+        holder.bind(countries.get(position),nums.get(position));
     }
 
     @Override
