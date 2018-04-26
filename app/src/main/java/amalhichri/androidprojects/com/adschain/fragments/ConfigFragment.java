@@ -140,27 +140,6 @@ public class ConfigFragment extends Fragment{
             }
         });
 
-       /* searchEdtTxt.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final ArrayList<Contact> filteredList = new ArrayList<>();
-                for (int i = 0; i < ConfigFragment.contacts.size(); i++) {
-                    Toast.makeText(getContext(), "nums:  !"+ConfigFragment.contacts.get(i), Toast.LENGTH_LONG).show();
-                    if (ConfigFragment.contacts.get(i).equals("testttt")) {
-                        filteredList.add(ConfigFragment.contacts.get(i));
-                    }
-                    contactAdapter.filterList(filteredList);
-                }
-                contactAdapter.getFilter().filter(s.toString());
-                //  Toast.makeText(getContext(), "adapter:  !"+contactAdapter.getFilter().toString(), Toast.LENGTH_LONG).show();
-            }
-        });*/
-
 
 /**------------------------------------------------ Setting SMS nb limit -------------------------------------------------- **/
 
@@ -310,20 +289,20 @@ public class ConfigFragment extends Fragment{
        /** pass selected contacts to jobScheduler **/
        PersistableBundle bundle = new PersistableBundle();
        /** if it's all contacts **/
-       if(isSelecedContacts){
+       /*if(isSelecedContacts){*/
            Log.d("Gonna Crush :D","hh");
 
-         /*  List<String> sendTo = new ArrayList<>();
+           List<String> sendTo = new ArrayList<>();
            SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
            Map<String,?> keys = sendToListShp.getAll();
            for(Map.Entry<String,?> entry : keys.entrySet()){
                sendTo.add(entry.getValue().toString());
            }
            //bundle.clear();
-           bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));*/
-       }
+           bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
+       //}
 
-       /** if it's selected contacts **/
+       /** if it's selected contacts
        else if(isAllContacts){
                                    List<String> sendToAll = new ArrayList<>();
                                     SharedPreferences sendToListShpAll = getContext().getSharedPreferences("sendToListAll",0);
@@ -334,7 +313,7 @@ public class ConfigFragment extends Fragment{
                                     //bundle.clear();
                                     bundle.putStringArray("selectedContacts",sendToAll.toArray(new String[sendToAll.size()]));
                                     Log.d("TEST TEST ","hh"+bundle.getStringArray("selectedContacts").toString());
-       }
+       }**/
        /** sending sms , this is just a test, will configure it with number of sms/contacts **/
        Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
        /** ------------------------- TEST TEST ----------------------------- **/

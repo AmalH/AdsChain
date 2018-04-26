@@ -1,8 +1,11 @@
 package amalhichri.androidprojects.com.adschain.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -32,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
@@ -100,9 +104,11 @@ public class LoginActivity  extends Activity {
 
     /** Facebook login **/
     public void loginWithFacebook(View v) {
+        test(getApplicationContext());
        if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
         } else {
+           // some call here
             mAccessTokenTracker.startTracking();
             mLoginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile","email"));
         }
@@ -174,6 +180,26 @@ public class LoginActivity  extends Activity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+
+
+    /** ***/
+
+    private void test(Context context){
+
+        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
+            int hasWriteContactsPermission = context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED  ) {
+                requestPermissions(new String[] {Manifest.permission.READ_PHONE_STATE }, 1);
+                return;
+            }
+            else if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED  ){
+                Random rNo = new Random();
+                final int code = rNo.nextInt((99999 - 10000) + 1) + 10000;
+            }
+        }
+
     }
 
 

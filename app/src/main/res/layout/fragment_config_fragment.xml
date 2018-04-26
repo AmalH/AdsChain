@@ -168,12 +168,10 @@
                     android:id="@+id/etSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Search: type first two numbers as operator's indication:"/>
-                <!-- edt_fltr-->
-                <!--<View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/base_color_1"></View>-->
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:drawableLeft="@drawable/ic_search"
+                    android:hint="Type first two numbers as operator's indication:"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="260dp"

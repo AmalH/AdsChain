@@ -88,7 +88,6 @@ public class Statics {
                             activity.startActivity(new Intent(activity, HomeActivity.class));
                         } else {
                             //Toast.makeText(activity, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            Toast.makeText(activity, "", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -119,4 +118,5 @@ public class Statics {
         }
         );
     }
+
 }
