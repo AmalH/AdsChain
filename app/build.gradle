@@ -65,7 +65,14 @@ dependencies {
     /********* divers **********/
     // to deserialize/serialize json ibjects returned by LINKEDIN API
     compile 'com.google.code.gson:gson:2.8.2'
-    // Nexmo api
-    compile 'com.nexmo:verify:4.0.0'
+    // country code picker
+    implementation 'com.hbb20:ccp:2.2.0'
+
+    // volley
+    //compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+
+    // to set imageView src
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }
 apply plugin: 'com.google.gms.google-services'

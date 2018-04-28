@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -20,6 +22,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rey.material.widget.EditText;
 
@@ -45,6 +48,7 @@ public class SignupActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_signup);
+        ((ExpandableRelativeLayout) findViewById(R.id.phnNbrLayout)).collapse();
 
         //initializing facebook api
         facebookApiInit();
@@ -64,6 +68,16 @@ public class SignupActivity extends Activity {
             }
         }
         );
+
+        /** enabling two factor authentication **/
+        ((CheckBox)findViewById(R.id.enable2FAchkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    ((ExpandableRelativeLayout) findViewById(R.id.phnNbrLayout)).expand();
+                }
+            }
+        });
     }
 
 
