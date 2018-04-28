@@ -41,7 +41,7 @@ public class Statics {
     public static DatabaseReference dealTable = FirebaseDatabase.getInstance().getReference("deals");
 
 
-    public static void signUp(final String email, String password, final String fullName, final String pictureUrl, final Activity activity) {
+    public static void signUp(final String email, String password, final String fullName, final String pictureUrl,final String twoFactorAuthOn, final Activity activity) {
         // we'll use a fullName in signup ui we're not providing firstName / lastName editTe
         //authenticate user through firebase
         Log.d("Test","CALLED");
@@ -53,6 +53,7 @@ public class Statics {
                         Log.d("Test","Facebook to firebase success");
                         User userToAdd = new User();
                         userToAdd.setEmailAddress(email);
+                        userToAdd.setTwoFactorAuthOn(twoFactorAuthOn);
                         String[] splited = fullName.split("\\s+");
                         userToAdd.setFirstName(splited[0]);
                         userToAdd.setLastName(splited[1]);
@@ -60,7 +61,7 @@ public class Statics {
                         usersTable.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userToAdd).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                //Log.d("Failure",e.getMessage());
+                                Log.d("Failure",e.getMessage());
                             }
                         });
                         Toast.makeText(activity, "Successfully signed to AdsChain!", Toast.LENGTH_LONG).show();
@@ -73,7 +74,7 @@ public class Statics {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("ERROR:",e.getMessage());
+                Log.e("ERROR:",e.getMessage());
             }
         });
     }
@@ -84,10 +85,10 @@ public class Statics {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                           // Toast.makeText(activity, "logged in", Toast.LENGTH_LONG).show();
+                           //Toast.makeText(activity, "logged in", Toast.LENGTH_LONG).show();
                             activity.startActivity(new Intent(activity, HomeActivity.class));
                         } else {
-                            //Toast.makeText(activity, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(activity, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

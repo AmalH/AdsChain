@@ -6,7 +6,7 @@ package amalhichri.androidprojects.com.adschain.models;
 
 public class User {
 
-    private String id,emailAddress,pictureUrl,firstName,lastName,password;  //fields to match with LinkedIn API
+    private String id,emailAddress,pictureUrl,firstName,lastName,password,twoFactorAuthOn;  //fields to match with LinkedIn API
                                            // for facebook API we just read the json response object without switching it to a User object
 
     public User() {
@@ -58,6 +58,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTwoFactorAuthOn() {
+        return twoFactorAuthOn;
+    }
+
+    public void setTwoFactorAuthOn(String twoFactorAuthOn) {
+        this.twoFactorAuthOn = twoFactorAuthOn;
     }
 
     // just for test

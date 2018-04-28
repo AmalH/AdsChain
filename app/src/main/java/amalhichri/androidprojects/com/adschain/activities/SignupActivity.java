@@ -40,6 +40,7 @@ public class SignupActivity extends Activity {
     private LoginManager mLoginManager;
     private AccessTokenTracker mAccessTokenTracker;
     private CallbackManager mFacebookCallbackManager;
+    private static String twoFactorAuthOn="false";
 
 
 
@@ -73,9 +74,12 @@ public class SignupActivity extends Activity {
         ((CheckBox)findViewById(R.id.enable2FAchkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if(isChecked ){
                     ((ExpandableRelativeLayout) findViewById(R.id.phnNbrLayout)).expand();
+                    twoFactorAuthOn="true";
                 }
+                else
+                    twoFactorAuthOn = "false";
             }
         });
     }
@@ -108,14 +112,18 @@ public class SignupActivity extends Activity {
             ((EditText) findViewById(R.id.fullNameTxt)).setError("Please provide your full name");
             return;
         }
+        //
+        if ((((android.widget.EditText)findViewById(R.id.phoneNumberEdt)).getText().toString().isEmpty()) &&(twoFactorAuthOn.equals("true")))
+            twoFactorAuthOn = "false";
         //authenticate user + add it to firebase DB ..
+        //Toast.makeText(getApplicationContext(), "Exists: "+((EditText) findViewById(R.id.pswSignupTxt)).getText().toString(), Toast.LENGTH_LONG).show();
         Statics.signUp(((EditText) findViewById(R.id.emailSignupTxt)).getText().toString(),
                 ((EditText) findViewById(R.id.pswSignupTxt)).getText().toString(),
                 ((EditText) findViewById(R.id.fullNameTxt)).getText().toString(),
                 "",
+                 twoFactorAuthOn,
                 SignupActivity.this);
     }
-
 
     /** sign up with facebook **/
     public void signUpWithFacebook(View v) {
@@ -161,7 +169,7 @@ public class SignupActivity extends Activity {
                                         });
                                     }else
                                         Statics.signUp(object.getString("email"),String.valueOf(object.getInt("id")),
-                                                object.getString("first_name")+" "+object.getString("last_name"),object.getJSONObject("picture").getJSONObject("data").getString("url") ,SignupActivity.this);
+                                                object.getString("first_name")+" "+object.getString("last_name"),object.getJSONObject("picture").getJSONObject("data").getString("url"),"false",SignupActivity.this);
                                 } catch (JSONException e) {
                                   Log.d("ERROR",e.getMessage());
                                 }

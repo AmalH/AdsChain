@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -15,7 +15,8 @@
         android:id="@+id/loginHeaderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Follow up with chainers"
+        android:layout_centerHorizontal="true"
+        android:text="Follow up with AdChainers"
         android:layout_marginTop="20dp"
         android:textColor="@color/base_color_1"
         android:gravity="center"
@@ -27,35 +28,83 @@
     <!-- form -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="60"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        android:layout_centerVertical="true">
 
         <com.rey.material.widget.EditText
             android:id="@+id/emailLoginTxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="50px"
             android:hint=" E-mail"
-            app:et_dividerColor="@color/base_color_1"
-            app:et_dividerHeight="2dp"
+            android:layout_marginTop="50px"
+            android:paddingLeft="20dp"
+            app:et_dividerColor="@android:color/transparent"
+            app:et_dividerErrorColor="@android:color/transparent"
             app:et_labelEnable="true"
             app:et_labelTextColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"/>
+            app:et_labelTextSize="15dp"
+            android:background="@drawable/editextborder"/>
 
         <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
             android:id="@+id/pswLoginTxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="50px"
-            android:backgroundTint="@color/base_color_1"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textSize="15dp" />
+            android:layout_marginTop="50px"
+            android:paddingLeft="20dp"
+            app:et_dividerColor="@android:color/transparent"
+            app:et_dividerErrorColor="@android:color/transparent"
+            app:et_labelEnable="true"
+            app:et_labelTextColor="@color/base_color_1"
+            app:et_labelTextSize="15dp"
+            android:background="@drawable/editextborder"/>
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/twoFauthMethLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ael_expanded="true"
+            app:ael_duration="500"
+            app:ael_orientation="vertical" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You enabled two-factor authentication for this account"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose a security method"/>
+                <RadioGroup
+                    android:id="@+id/twoFauthMethGrp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:id="@+id/viaSMSChkBx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text Message"
+                        style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
+                    <RadioButton
+                        android:id="@+id/viaGglAuh1ChkBx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Via Authentication app"
+                        style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
+                </RadioGroup>
+            </LinearLayout>
+
+
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
         <com.rey.material.widget.Button
             android:id="@+id/confirmLogin_btn"
@@ -107,27 +156,31 @@
             android:visibility="gone"/>
     </LinearLayout>
 
-    <!-- social media btns -->
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/facebookLoginBtn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log in with Facebook"
-        android:layout_marginBottom="5dp"
-        android:visibility="gone"
-        />
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-    <com.rey.material.widget.Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#3B5998"
-        android:drawableLeft="@drawable/ic_facebook_login"
-        android:paddingLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:text="Login with Facebook"
-        android:textColor="#FFFFFF"
-        android:onClick="loginWithFacebook"
-        />
+        <!-- social media btns -->
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/facebookLoginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log in with Facebook"
+            android:visibility="gone"/>
+        <com.rey.material.widget.Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#3B5998"
+            android:drawableLeft="@drawable/ic_facebook_login"
+            android:paddingLeft="10dp"
+            android:text="Login with Facebook"
+            android:textColor="#FFFFFF"
+            android:onClick="loginWithFacebook"
+            />
+    </LinearLayout>
 
 
-</LinearLayout>
+
+</RelativeLayout>

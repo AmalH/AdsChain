@@ -23,11 +23,15 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.rey.material.widget.EditText;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
@@ -38,6 +42,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import amalhichri.androidprojects.com.adschain.R;
+import amalhichri.androidprojects.com.adschain.models.User;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -53,6 +58,7 @@ public class LoginActivity  extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+        ((ExpandableRelativeLayout)findViewById(R.id.twoFauthMethLayout)).collapse();
 
         //initialize facebook sdk
         facebookApiInit();
@@ -64,9 +70,12 @@ public class LoginActivity  extends Activity {
             }
         });
 
+
     }
 
-    /** Firebase login **/
+    /*****************************************************************************
+     * * Firebase login
+     * **************************************************************************/
   public void login(View view) {
 
       /** simple data validation ... **/
@@ -80,7 +89,31 @@ public class LoginActivity  extends Activity {
           (findViewById(R.id.pswLoginTxt)).requestFocus();
           return;
       }
-      Statics.signIn(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString(), ((ShowHidePasswordEditText) findViewById(R.id.pswLoginTxt)).getText().toString(),LoginActivity.this);
+
+      /** 2FA Config **/
+       /** saerch user by typed email from firebase
+         // and check if it's twofactorAuthOn is true.. **/
+      Statics.usersTable.orderByChild("emailAddress").equalTo(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString())
+              .addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+              String twoFactAuth="";
+              for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                  twoFactAuth =snapshot.getValue(User.class).getTwoFactorAuthOn();
+                 // Toast.makeText(getApplicationContext(), "Exists 1: "+snapshot.getValue(User.class).getTwoFactorAuthOn(), Toast.LENGTH_LONG).show();
+              }
+              if(twoFactAuth.equals("true"))
+                  ((ExpandableRelativeLayout)findViewById(R.id.twoFauthMethLayout)).expand();
+          }
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+          }
+      });
+      if(!authMethodSelected())
+          Statics.signIn(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString(), ((ShowHidePasswordEditText) findViewById(R.id.pswLoginTxt)).getText().toString(),LoginActivity.this);
+      if(authMethodSelected()){
+          Toast.makeText(getApplicationContext(), "am staying here: ", Toast.LENGTH_LONG).show();
+      }
   }
 
 
@@ -185,6 +218,12 @@ public class LoginActivity  extends Activity {
 
 
     /** ***/
+
+    private boolean authMethodSelected(){
+        if (((android.widget.RadioGroup)findViewById(R.id.twoFauthMethGrp)).getCheckedRadioButtonId() == -1)
+            return false;
+        return true;
+    }
 
     private void test(Context context){
 
