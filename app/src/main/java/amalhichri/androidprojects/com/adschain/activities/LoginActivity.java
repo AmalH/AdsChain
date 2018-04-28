@@ -1,11 +1,8 @@
 package amalhichri.androidprojects.com.adschain.activities;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -39,7 +36,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.models.User;
@@ -102,18 +98,21 @@ public class LoginActivity  extends Activity {
                   twoFactAuth =snapshot.getValue(User.class).getTwoFactorAuthOn();
                  // Toast.makeText(getApplicationContext(), "Exists 1: "+snapshot.getValue(User.class).getTwoFactorAuthOn(), Toast.LENGTH_LONG).show();
               }
-              if(twoFactAuth.equals("true"))
+               Toast.makeText(getApplicationContext(), "Exists 1: "+twoFactAuth, Toast.LENGTH_LONG).show();
+
+              if(  twoFactAuth.equals("true")){
+                  ((ExpandableRelativeLayout)findViewById(R.id.twoFauthMethLayout)).collapse();
                   ((ExpandableRelativeLayout)findViewById(R.id.twoFauthMethLayout)).expand();
+                //  Toast.makeText(getApplicationContext(), "Exists 1: ", Toast.LENGTH_LONG).show();
+              }
+              if( twoFactAuth.equals("false"))
+                  Statics.signIn(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString(), ((ShowHidePasswordEditText) findViewById(R.id.pswLoginTxt)).getText().toString(),LoginActivity.this);
           }
           @Override
           public void onCancelled(DatabaseError databaseError) {
           }
       });
-      if(!authMethodSelected())
-          Statics.signIn(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString(), ((ShowHidePasswordEditText) findViewById(R.id.pswLoginTxt)).getText().toString(),LoginActivity.this);
-      if(authMethodSelected()){
-          Toast.makeText(getApplicationContext(), "am staying here: ", Toast.LENGTH_LONG).show();
-      }
+
   }
 
 
@@ -137,7 +136,6 @@ public class LoginActivity  extends Activity {
 
     /** Facebook login **/
     public void loginWithFacebook(View v) {
-        test(getApplicationContext());
        if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
         } else {
@@ -214,33 +212,4 @@ public class LoginActivity  extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
-
-
-    /** ***/
-
-    private boolean authMethodSelected(){
-        if (((android.widget.RadioGroup)findViewById(R.id.twoFauthMethGrp)).getCheckedRadioButtonId() == -1)
-            return false;
-        return true;
-    }
-
-    private void test(Context context){
-
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
-            int hasWriteContactsPermission = context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
-            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED  ) {
-                requestPermissions(new String[] {Manifest.permission.READ_PHONE_STATE }, 1);
-                return;
-            }
-            else if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED  ){
-                Random rNo = new Random();
-                final int code = rNo.nextInt((99999 - 10000) + 1) + 10000;
-            }
-        }
-
-    }
-
-
-
 }
