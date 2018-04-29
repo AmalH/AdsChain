@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -58,8 +59,6 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.8.0'
     // facebook api
     compile 'com.facebook.android:facebook-android-sdk:4.27.0'
-    // linkedin API
-    compile 'com.github.neurospeech:unofficial-linkedin-sdk-android:v1.1.4'
     // firebase database
     compile 'com.google.firebase:firebase-database:11.8.0'
     /********* divers **********/
@@ -69,8 +68,13 @@ dependencies {
     implementation 'com.hbb20:ccp:2.2.0'
 
     // volley
-    //compile 'com.mcxiaoke.volley:library-aar:1.0.0'
-
+    compile 'com.android.volley:volley:1.1.0'
+    // to set imageView src
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    // country code picker
+    implementation 'com.hbb20:ccp:2.2.0'
+    // to deserialize/serialize json ibjects returned by Authy
+    compile 'com.google.code.gson:gson:2.8.2'
     // to set imageView src
     implementation 'com.squareup.picasso:picasso:2.71828'
 

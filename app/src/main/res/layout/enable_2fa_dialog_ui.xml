@@ -26,9 +26,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You enabled two-factor authentication."
+                android:text="You enabled two-factor authentication on this account."
                 android:textStyle="bold"
-                android:textSize="8pt" />
+                android:textSize="6pt" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,6 +55,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/smsOptionLyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/customborder"
@@ -91,6 +92,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/authAppOptionLyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
