@@ -39,7 +39,7 @@ public class  SMSService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        Toast.makeText(this, "TestService : System calling to stop the job here", Toast.LENGTH_LONG).show();
+      //  Toast.makeText(this, "TestService : System calling to stop the job here", Toast.LENGTH_LONG).show();
         if (doIt != null)
             doIt.cancel(true);
         return false;
@@ -49,7 +49,7 @@ public class  SMSService extends JobService {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(getApplicationContext(),"Clean up the task here and call jobFinished...",Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),"Clean up the task here and call jobFinished...",Toast.LENGTH_LONG).show();
             jobFinished(params, false);
             super.onPostExecute(aVoid);
         }

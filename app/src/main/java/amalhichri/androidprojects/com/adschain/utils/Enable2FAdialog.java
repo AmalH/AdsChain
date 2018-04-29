@@ -2,9 +2,7 @@ package amalhichri.androidprojects.com.adschain.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import amalhichri.androidprojects.com.adschain.R;
-import amalhichri.androidprojects.com.adschain.activities.HomeActivity;
 import amalhichri.androidprojects.com.adschain.models.User;
 
 public class Enable2FAdialog extends Dialog {
@@ -154,7 +150,7 @@ public class Enable2FAdialog extends Dialog {
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             /** call authy api to validate code provided by the user **/
-                                            validateSecurityCode(input.getText().toString(),userId,username,getContext());
+                                            Statics.validateSecurityCode(input.getText().toString(),userId,getContext());
                                         }
                                     });
 
@@ -179,29 +175,5 @@ public class Enable2FAdialog extends Dialog {
         (AppSingleton.getInstance(getContext()).getRequestQueue()).add(jsObjRequest);
     }
 
-    public static void validateSecurityCode(String code, final String userId, final String username, final Context context){
-        String codeValidationUrl="https://api.authy.com/protected/json/verify/"+code+"/"+userId+"?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx";
-        JSONObject obj = new JSONObject();
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,codeValidationUrl,obj,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if((response.getString("token")).equals("is valid"))
-                                context.startActivity(new Intent(context, HomeActivity.class));
-                            else
-                                Toast.makeText(context, "You typed a wrong code!", Toast.LENGTH_LONG).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("ERROR! ",error.getMessage());
-                    }
-                });
-        (AppSingleton.getInstance(context).getRequestQueue()).add(jsObjRequest);
-    }
+
 }

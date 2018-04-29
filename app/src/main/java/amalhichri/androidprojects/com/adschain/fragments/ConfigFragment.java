@@ -90,6 +90,7 @@ public class ConfigFragment extends Fragment{
         });
 
 /**------------------------------------------- Choosing contacts --------------------------------------------------------**/
+
         ((RadioButton)view.findViewById(R.id.limitedContactsChkBx)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -181,7 +182,7 @@ public class ConfigFragment extends Fragment{
                 }
                 if(!checked){
                     jobScheduler.cancelAll();
-                    Toast.makeText(getContext(), "pending jobs:" +jobScheduler.getAllPendingJobs().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Stopped sending SMSs" +jobScheduler.getAllPendingJobs().toString(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -299,6 +300,7 @@ public class ConfigFragment extends Fragment{
                sendTo.add(entry.getValue().toString());
            }
            //bundle.clear();
+           Toast.makeText(getContext(),"Selected: "+sendTo.toArray(new String[sendTo.size()]).toString(),Toast.LENGTH_LONG).show();
            bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
        //}
 
@@ -315,7 +317,7 @@ public class ConfigFragment extends Fragment{
                                     Log.d("TEST TEST ","hh"+bundle.getStringArray("selectedContacts").toString());
        }**/
        /** sending sms , this is just a test, will configure it with number of sms/contacts **/
-       Toast.makeText(getContext(), "will start sending !", Toast.LENGTH_LONG).show();
+       Toast.makeText(getContext(), "sms sent 2", Toast.LENGTH_LONG).show();
        /** ------------------------- TEST TEST ----------------------------- **/
        ComponentName componentName = new ComponentName(getContext(), SMSService.class);
        JobInfo jobInfo = new JobInfo.Builder(1, componentName)

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,7 +18,7 @@ import org.json.JSONObject;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.utils.AppSingleton;
-import amalhichri.androidprojects.com.adschain.utils.Enable2FAdialog;
+import amalhichri.androidprojects.com.adschain.utils.Statics;
 
 public class QRCodeActivity extends AppCompatActivity {
 
@@ -45,7 +44,6 @@ public class QRCodeActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             String qrCodePath = response.getString("qr_code");
-                            // Toast.makeText(getApplicationContext(), "Code: "+qrCodePath, Toast.LENGTH_LONG).show();
                             /** set the imageView's src **/
                             ImageView qrCodeImgVw = findViewById(R.id.qrCodeImgVw);
                             Picasso.get().load(qrCodePath).into(qrCodeImgVw);
@@ -66,31 +64,7 @@ public class QRCodeActivity extends AppCompatActivity {
         (findViewById(R.id.confirmSignupBtn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Enable2FAdialog.validateSecurityCode(((EditText)findViewById(R.id.validationCode)).getText().toString(),userId,"",QRCodeActivity.this);
-                String codeValidationUrl="https://api.authy.com/protected/json/verify/"+
-                        ((EditText)findViewById(R.id.validationCode)).getText().toString()+"/"+userId+"?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx";
-                JSONObject obj = new JSONObject();
-                JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,codeValidationUrl,obj,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    if((response.getString("token")).equals("is valid"))
-                                        Toast.makeText(getApplicationContext(), "Registered: ", Toast.LENGTH_LONG).show();
-                                    else
-                                        Toast.makeText(getApplicationContext(), "Not registered!", Toast.LENGTH_LONG).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("ERROR! ",error.getMessage());
-                            }
-                        });
-                (AppSingleton.getInstance(getApplicationContext()).getRequestQueue()).add(jsObjRequest);
+                Statics.validateSecurityCode(((EditText)findViewById(R.id.validationCode)).getText().toString(),userId,QRCodeActivity.this);
             }
         });
     }

@@ -10,6 +10,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,6 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.rey.material.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import amalhichri.androidprojects.com.adschain.activities.HomeActivity;
 import amalhichri.androidprojects.com.adschain.activities.LoginActivity;
 import amalhichri.androidprojects.com.adschain.models.User;
 
@@ -115,6 +123,33 @@ public class Statics {
             }
         }
         );
+    }
+
+
+    public static void validateSecurityCode(String code, final String userId, final Context context){
+        String codeValidationUrl="https://api.authy.com/protected/json/verify/"+code+"/"+userId+"?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx";
+        JSONObject obj = new JSONObject();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,codeValidationUrl,obj,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if((response.getString("token")).equals("is valid"))
+                                context.startActivity(new Intent(context, HomeActivity.class));
+                            else
+                                Toast.makeText(context, "You typed a wrong code!", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("ERROR! ",error.getMessage());
+                    }
+                });
+        (AppSingleton.getInstance(context).getRequestQueue()).add(jsObjRequest);
     }
 
 }
