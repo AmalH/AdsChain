@@ -119,7 +119,8 @@ public class Enable2FAdialog extends Dialog {
         (findViewById(R.id.authAppOptionLyt)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dismiss();
+                (new TwoFactoAuthAppDialog(getContext())).show();
             }
         });
     }
@@ -202,10 +203,5 @@ public class Enable2FAdialog extends Dialog {
                     }
                 });
         (AppSingleton.getInstance(context).getRequestQueue()).add(jsObjRequest);
-    }
-
-
-    private void SMStwoAuth(){
-
     }
 }
