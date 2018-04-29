@@ -48,7 +48,6 @@ public class MainUiPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup view, int position) {
         View v= ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.mainui_viewpager_item, view, false);
-     //   ((ImageView)v.findViewById(R.id.main_ui_image)).setImageResource(icons[position]);
         ((TextView)v.findViewById(R.id.main_ui_text1)).setText(textViewContents1[position]);
         ((TextView)v.findViewById(R.id.main_ui_text1)).setTypeface(Typeface.createFromAsset(context.getAssets(),"fonts/graublau_slab_bold.ttf"));
         ((TextView)v.findViewById(R.id.main_ui_text2)).setText(textViewContents2[position]);

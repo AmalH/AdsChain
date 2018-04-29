@@ -3,6 +3,7 @@ package amalhichri.androidprojects.com.adschain.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -20,10 +21,11 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +41,7 @@ import java.util.Arrays;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.models.User;
+import amalhichri.androidprojects.com.adschain.utils.Enable2FAdialog;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -49,12 +52,12 @@ public class LoginActivity  extends Activity {
     private LoginManager mLoginManager;
     private AccessTokenTracker mAccessTokenTracker;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
-        ((ExpandableRelativeLayout)findViewById(R.id.twoFauthMethLayout)).collapse();
 
         //initialize facebook sdk
         facebookApiInit();
@@ -85,38 +88,54 @@ public class LoginActivity  extends Activity {
           (findViewById(R.id.pswLoginTxt)).requestFocus();
           return;
       }
-
-      /** 2FA Config **/
-       /** saerch user by typed email from firebase
-         // and check if it's twofactorAuthOn is true.. **/
-      Statics.usersTable.orderByChild("emailAddress").equalTo(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString())
-              .addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(DataSnapshot dataSnapshot) {
-              String twoFactAuth="";
-              for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                  twoFactAuth =snapshot.getValue(User.class).getTwoFactorAuthOn();
-                 // Toast.makeText(getApplicationContext(), "Exists 1: "+snapshot.getValue(User.class).getTwoFactorAuthOn(), Toast.LENGTH_LONG).show();
-              }
-               Toast.makeText(getApplicationContext(), "Exists 1: "+twoFactAuth, Toast.LENGTH_LONG).show();
-
-              if(  twoFactAuth.equals("true")){
-                  ((ExpandableRelativeLayout)findViewById(R.id.twoFauthMethLayout)).collapse();
-                  ((ExpandableRelativeLayout)findViewById(R.id.twoFauthMethLayout)).expand();
-                //  Toast.makeText(getApplicationContext(), "Exists 1: ", Toast.LENGTH_LONG).show();
-              }
-              if( twoFactAuth.equals("false"))
-                  Statics.signIn(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString(), ((ShowHidePasswordEditText) findViewById(R.id.pswLoginTxt)).getText().toString(),LoginActivity.this);
-          }
-          @Override
-          public void onCancelled(DatabaseError databaseError) {
-          }
-      });
-
+      Statics.auth.signInWithEmailAndPassword(((EditText) findViewById(R.id.emailLoginTxt)).getText().toString(), ((ShowHidePasswordEditText) findViewById(R.id.pswLoginTxt)).getText().toString())
+              .addOnSuccessListener(LoginActivity.this, new OnSuccessListener<AuthResult>() {
+                          @Override
+                          public void onSuccess(AuthResult authResult) {
+                              Statics.usersTable.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                  @Override
+                                  public void onDataChange(DataSnapshot dataSnapshot) {
+                                      String twoFactorAuthOn  = (dataSnapshot.getValue(User.class)).getTwoFactorAuthOn();
+                                      /** if user has activated two factor authentication **/
+                                      if(twoFactorAuthOn.equals("true")){
+                                          SharedPreferences loggedUserPrefs = getSharedPreferences("2FA",0);
+                                          SharedPreferences.Editor e=loggedUserPrefs.edit();
+                                          e.putString("status","unfinished");
+                                          e.commit();
+                                          (new Enable2FAdialog(LoginActivity.this)).show();
+                                      }
+                                      /** if user hasnt activated two factor authentication just  **/
+                                      if(twoFactorAuthOn.equals("false")){
+                                          SharedPreferences loggedUserPrefs = getSharedPreferences("2FA",0);
+                                          SharedPreferences.Editor e=loggedUserPrefs.edit();
+                                          e.putString("status","finished");
+                                          e.commit();
+                                         LoginActivity.this.startActivity(new Intent( LoginActivity.this, HomeActivity.class));
+                                      }
+                                  }
+                                  @Override
+                                  public void onCancelled(DatabaseError databaseError) {
+                                      throw databaseError.toException();
+                                  }
+                              });
+                          }
+                      }
+              )
+              .addOnCompleteListener
+                      (LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                          @Override
+                          public void onComplete(@NonNull Task<AuthResult> task) {
+                              if (!task.isSuccessful()) {
+                                  Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                              }
+                          }
+                      });
   }
 
 
-    /** password recovery **/
+    /*****************************************************************************
+     * * Password recovery
+     * **************************************************************************/
     public void resetPassword(View v) {
         if (((EditText)findViewById(R.id.emailLoginTxt)).getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please provide your email\nto send you password recovery info.", Toast.LENGTH_LONG).show();
@@ -134,7 +153,9 @@ public class LoginActivity  extends Activity {
         }
     }
 
-    /** Facebook login **/
+    /*****************************************************************************
+     * * Facebook login
+     * **************************************************************************/
     public void loginWithFacebook(View v) {
        if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
@@ -171,8 +192,19 @@ public class LoginActivity  extends Activity {
                                     JSONObject object,
                                     GraphResponse response) {
                                 try {
-                                   // Statics.signIn(object.getString("first_name"),String.valueOf(object.getInt("id")), LoginActivity.this);
-                                    Statics.signIn(object.getString("email"),String.valueOf(object.getInt("id")), LoginActivity.this);
+                                    Statics.auth.signInWithEmailAndPassword(object.getString("email"),String.valueOf(object.getInt("id")))
+                                            .addOnCompleteListener
+                                                    (LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                                            if (task.isSuccessful()) {
+                                                                LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                                            } else {
+                                                                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                    });
+                                   // Statics.signIn(object.getString("email"),String.valueOf(object.getInt("id")), LoginActivity.this);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -192,7 +224,6 @@ public class LoginActivity  extends Activity {
             }
         });
     }
-
     /** onActivityResult **/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -207,7 +238,9 @@ public class LoginActivity  extends Activity {
 
     }
 
-    /** for calligraphy lib usage **/
+    /*****************************************************************************
+     * * Utils
+     * **************************************************************************/
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

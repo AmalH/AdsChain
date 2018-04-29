@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.models.Contact;
-import amalhichri.androidprojects.com.adschain.utils.RvSearchDemoHolder;
+import amalhichri.androidprojects.com.adschain.utils.ContactHolder;
 
 
-public class ContactsAdapter extends RecyclerView.Adapter<RvSearchDemoHolder> {
+public class ContactsAdapter extends RecyclerView.Adapter<ContactHolder> {
     private ArrayList<String> countries;
     private ArrayList<String> nums;
     private ArrayList<String> countriesCopy;
@@ -34,12 +34,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<RvSearchDemoHolder> {
 
 
     @Override
-    public RvSearchDemoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RvSearchDemoHolder(inflater.inflate(R.layout.item_country, parent, false));
+    public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ContactHolder(inflater.inflate(R.layout.item_country, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RvSearchDemoHolder holder, int position) {
+    public void onBindViewHolder(ContactHolder holder, int position) {
         holder.bind(contacts.get(position).getNom(),contacts.get(position).getNum());
     }
 
@@ -61,11 +61,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<RvSearchDemoHolder> {
         }
         contacts.clear();
         contacts.addAll(temp);
-        //nums.clear();
-        //nums.addAll(tempNums);
         notifyDataSetChanged();
         temp.clear();
-        //tempNums.clear();
     }
 }
 

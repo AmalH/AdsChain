@@ -10,11 +10,11 @@ import amalhichri.androidprojects.com.adschain.R;
  * Created by lj on 3/28/2017.
  */
 
-public class RvSearchDemoHolder extends RecyclerView.ViewHolder {
+public class ContactHolder extends RecyclerView.ViewHolder {
 
     private final TextView tvName,tvNum;
 
-    public RvSearchDemoHolder(View itemView) {
+    public ContactHolder(View itemView) {
         super(itemView);
         tvName = itemView.findViewById(R.id.tvName);
         tvNum =  itemView.findViewById(R.id.tvNum);

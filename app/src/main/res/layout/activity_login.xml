@@ -62,62 +62,7 @@
             app:et_labelTextColor="@color/base_color_1"
             app:et_labelTextSize="15dp"
             android:background="@drawable/editextborder"/>
-        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-            android:id="@+id/twoFauthMethLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:ael_expanded="true"
-            app:ael_duration="500"
-            app:ael_orientation="vertical" >
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="7pt"
-                    android:text="You enabled two-factor authentication for this account."/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="7pt"
-                    android:text="Please choose a security method:"/>
-                <RadioGroup
-                    android:id="@+id/twoFauthMethGrp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-                    <RadioButton
-                        android:id="@+id/viaSMSChkBx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text Message"
-                        android:textColor="@color/base_color_1"
-                        android:buttonTint="@color/base_color_1"
-                        style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
-                    <RadioButton
-                        android:id="@+id/viaGglAuh1ChkBx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/base_color_1"
-                        android:buttonTint="@color/base_color_1"
-                        android:text="Authentication app on this phone"
-                        style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
-                    <RadioButton
-                        android:id="@+id/viaGglAuh2ChkBx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/base_color_1"
-                        android:buttonTint="@color/base_color_1"
-                        android:text="Authentication app on another phone "
-                        style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
-                </RadioGroup>
-            </LinearLayout>
 
-
-        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
         <com.rey.material.widget.Button
             android:id="@+id/confirmLogin_btn"
@@ -125,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60px"
             android:layout_marginRight="60px"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:background="@color/base_color_2"
             android:onClick="login"
             android:text="Log in"
@@ -140,6 +85,7 @@
             fontPath="fonts/graublau_slab.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20px"
             android:onClick="resetPassword"
             android:text="Forgot password?"
@@ -152,6 +98,7 @@
             fontPath="fonts/graublau_slab_bold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="30px"
             android:text="Not a Chainer yet ? Join now."
             android:textColor="@color/base_color_1"

@@ -3,6 +3,7 @@ package amalhichri.androidprojects.com.adschain.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -27,7 +28,9 @@ public class MainActivity extends Activity implements View.OnClickListener   {
         setContentView(R.layout.activity_main);
 
         /** if user is logged in --> homeActivity**/
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+        SharedPreferences twoauthprefs = getSharedPreferences("2FA",0);
+        String twoauthStatus = twoauthprefs.getString("status","");
+        if((FirebaseAuth.getInstance().getCurrentUser()!=null) &&(twoauthStatus.equals("finished"))){
           startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         }
 

@@ -89,10 +89,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
     /*** helper methods ***/
     private static void allTabIconsToDeselected(TabLayout tablayout){
         for(int i=1;i<2;i++){

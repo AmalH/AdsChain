@@ -85,7 +85,9 @@ public class SignupActivity extends Activity {
     }
 
 
-    /** Sign up  **/
+    /*****************************************************************************
+     * * Firebase signup
+     * **************************************************************************/
     public void signUp(View v) {
 
 
@@ -125,7 +127,9 @@ public class SignupActivity extends Activity {
                 SignupActivity.this);
     }
 
-    /** sign up with facebook **/
+    /*****************************************************************************
+     * * Facebook Signup
+     * **************************************************************************/
     public void signUpWithFacebook(View v) {
         if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
@@ -201,7 +205,6 @@ public class SignupActivity extends Activity {
             }
         });
     }
-
     /** onActivityResult **/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -212,14 +215,17 @@ public class SignupActivity extends Activity {
     }
 
 
+
+    /*****************************************************************************
+     * * Utils
+     * **************************************************************************/
+
     /** for calligraphy lib usage **/
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-
-    /*** helper methods ***/
     private boolean isFullName(String s){
         int j=0;
         for(int i=0;i<s.length();i++){

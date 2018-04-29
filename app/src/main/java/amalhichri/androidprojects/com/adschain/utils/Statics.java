@@ -21,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.rey.material.widget.EditText;
 
-import amalhichri.androidprojects.com.adschain.activities.HomeActivity;
 import amalhichri.androidprojects.com.adschain.activities.LoginActivity;
 import amalhichri.androidprojects.com.adschain.models.User;
 
@@ -42,9 +41,6 @@ public class Statics {
 
 
     public static void signUp(final String email, String password, final String fullName, final String pictureUrl,final String twoFactorAuthOn, final Activity activity) {
-        // we'll use a fullName in signup ui we're not providing firstName / lastName editTe
-        //authenticate user through firebase
-        Log.d("Test","CALLED");
         Statics.auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
@@ -79,8 +75,9 @@ public class Statics {
         });
     }
 
-    public static void signIn(String email, String password, final Activity activity) {
-        Statics.auth.signInWithEmailAndPassword(email, password).addOnCompleteListener
+    /*public static void signIn(String email, String password, final Activity activity) {
+        Statics.auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener
                 (activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -92,7 +89,7 @@ public class Statics {
                         }
                     }
                 });
-    }
+    }*/
 
     // this will be re-used alot in the whole project !
     public static User getLoggedUser(Context context) {
