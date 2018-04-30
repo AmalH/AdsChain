@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import amalhichri.androidprojects.com.adschain.R;
-import amalhichri.androidprojects.com.adschain.activities.MainActivity;
+import amalhichri.androidprojects.com.adschain.activities.SplashActivity;
 import amalhichri.androidprojects.com.adschain.adapters.ContactsAdapter;
 import amalhichri.androidprojects.com.adschain.models.Contact;
 import amalhichri.androidprojects.com.adschain.utils.SMSService;
@@ -192,7 +192,7 @@ public class ConfigFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Statics.auth.signOut();
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                startActivity(new Intent(getActivity(), SplashActivity.class));
             }
         });
 

@@ -8,22 +8,31 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:gravity="center_horizontal">
 
-    <TextView
+    <!-- Logo-->
+    <ImageView
+        android:id="@+id/logo1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logohorizontal_"/>
+
+    <!--<TextView
         android:id="@+id/loginHeaderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:text="Follow up with AdChainers"
+        android:layout_marginTop="20dp"
         android:textColor="@color/base_color_1"
         android:gravity="center"
         fontPath="fonts/graublau_slab.ttf"
         android:textSize="40dp"
         style="bold"
-        tools:ignore="MissingPrefix" />
+        tools:ignore="MissingPrefix" />-->
 
     <!-- form -->
     <LinearLayout
@@ -32,14 +41,14 @@
         android:orientation="vertical"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:layout_centerVertical="true">
+        android:layout_below="@id/logo1">
 
         <com.rey.material.widget.EditText
             android:id="@+id/emailLoginTxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:hint=" E-mail"
-            android:layout_marginTop="50px"
             android:paddingLeft="20dp"
             app:et_dividerColor="@android:color/transparent"
             app:et_dividerErrorColor="@android:color/transparent"
@@ -54,7 +63,7 @@
             android:layout_height="50dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:layout_marginTop="50px"
+            android:layout_marginTop="20px"
             android:paddingLeft="20dp"
             app:et_dividerColor="@android:color/transparent"
             app:et_dividerErrorColor="@android:color/transparent"
@@ -70,8 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60px"
             android:layout_marginRight="60px"
-            android:layout_marginTop="60dp"
-            android:background="@color/base_color_2"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/button_background"
             android:onClick="login"
             android:text="Log in"
             fontPath="fonts/graublau_slab.ttf"
@@ -106,14 +115,13 @@
             android:textStyle="bold"
             tools:ignore="MissingPrefix" />
     </LinearLayout>
-
+    <!-- social media btns -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <!-- social media btns -->
         <com.facebook.login.widget.LoginButton
             android:id="@+id/facebookLoginBtn"
             android:layout_width="match_parent"
@@ -123,7 +131,7 @@
         <com.rey.material.widget.Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#3B5998"
+            android:background="@drawable/facebookbutton_background"
             android:drawableLeft="@drawable/ic_facebook_login"
             android:paddingLeft="10dp"
             android:text="Login with Facebook"
