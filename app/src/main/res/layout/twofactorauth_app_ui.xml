@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -26,18 +25,21 @@
                 android:layout_height="wrap_content"
                 android:text="Where are you setting up the app?"
                 android:textStyle="bold"
+                android:textColor="#3f3f3f"
                 android:textSize="8pt" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
+                android:textColor="#939393"
                 android:text="Authentication apps such as Google Authenticator and Authy"
                 android:textSize="5pt" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
+                android:textColor="#939393"
                 android:text=" generate login codes on your phone."
                 android:textSize="5pt" />
         </LinearLayout>
@@ -91,6 +93,7 @@
                     android:layout_below="@id/text1"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/icon1"
+                    android:paddingRight="20dp"
                     android:singleLine="false"
                     android:text="If you dont have an authentication app, you need to download one"
                     android:textSize="5.5pt" />
@@ -129,6 +132,7 @@
                     android:layout_below="@id/text2"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/icon2"
+                    android:paddingRight="20dp"
                     android:singleLine="false"
                     android:text="It's best to setup the app on the device that you normally use to access AdsChain"
                     android:textSize="5.5pt" />

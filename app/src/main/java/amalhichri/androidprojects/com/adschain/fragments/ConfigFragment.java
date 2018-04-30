@@ -88,6 +88,7 @@ public class ConfigFragment extends Fragment{
                 ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout1)).expand();
                 ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout2)).collapse();
                 ((ExpandableRelativeLayout) view.findViewById(R.id.expandableLayout3)).expand();
+                ((RadioButton)view.findViewById(R.id.limitedContactsChkBx)).setChecked(false);
             }
         });
 

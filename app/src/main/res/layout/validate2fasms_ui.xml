@@ -24,22 +24,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#3f3f3f"
                 android:text="Where are you setting up the app?"
-                android:textStyle="bold"
-                android:textSize="8pt" />
+                android:textSize="8.5pt" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="false"
+                android:textColor="#939393"
                 android:text="Authentication apps such as Google Authenticator and Authy"
-                android:textSize="5pt" />
+                android:textSize="5.8pt" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="false"
-                android:text=" generate login codes on your phone."
-                android:textSize="5pt" />
+                android:textColor="#939393"
+                android:text="generate login codes on your phone."
+                android:textSize="5.8pt" />
         </LinearLayout>
 
     </LinearLayout>
@@ -66,23 +66,32 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_centerHorizontal="true"
+               android:maxLength="6"
+               android:inputType="number"
                android:hint="6 digits code"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
-            <Button
+            <TextView
                 android:id="@+id/validateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:textSize="8pt"
+                android:textColor="#3f3f3f"
                 android:layout_below="@id/codeEdtx"
                 android:layout_centerHorizontal="true"
                 android:text="Validate"/>
-            <Button
+            <TextView
                 android:id="@+id/cancelBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="8pt"
+                android:textColor="#3f3f3f"
                 android:layout_below="@+id/codeEdtx"
                 android:layout_toRightOf="@id/validateBtn"
                 android:text="Cancel"/>
