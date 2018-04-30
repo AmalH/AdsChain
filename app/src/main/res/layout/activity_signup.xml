@@ -16,13 +16,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Join AdChainers"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/base_color_1"
+        android:text="Join AdsChainers"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/base_color_2"
         android:gravity="center"
         fontPath="fonts/graublau_slab.ttf"
         android:textSize="40dp"
-        style="bold"
+        tools:ignore="MissingPrefix"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Help us with ads, we help you with coins"
+        android:gravity="center"
+        android:layout_below="@id/signupHeaderText"
+        android:textStyle="bold"
+        fontPath="fonts/graublau_slab.ttf"
+        android:textSize="8pt"
         tools:ignore="MissingPrefix"/>
     <!-- form -->
     <LinearLayout
@@ -32,59 +42,41 @@
         android:orientation="vertical"
         android:layout_centerVertical="true">
 
-        <com.rey.material.widget.EditText
+        <EditText
             android:id="@+id/emailSignupTxt"
             android:layout_width="match_parent"
             android:hint=" E-mail"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:paddingLeft="20dp"
-            app:et_dividerColor="@android:color/transparent"
-            app:et_dividerErrorColor="@android:color/transparent"
-            app:et_labelEnable="true"
-            app:et_labelTextColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"
-            app:et_supportMode="helperWithError"
-            app:et_supportTextErrorColor="#F00"
-            android:background="@drawable/editextborder"/>
-
-        <com.rey.material.widget.EditText
-            android:id="@+id/fullNameTxt"
-            android:layout_width="match_parent"
-            android:hint=" Full name"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:paddingLeft="20dp"
-            app:et_dividerColor="@android:color/transparent"
-            app:et_dividerErrorColor="@android:color/transparent"
-            app:et_labelEnable="true"
-            app:et_labelTextColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"
-            app:et_supportMode="helperWithError"
-            app:et_supportTextErrorColor="#F00"
+            android:textColor="@color/base_color_1"
             android:background="@drawable/editextborder"/>
 
-        <com.rey.material.widget.EditText
+        <EditText
+            android:id="@+id/fullNameTxt"
+            android:layout_width="match_parent"
+            android:hint=" Full name"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:paddingLeft="20dp"
+            android:textColor="@color/base_color_1"
+            android:background="@drawable/editextborder"/>
+
+        <EditText
             android:id="@+id/pswSignupTxt"
             android:layout_width="match_parent"
             android:hint=" Password"
             android:inputType="textPassword"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:paddingLeft="20dp"
-            app:et_dividerColor="@android:color/transparent"
-            app:et_dividerErrorColor="@android:color/transparent"
-            app:et_labelEnable="true"
-            app:et_labelTextColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"
-            app:et_supportMode="helperWithError"
-            app:et_supportTextErrorColor="#F00"
+            android:textColor="@color/base_color_1"
             android:background="@drawable/editextborder"/>
         <CheckBox
             android:id="@+id/enable2FAchkBx"
@@ -105,11 +97,11 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-               >
+                android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Phone number required :"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -133,7 +125,7 @@
 
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
-        <com.rey.material.widget.Button
+        <Button
             fontPath="fonts/graublau_slab.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,7 +137,8 @@
             android:text="Sign up"
             android:textColor="@color/base_color_1"
             android:textSize="8pt"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="MissingPrefix" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -160,7 +153,7 @@
             android:visibility="gone" />
 
         <!-- social media buttons -->
-        <com.rey.material.widget.Button
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/facebookbutton_background"

@@ -31,11 +31,12 @@ public class TwoFactoAuthAppDialog extends Dialog {
     private Context context;
     private static String email,password;
     private String username, phoneNumber, countryCode,addUserUrl,addedUserId;
+    private int style;
 
-    public TwoFactoAuthAppDialog (Context context) {
+    public TwoFactoAuthAppDialog (Context context,int style) {
         super(context);
-        // TODO Auto-generated constructor stub
         this.context=context;
+        this.style = style;
     }
 
     @Override

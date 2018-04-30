@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -31,7 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.rey.material.widget.EditText;
 import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import org.json.JSONException;
@@ -102,7 +102,7 @@ public class LoginActivity  extends Activity {
                                           SharedPreferences.Editor e=loggedUserPrefs.edit();
                                           e.putString("status","unfinished");
                                           e.commit();
-                                          (new Enable2FAdialog(LoginActivity.this)).show();
+                                          (new Enable2FAdialog(LoginActivity.this,R.style.TwoFADialogs)).show();
                                       }
                                       /** if user hasnt activated two factor authentication just  **/
                                       if(twoFactorAuthOn.equals("false")){

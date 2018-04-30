@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -24,7 +25,6 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.rey.material.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,6 +77,9 @@ public class SignupActivity extends Activity {
                 if(isChecked ){
                     ((ExpandableRelativeLayout) findViewById(R.id.phnNbrLayout)).expand();
                     twoFactorAuthOn="true";
+                }if(!isChecked){
+                    ((ExpandableRelativeLayout) findViewById(R.id.phnNbrLayout)).collapse();
+                    twoFactorAuthOn = "false";
                 }
                 else
                     twoFactorAuthOn = "false";

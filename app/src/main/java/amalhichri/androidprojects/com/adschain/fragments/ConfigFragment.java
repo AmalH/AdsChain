@@ -23,13 +23,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-import com.rey.material.widget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -154,19 +156,21 @@ public class ConfigFragment extends Fragment{
         (view.findViewById(R.id.limitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                // ((view.findViewById(R.id.limitedSmsEditTxt))).requestFocus();
                 if(!(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString()).equals(""))
                     smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
             }
         });
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.sendingFreqOptions, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) view.findViewById(R.id.rptPeriodSpinner)).setAdapter(adapter);
 
 /**---------------------------------------------- Turning sending off/on  --------------------------------------------------**/
-        ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+        ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(Switch view, boolean checked) {
-                if(checked){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
                     /** give sms permission if not granted **/
                     if(Build.VERSION.SDK_INT == Build.VERSION_CODES.M){
                         int hasWriteSmsPermission =  getContext().checkSelfPermission(Manifest.permission.SEND_SMS);
@@ -180,7 +184,7 @@ public class ConfigFragment extends Fragment{
                         }
                     }
                 }
-                if(!checked){
+                if(!isChecked){
                     jobScheduler.cancelAll();
                     Toast.makeText(getContext(), "Stopped sending SMSs" +jobScheduler.getAllPendingJobs().toString(), Toast.LENGTH_LONG).show();
                 }

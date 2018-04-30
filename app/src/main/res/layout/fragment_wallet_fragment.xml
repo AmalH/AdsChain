@@ -8,43 +8,17 @@
     android:paddingBottom="10dp"
     tools:context="amalhichri.androidprojects.com.adschain.fragments.WalletFragment">
 
-
- <!-- <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
-    <View
-        android:layout_width="100dp"
-        android:layout_height="3dp"
-        android:background="@color/base_color_2"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="    12,6 AdCoins    "
-        android:textColor="@color/base_color_2"
-        android:textStyle="bold"
-        android:textSize="10pt"
-        android:layout_centerHorizontal="true"/>
-    <View
-        android:layout_width="100dp"
-        android:layout_height="3dp"
-        android:background="@color/base_color_2"
-        android:layout_gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"/>
-  </RelativeLayout>-->
-
   <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="15dp"
-      android:textColor="@color/base_color_1"
       android:text="My wallet"
-      android:textSize="20dp"
-      />
+      android:textColor="@color/base_color_1"
+      android:textSize="25dp"
+      android:textStyle="bold"
+      fontPath="fonts/graublau_slab.ttf"
+      tools:ignore="MissingPrefix"/>
   <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -55,22 +29,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/base_color_1"
-        android:text="0"
-        android:textSize="22dp"/>
+        android:text="12"
+        android:textSize="22dp"
+        fontPath="fonts/open_sans_light.ttf"
+        tools:ignore="MissingPrefix"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="100dp"
+        android:textStyle="bold"
+        fontPath="fonts/open_sans_light.ttf"
+        tools:ignore="MissingPrefix"
         android:text=" AdCoins"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/base_color_1"
-        android:text="0"
-        android:textSize="22dp"/>
+        android:text="150"
+        android:textSize="22dp"
+        fontPath="fonts/open_sans_light.ttf"
+        tools:ignore="MissingPrefix"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        fontPath="fonts/open_sans_light.ttf"
+        android:textStyle="bold"
+        tools:ignore="MissingPrefix"
         android:text=" SMS"/>
   </LinearLayout>
   <WebView
@@ -100,8 +84,10 @@
       android:layout_toRightOf="@id/seprtr"
         android:textColor="@color/base_color_1"
       android:text="AdCoins"
+        fontPath="fonts/open_sans_regular.ttf"
       android:layout_marginLeft="10dp"
-      android:textSize="20dp"/>
+      android:textSize="20dp"
+        tools:ignore="MissingPrefix" />
     <TextView
         android:id="@+id/idTxt"
       android:layout_width="wrap_content"

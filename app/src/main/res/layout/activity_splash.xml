@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,19 +11,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/main_background"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".activities.SplashActivity">
 
-     <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/logohorizontal_"
-            android:layout_marginTop="27dp"/>
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="238dp"
+        android:layout_height="141dp"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logohorizontal_" />
 
     <TextView
         android:id="@+id/motto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
         android:text="Millions in your pocket !"
-        android:textSize="12pt"/>
-</LinearLayout>
+        android:textSize="12pt"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        fontPath="fonts/graublau_slab_bold.ttf"
+        android:layout_below="@+id/logo"
+        tools:ignore="MissingPrefix"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="AdsChain - All rights reserved © DevArmy"
+        android:textSize="6pt"/>
+
+</RelativeLayout>

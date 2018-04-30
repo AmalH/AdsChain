@@ -3,11 +3,8 @@ package amalhichri.androidprojects.com.adschain.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,8 +19,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
-import com.rey.material.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,7 +94,7 @@ public class Statics {
                 });
     }*/
 
-    // this will be re-used alot in the whole project !
+    /**this will be re-used alot in the whole project !
     public static User getLoggedUser(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("loggedUserPrefs", 0);
         User user = (new Gson()).fromJson(prefs.getString("user", null), User.class);
@@ -123,7 +118,7 @@ public class Statics {
             }
         }
         );
-    }
+    }*/
 
 
     public static void validateSecurityCode(String code, final String userId, final Context context){

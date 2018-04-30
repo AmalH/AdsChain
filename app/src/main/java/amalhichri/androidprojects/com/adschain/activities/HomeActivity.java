@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         vpPager.setCurrentItem(0);
         vpPager.setOffscreenPageLimit(2);
         tablayout=findViewById(R.id.tabsLayout);
-       tablayout.post(new Runnable() {
+        tablayout.post(new Runnable() {
            @Override
            public void run() {
                setIndicator(tablayout,40,40);
@@ -96,8 +96,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
     private static void setUpTabIcons(TabLayout tbs){
-        tbs.getTabAt(0).setIcon(R.drawable.ic_wallet);
-        tbs.getTabAt(1).setIcon(R.drawable.ic_configurations);
+        tbs.getTabAt(1).setIcon(R.drawable.ic_wallet);
+        tbs.getTabAt(0).setIcon(R.drawable.ic_configurations);
         allTabIconsToDeselected(tbs);
     }
     /** to prevent back to loginActivity **/

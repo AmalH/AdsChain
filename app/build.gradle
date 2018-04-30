@@ -37,7 +37,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     /************* for uis *************/
     // material design library
-    compile 'com.github.rey5137:material:1.2.4'
+    //compile 'com.github.rey5137:material:1.2.4'
     // circular page indicator on main activity
     compile 'me.relex:circleindicator:1.2.2@aar'
     // to set custom font

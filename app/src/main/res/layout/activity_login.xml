@@ -13,48 +13,29 @@
     <!-- Logo-->
     <ImageView
         android:id="@+id/logo1"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="195dp"
+        android:layout_height="155dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logohorizontal_"/>
-
-    <!--<TextView
-        android:id="@+id/loginHeaderText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:text="Follow up with AdChainers"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/base_color_1"
-        android:gravity="center"
-        fontPath="fonts/graublau_slab.ttf"
-        android:textSize="40dp"
-        style="bold"
-        tools:ignore="MissingPrefix" />-->
+        android:src="@drawable/logohorizontal_" />
 
     <!-- form -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:layout_below="@id/logo1">
 
-        <com.rey.material.widget.EditText
+        <EditText
             android:id="@+id/emailLoginTxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:hint=" E-mail"
             android:paddingLeft="20dp"
-            app:et_dividerColor="@android:color/transparent"
-            app:et_dividerErrorColor="@android:color/transparent"
-            app:et_labelEnable="true"
-            app:et_labelTextColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"
             android:background="@drawable/editextborder"/>
 
         <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
@@ -65,15 +46,10 @@
             android:inputType="textPassword"
             android:layout_marginTop="20px"
             android:paddingLeft="20dp"
-            app:et_dividerColor="@android:color/transparent"
-            app:et_dividerErrorColor="@android:color/transparent"
-            app:et_labelEnable="true"
-            app:et_labelTextColor="@color/base_color_1"
-            app:et_labelTextSize="15dp"
+            android:textSize="15dp"
             android:background="@drawable/editextborder"/>
 
-
-        <com.rey.material.widget.Button
+        <Button
             android:id="@+id/confirmLogin_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,8 +61,9 @@
             android:text="Log in"
             fontPath="fonts/graublau_slab.ttf"
             android:textColor="@color/base_color_1"
-            android:textSize="8pt"
-            android:textStyle="bold" />
+            android:textSize="9pt"
+            android:textStyle="bold"
+            tools:ignore="MissingPrefix" />
 
         <TextView
             android:id="@+id/recoverTxtVw"
@@ -99,7 +76,7 @@
             android:onClick="resetPassword"
             android:text="Forgot password?"
             android:textColor="@color/base_color_1"
-            android:textSize="8pt"
+            android:textSize="7.5pt"
             tools:ignore="MissingPrefix" />
         <TextView
             android:id="@+id/signUpTxtVw"
@@ -108,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30px"
+            android:layout_marginTop="35px"
             android:text="Not a Chainer yet ? Join now."
             android:textColor="@color/base_color_1"
             android:textSize="8pt"
@@ -128,16 +105,18 @@
             android:layout_height="wrap_content"
             android:text="Log in with Facebook"
             android:visibility="gone"/>
-        <com.rey.material.widget.Button
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/facebookbutton_background"
+            fontPath="fonts/graublau_slab.ttf"
+            android:textSize="7.5pt"
             android:drawableLeft="@drawable/ic_facebook_login"
             android:paddingLeft="10dp"
             android:text="Login with Facebook"
             android:textColor="#FFFFFF"
             android:onClick="loginWithFacebook"
-            />
+            tools:ignore="MissingPrefix" />
     </LinearLayout>
 
 

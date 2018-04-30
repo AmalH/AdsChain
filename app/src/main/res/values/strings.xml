@@ -6,4 +6,10 @@
     <string name="nexmo_application_id">63a7cf79-3000-4784-9c41-95dc03206bf7</string>
     <string name="nexmo_shared_secret">a500e63be12b7f6</string>
 
+    <string-array name="sendingFreqOptions">
+        <item>Per day</item>
+        <item>Per month</item>
+        <item>Per week</item>
+    </string-array>
+
 </resources>
