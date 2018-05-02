@@ -184,7 +184,7 @@ public class ConfigFragment extends Fragment{
                 }
                 if(!isChecked){
                     jobScheduler.cancelAll();
-                    Toast.makeText(getContext(), "Stopped sending SMSs" +jobScheduler.getAllPendingJobs().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Stopped sending SMSs" , Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -301,7 +301,7 @@ public class ConfigFragment extends Fragment{
            for(Map.Entry<String,?> entry : keys.entrySet()){
                sendTo.add(entry.getValue().toString());
            }
-           //bundle.clear();
+           bundle.clear();
            Toast.makeText(getContext(),"Selected: "+sendTo.toArray(new String[sendTo.size()]).toString(),Toast.LENGTH_LONG).show();
            bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
        //}
@@ -319,7 +319,7 @@ public class ConfigFragment extends Fragment{
                                     Log.d("TEST TEST ","hh"+bundle.getStringArray("selectedContacts").toString());
        }**/
        /** sending sms , this is just a test, will configure it with number of sms/contacts **/
-       Toast.makeText(getContext(), "sms sent 2", Toast.LENGTH_LONG).show();
+       //Toast.makeText(getContext(), "sms sent 2", Toast.LENGTH_LONG).show();
        /** ------------------------- TEST TEST ----------------------------- **/
        ComponentName componentName = new ComponentName(getContext(), SMSService.class);
        JobInfo jobInfo = new JobInfo.Builder(1, componentName)
