@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -94,37 +97,10 @@ public class Statics {
                 });
     }*/
 
-    /**this will be re-used alot in the whole project !
-    public static User getLoggedUser(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("loggedUserPrefs", 0);
-        User user = (new Gson()).fromJson(prefs.getString("user", null), User.class);
-        return user;
-    }
-
-    // to set material editTexts focus listners / error messages
-    public static void setErrorText(final EditText editText, final String errorMsg){
-        editText.setOnKeyListener(new View.OnKeyListener(){
-
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)
-                    editText.setError(errorMsg);
-                return false;
-            }
-        });
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-            @Override public void onFocusChange(    View v,    boolean hasFocus){
-                if (hasFocus) editText.setError(null);
-            }
-        }
-        );
-    }*/
-
-
-    public static void validateSecurityCode(String code, final String userId, final Context context){
+    public static void validateSecurityCode(String code, final String userId, final Context context, final EditText codeTxt, final TextView errorTxt){
         String codeValidationUrl="https://api.authy.com/protected/json/verify/"+code+"/"+userId+"?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx";
-        JSONObject obj = new JSONObject();
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,codeValidationUrl,obj,
+        //JSONObject obj = new JSONObject();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,codeValidationUrl,null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -141,7 +117,41 @@ public class Statics {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("ERROR! ",error.getMessage());
+                        Toast.makeText(context,
+                                "You typed a wrong code!",
+                                Toast.LENGTH_LONG).show();
+                        codeTxt.setText("");
+                        errorTxt.setVisibility(View.VISIBLE);
+                        //Log.e("ERROR! ",error.getMessage());
+                    }
+                });
+        (AppSingleton.getInstance(context).getRequestQueue()).add(jsObjRequest);
+    }
+
+
+    public static void validateSecurityCode(String code, final String userId, final Context context){
+        String codeValidationUrl="https://api.authy.com/protected/json/verify/"+code+"/"+userId+"?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx";
+        //JSONObject obj = new JSONObject();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,codeValidationUrl,null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if((response.getString("token")).equals("is valid"))
+                                context.startActivity(new Intent(context, HomeActivity.class));
+                            else
+                                Toast.makeText(context, "You typed a wrong code!", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context,
+                                "You typed a wrong code!",
+                                Toast.LENGTH_LONG).show();
                     }
                 });
         (AppSingleton.getInstance(context).getRequestQueue()).add(jsObjRequest);

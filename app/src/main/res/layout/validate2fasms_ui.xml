@@ -71,7 +71,6 @@
                android:layout_width="160dp"
                android:layout_height="wrap_content"
                android:layout_centerHorizontal="true"
-               android:maxLength="6"
                android:inputType="number"
                android:paddingTop="10dp"
                android:paddingRight="15dp"
@@ -83,6 +82,13 @@
                fontPath="fonts/open_sans_light.ttf"
                android:background="@drawable/editextborder"
                tools:ignore="MissingPrefix" />
+            <TextView
+                android:id="@+id/errorTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="#CD0000"
+                android:text="You typed a wrong code! Please double check!"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -81,8 +81,6 @@ public class SignupActivity extends Activity {
                     ((ExpandableRelativeLayout) findViewById(R.id.phnNbrLayout)).collapse();
                     twoFactorAuthOn = "false";
                 }
-                else
-                    twoFactorAuthOn = "false";
             }
         });
     }

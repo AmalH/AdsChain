@@ -23,11 +23,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -144,7 +142,6 @@ public class ConfigFragment extends Fragment{
             }
         });
 
-
 /**------------------------------------------------ Setting SMS nb limit -------------------------------------------------- **/
 
         (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
@@ -158,14 +155,14 @@ public class ConfigFragment extends Fragment{
             @Override
             public void onClick(View v) {
                // ((view.findViewById(R.id.limitedSmsEditTxt))).requestFocus();
-                if(!(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString()).equals(""))
-                    smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
+              //  if(!(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString()).equals(""))
+                 //   smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
             }
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.sendingFreqOptions, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ((Spinner) view.findViewById(R.id.rptPeriodSpinner)).setAdapter(adapter);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.sendingFreqOptions, android.R.layout.simple_spinner_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //((Spinner) view.findViewById(R.id.rptPeriodSpinner)).setAdapter(adapter);
 
 /**---------------------------------------------- Turning sending off/on  --------------------------------------------------**/
         ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

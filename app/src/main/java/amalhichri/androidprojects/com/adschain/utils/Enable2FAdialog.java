@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -135,7 +136,8 @@ public class Enable2FAdialog extends Dialog {
             @Override
             public void onClick(View v) {
                 /** call authy api to validate code provided by the user **/
-                Statics.validateSecurityCode(((EditText)dialog.findViewById(R.id.codeEdtx)).getText().toString(),userId,getContext());
+                Statics.validateSecurityCode(((EditText)dialog.findViewById(R.id.codeEdtx)).getText().toString(),userId,getContext()
+                        ,((EditText)dialog.findViewById(R.id.codeEdtx)),((TextView)dialog.findViewById(R.id.errorTxt)));
             }
         });
         dialog.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
@@ -146,7 +148,7 @@ public class Enable2FAdialog extends Dialog {
         });
         dialog.show();
 
-       /** JSONObject obj = new JSONObject();
+        JSONObject obj = new JSONObject();
         String getCodeSMS = "https://api.authy.com/protected/json/sms/" + userId + "?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx&force=true";
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, getCodeSMS, obj,
                 new Response.Listener<JSONObject>() {
@@ -160,9 +162,9 @@ public class Enable2FAdialog extends Dialog {
                         dialog.findViewById(R.id.validateBtn).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                /** call authy api to validate code provided by the user
-                                 Statics.validateSecurityCode(((EditText)dialog.findViewById(R.id.codeEdtx)).getText().toString(),userId,getContext());
-                            }
+                                /** call authy api to validate code provided by the user **/
+                                Statics.validateSecurityCode(((EditText)dialog.findViewById(R.id.codeEdtx)).getText().toString(),userId,getContext()
+                                        ,((EditText)dialog.findViewById(R.id.codeEdtx)),((TextView)dialog.findViewById(R.id.errorTxt)));                            }
                         });
                         dialog.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -179,7 +181,7 @@ public class Enable2FAdialog extends Dialog {
                         Log.e("ERROR! ", error.getMessage());
                     }
                 });
-        (AppSingleton.getInstance(getContext()).getRequestQueue()).add(jsObjRequest);**/
+        (AppSingleton.getInstance(getContext()).getRequestQueue()).add(jsObjRequest);
 
 
     }
