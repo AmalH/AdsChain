@@ -113,6 +113,16 @@
             android:textSize="7pt"
             tools:ignore="MissingPrefix" />
     </LinearLayout>
+        <TextView
+            android:id="@+id/errorTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontPath="fonts/gopen_sans_light.ttf"
+            tools:ignore="MissingPrefix"
+            android:textColor="#cd0000"
+            android:visibility="gone"
+            android:text="You typed a wrong code! Please double check!"/>
+
     </LinearLayout>
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/confirmSignupBtn"

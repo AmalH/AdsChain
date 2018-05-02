@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.activities.HomeActivity;
 import amalhichri.androidprojects.com.adschain.activities.LoginActivity;
 import amalhichri.androidprojects.com.adschain.models.User;
@@ -117,18 +119,20 @@ public class Statics {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context,
+                        /*Toast.makeText(context,
                                 "You typed a wrong code!",
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_LONG).show();*/
                         codeTxt.setText("");
                         errorTxt.setVisibility(View.VISIBLE);
-                        //Log.e("ERROR! ",error.getMessage());
+                        codeTxt.startAnimation( AnimationUtils.loadAnimation(context, R.anim.motto_slide));
+
                     }
                 });
         (AppSingleton.getInstance(context).getRequestQueue()).add(jsObjRequest);
     }
 
 
+    /** I will remove this later **/
     public static void validateSecurityCode(String code, final String userId, final Context context){
         String codeValidationUrl="https://api.authy.com/protected/json/verify/"+code+"/"+userId+"?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx";
         //JSONObject obj = new JSONObject();

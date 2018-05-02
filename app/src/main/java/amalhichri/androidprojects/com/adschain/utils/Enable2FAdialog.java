@@ -127,27 +127,6 @@ public class Enable2FAdialog extends Dialog {
 
     private void sendSecurityCodeTo(final String userId) {
 
-        this.dismiss();
-        final Dialog dialog = new Dialog(getContext(), R.style.TwoFADialogs);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.validate2fasms_ui);
-        dialog.findViewById(R.id.validateBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /** call authy api to validate code provided by the user **/
-                Statics.validateSecurityCode(((EditText)dialog.findViewById(R.id.codeEdtx)).getText().toString(),userId,getContext()
-                        ,((EditText)dialog.findViewById(R.id.codeEdtx)),((TextView)dialog.findViewById(R.id.errorTxt)));
-            }
-        });
-        dialog.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-
         JSONObject obj = new JSONObject();
         String getCodeSMS = "https://api.authy.com/protected/json/sms/" + userId + "?api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx&force=true";
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, getCodeSMS, obj,
