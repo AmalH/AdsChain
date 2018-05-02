@@ -61,8 +61,8 @@ public class Enable2FAdialog extends Dialog {
                         email = (dataSnapshot.getValue(User.class)).getEmailAddress();
                         username = (dataSnapshot.getValue(User.class)).getFirstName() + " " + (dataSnapshot.getValue(User.class)).getLastName();
                         // password= (dataSnapshot.getValue(User.class)).getPassword();
-                        phoneNumber = "54821200";
-                        countryCode = "216";
+                        phoneNumber = (dataSnapshot.getValue(User.class)).getPhoneNumber();
+                        countryCode = (dataSnapshot.getValue(User.class)).getPhoneCountryCode();
                         addUserUrl = "https://api.authy.com/protected/json/users/new?user[email]=" + email
                                 + "&user[cellphone]=" + phoneNumber
                                 + "&user[country_code]=" + countryCode + "&api_key=CCb8fPiHfTdFp332cefjTuRjgMNprVOx";

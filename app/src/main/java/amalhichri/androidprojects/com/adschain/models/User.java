@@ -6,7 +6,7 @@ package amalhichri.androidprojects.com.adschain.models;
 
 public class User {
 
-    private String id,emailAddress,pictureUrl,firstName,lastName,twoFactorAuthOn,phoneNumber;  //fields to match with LinkedIn API
+    private String id,emailAddress,firstName,lastName,twoFactorAuthOn,phoneNumber,phoneCountryCode;  //fields to match with LinkedIn API
                                            // for facebook API we just read the json response object without switching it to a User object
 
     public User() {
@@ -28,13 +28,7 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -66,6 +60,18 @@ public class User {
         this.twoFactorAuthOn = twoFactorAuthOn;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getPhoneCountryCode() {
+        return phoneCountryCode;
+    }
+
+    public void setPhoneCountryCode(String phoneCountryCode) {
+        this.phoneCountryCode = phoneCountryCode;
+    }
+
     // just for test
 
     @Override
@@ -73,7 +79,6 @@ public class User {
         return "User{" +
                 "id='" + id + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
-                ", pictureUrl='" + pictureUrl + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';

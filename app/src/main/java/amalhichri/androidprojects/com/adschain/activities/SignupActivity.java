@@ -25,6 +25,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hbb20.CountryCodePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,12 +120,13 @@ public class SignupActivity extends Activity {
         if ((((android.widget.EditText)findViewById(R.id.phoneNumberEdt)).getText().toString().isEmpty()) &&(twoFactorAuthOn.equals("true")))
             twoFactorAuthOn = "false";
         //authenticate user + add it to firebase DB ..
-        //Toast.makeText(getApplicationContext(), "Exists: "+((EditText) findViewById(R.id.pswSignupTxt)).getText().toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Phone : "+((CountryCodePicker)findViewById(R.id.countryCodePicker)).getSelectedCountryCode()+((EditText) findViewById(R.id.phoneNumberEdt)).getText().toString(), Toast.LENGTH_LONG).show();
         Statics.signUp(((EditText) findViewById(R.id.emailSignupTxt)).getText().toString(),
                 ((EditText) findViewById(R.id.pswSignupTxt)).getText().toString(),
                 ((EditText) findViewById(R.id.fullNameTxt)).getText().toString(),
-                "",
                  twoFactorAuthOn,
+                ((EditText) findViewById(R.id.phoneNumberEdt)).getText().toString(),
+                ((CountryCodePicker)findViewById(R.id.countryCodePicker)).getSelectedCountryCode(),
                 SignupActivity.this);
     }
 
@@ -174,7 +176,7 @@ public class SignupActivity extends Activity {
                                         });
                                     }else
                                         Statics.signUp(object.getString("email"),String.valueOf(object.getInt("id")),
-                                                object.getString("first_name")+" "+object.getString("last_name"),object.getJSONObject("picture").getJSONObject("data").getString("url"),"false",SignupActivity.this);
+                                                object.getString("first_name")+" "+object.getString("last_name"),"false","","",SignupActivity.this);
                                 } catch (JSONException e) {
                                   Log.d("ERROR",e.getMessage());
                                 }
