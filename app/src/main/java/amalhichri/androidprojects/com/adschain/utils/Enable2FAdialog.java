@@ -51,7 +51,7 @@ public class Enable2FAdialog extends Dialog {
         (findViewById(R.id.smsOptionLyt)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dismiss();
                 Statics.usersTable.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

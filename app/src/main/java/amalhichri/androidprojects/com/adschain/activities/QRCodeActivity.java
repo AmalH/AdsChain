@@ -1,5 +1,6 @@
 package amalhichri.androidprojects.com.adschain.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 import amalhichri.androidprojects.com.adschain.R;
 import amalhichri.androidprojects.com.adschain.utils.AppSingleton;
 import amalhichri.androidprojects.com.adschain.utils.Statics;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class QRCodeActivity extends AppCompatActivity {
 
@@ -28,6 +30,8 @@ public class QRCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
+
+        getSupportActionBar().hide();
 
         /** get auth creds from previous activity **/
         Bundle extras = getIntent().getExtras();
@@ -67,5 +71,16 @@ public class QRCodeActivity extends AppCompatActivity {
                 Statics.validateSecurityCode(((EditText)findViewById(R.id.validationCode)).getText().toString(),userId,QRCodeActivity.this);
             }
         });
+    }
+
+
+    /*****************************************************************************
+     * * Utils
+     * **************************************************************************/
+
+    /** for calligraphy lib usage **/
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

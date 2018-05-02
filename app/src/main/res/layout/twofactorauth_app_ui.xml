@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -24,24 +25,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Where are you setting up the app?"
+                fontPath="fonts/graublau_slab.ttf"
                 android:textStyle="bold"
                 android:textColor="#3f3f3f"
-                android:textSize="8pt" />
+                android:textSize="10pt"
+                tools:ignore="MissingPrefix" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
-                android:textColor="#939393"
+                android:textColor="#7e7e7e"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:text="Authentication apps such as Google Authenticator and Authy"
-                android:textSize="5pt" />
+                fontPath="fonts/open_sans_light.ttf"
+                android:textSize="6pt"
+                tools:ignore="MissingPrefix" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
-                android:textColor="#939393"
+                android:textColor="#7e7e7e"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:text=" generate login codes on your phone."
-                android:textSize="5pt" />
+                fontPath="fonts/open_sans_light.ttf"
+                android:textSize="6pt"
+                tools:ignore="MissingPrefix" />
         </LinearLayout>
 
     </LinearLayout>
@@ -83,20 +94,25 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/icon1"
                     android:layout_marginLeft="10dp"
+                    fontPath="fonts/graublau_slab.ttf"
+                    android:textStyle="bold"
                     android:text="On this phone"
-                    android:textColor="#000000"
-                    android:textSize="7pt" />
+                    android:textColor="#3f3f3f"
+                    android:textSize="8pt"
+                    tools:ignore="MissingPrefix" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text1"
+                    android:text="If you dont have an authentication app, you need to download one"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/icon1"
                     android:paddingRight="20dp"
                     android:singleLine="false"
-                    android:text="If you dont have an authentication app, you need to download one"
-                    android:textSize="5.5pt" />
+                    fontPath="fonts/open_sans_light.ttf"
+                    android:textSize="5.5pt"
+                    tools:ignore="MissingPrefix" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -123,8 +139,11 @@
                     android:layout_toRightOf="@id/icon2"
                     android:layout_marginLeft="15dp"
                     android:text="On a different device"
-                    android:textColor="#000000"
-                    android:textSize="7pt" />
+                    android:textStyle="bold"
+                    fontPath="fonts/open_sans_regular.ttf"
+                    android:textColor="#3f3f3f"
+                    android:textSize="7pt"
+                    tools:ignore="MissingPrefix" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -134,8 +153,11 @@
                     android:layout_toRightOf="@id/icon2"
                     android:paddingRight="20dp"
                     android:singleLine="false"
+                    android:textColor="#7e7e7e"
+                    fontPath="fonts/open_sans_light.ttf"
                     android:text="It's best to setup the app on the device that you normally use to access AdsChain"
-                    android:textSize="5.5pt" />
+                    android:textSize="5.5pt"
+                    tools:ignore="MissingPrefix" />
             </RelativeLayout>
         </LinearLayout>
 
