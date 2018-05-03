@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import amalhichri.androidprojects.com.adschain.R;
@@ -178,7 +177,7 @@ public class ConfigFragment extends Fragment{
                             return;
                         }
                         else if (hasWriteSmsPermission == PackageManager.PERMISSION_GRANTED  ){
-                            sendingOnOff();
+                            startSendingAds();
                         }
                     }
                 }
@@ -237,7 +236,7 @@ public class ConfigFragment extends Fragment{
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                  sendingOnOff();
+                  startSendingAds();
                 } else {
                     Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
@@ -288,26 +287,24 @@ public class ConfigFragment extends Fragment{
        Toast.makeText(getContext(), "All contacts: "+cursor.getCount() , Toast.LENGTH_LONG).show();
    }
 
-   private void sendingOnOff(){
+   private void startSendingAds(){
        /** pass selected contacts to jobScheduler **/
        PersistableBundle bundle = new PersistableBundle();
        /** if it's all contacts **/
-       /*if(isSelecedContacts){*/
            Log.d("Gonna Crush :D","hh");
-
-           List<String> sendTo = new ArrayList<>();
+           ArrayList<String> sendTo = new ArrayList<>();
            SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
            Map<String,?> keys = sendToListShp.getAll();
            for(Map.Entry<String,?> entry : keys.entrySet()){
                sendTo.add(entry.getValue().toString());
            }
            bundle.clear();
-           Toast.makeText(getContext(),"Selected: "+sendTo.toArray(new String[sendTo.size()]).toString(),Toast.LENGTH_LONG).show();
+           Toast.makeText(getContext(),"Selected nb: "+(sendTo.toArray(new String[sendTo.size()])).length,Toast.LENGTH_LONG).show();
            bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
        //}
 
-       /** if it's selected contacts
-       else if(isAllContacts){
+       /** if it's selected contacts**/
+      /** else if(isAllContacts){
                                    List<String> sendToAll = new ArrayList<>();
                                     SharedPreferences sendToListShpAll = getContext().getSharedPreferences("sendToListAll",0);
                                     Map<String,?> keys = sendToListShpAll.getAll();
