@@ -67,7 +67,7 @@
                             tools:ignore="MissingPrefix"
                             style="@android:style/Widget.Material.CompoundButton.CheckBox"/>
                     </RadioGroup>
-               <!-- <LinearLayout
+               <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -80,13 +80,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
                                 android:inputType="number"
+                                android:visibility="gone"
                                 android:hint="x sms"/>
-                    <Spinner
-                        android:id="@+id/rptPeriodSpinner"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"/>
 
-                </LinearLayout>-->
+                </LinearLayout>
 
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
             <View

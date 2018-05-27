@@ -22,16 +22,17 @@ import java.util.Arrays;
 
 public class  SMSService extends JobService {
 
-    JobParameters params;
-    DoItTask doIt;
-
+    private JobParameters params;
+    private DoItTask doIt;
     private static ArrayList<String> sendTo;
+    private int smsNbLimit;
 
 
     @Override
     public boolean onStartJob(JobParameters params) {
         this.params = params;
         sendTo = new ArrayList<String>(Arrays.asList(params.getExtras().getStringArray("selectedContacts")));
+        smsNbLimit = params.getExtras().getInt("maxToSend");
         doIt = new DoItTask();
         doIt.execute();
         return false;
@@ -56,7 +57,6 @@ public class  SMSService extends JobService {
 
         @Override
         protected Void doInBackground(Void... params) {
-           // Toast.makeText(this, "Value1 :  "+  params.getExtras().getStringArray("selectedContacts").length, Toast.LENGTH_LONG).show();
             sendSms();
             return null;
         }

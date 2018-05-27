@@ -120,7 +120,9 @@ public class SignupActivity extends Activity {
         if ((((android.widget.EditText)findViewById(R.id.phoneNumberEdt)).getText().toString().isEmpty()) &&(twoFactorAuthOn.equals("true")))
             twoFactorAuthOn = "false";
         //authenticate user + add it to firebase DB ..
-        Toast.makeText(getApplicationContext(), "Phone : "+((CountryCodePicker)findViewById(R.id.countryCodePicker)).getSelectedCountryCode()+((EditText) findViewById(R.id.phoneNumberEdt)).getText().toString(), Toast.LENGTH_LONG).show();
+        if(twoFactorAuthOn.equals("true"))
+            Toast.makeText(getApplicationContext(), "Phone : "+((CountryCodePicker)findViewById(R.id.countryCodePicker)).getSelectedCountryCode()+((EditText) findViewById(R.id.phoneNumberEdt)).getText().toString(), Toast.LENGTH_LONG).show();
+
         Statics.signUp(((EditText) findViewById(R.id.emailSignupTxt)).getText().toString(),
                 ((EditText) findViewById(R.id.pswSignupTxt)).getText().toString(),
                 ((EditText) findViewById(R.id.fullNameTxt)).getText().toString(),
@@ -148,7 +150,7 @@ public class SignupActivity extends Activity {
         mAccessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,AccessToken currentAccessToken) {
-                Log.d("TEST","TEST "+currentAccessToken.toString());
+              //  Log.d("TEST","TEST "+currentAccessToken.toString());
             }
         };
 

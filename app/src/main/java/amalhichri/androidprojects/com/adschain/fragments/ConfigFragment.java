@@ -5,6 +5,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -53,7 +55,9 @@ public class ConfigFragment extends Fragment{
     private ExpandableRelativeLayout expandableLayout1,expandableLayout2,expandableLayout3;
     private boolean isSelecedContacts=false;
     private boolean isAllContacts=false;
+    private EditText limitedSmsEditTxt;
     private EditText searchEdtTxt;
+    private RadioButton limitedSmsChkBx,unlimitedSmsChkBx;
 
 
     @Override
@@ -71,9 +75,12 @@ public class ConfigFragment extends Fragment{
 
         final View view=inflater.inflate(R.layout.fragment_config_fragment, container, false);
 
-        expandableLayout1 = (view.findViewById(R.id.expandableLayout1));
-        expandableLayout2 =(view.findViewById(R.id.expandableLayout2));
-        expandableLayout3 = (view.findViewById(R.id.expandableLayout3));
+        expandableLayout1 = view.findViewById(R.id.expandableLayout1);
+        expandableLayout2 =view.findViewById(R.id.expandableLayout2);
+        expandableLayout3 = view.findViewById(R.id.expandableLayout3);
+        limitedSmsEditTxt = view.findViewById(R.id.limitedSmsEditTxt);
+        limitedSmsChkBx = (view.findViewById(R.id.limitedSmsChkBx));
+        unlimitedSmsChkBx = (view.findViewById(R.id.unlimitedSmsChkBx));
         searchEdtTxt = (view.findViewById(R.id.etSearch));
 
 
@@ -143,25 +150,22 @@ public class ConfigFragment extends Fragment{
 
 /**------------------------------------------------ Setting SMS nb limit -------------------------------------------------- **/
 
-        (view.findViewById(R.id.unlimitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
+        unlimitedSmsChkBx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((view.findViewById(R.id.limitedSmsEditTxt))).setVisibility(View.GONE);
+                ((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().clear();
                 smsNbLimit=-1;
             }
         });
 
-        (view.findViewById(R.id.limitedSmsChkBx)).setOnClickListener(new View.OnClickListener() {
+        limitedSmsChkBx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // ((view.findViewById(R.id.limitedSmsEditTxt))).requestFocus();
-              //  if(!(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString()).equals(""))
-                 //   smsNbLimit=Integer.parseInt(((EditText)(view.findViewById(R.id.limitedSmsEditTxt))).getText().toString());
+                ((view.findViewById(R.id.limitedSmsEditTxt))).setVisibility(View.VISIBLE);
+                ((view.findViewById(R.id.limitedSmsEditTxt))).requestFocus();
             }
         });
-
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.sendingFreqOptions, android.R.layout.simple_spinner_item);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //((Spinner) view.findViewById(R.id.rptPeriodSpinner)).setAdapter(adapter);
 
 /**---------------------------------------------- Turning sending off/on  --------------------------------------------------**/
         ((Switch)view.findViewById(R.id.stopSdingSms)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -288,9 +292,38 @@ public class ConfigFragment extends Fragment{
    }
 
    private void startSendingAds(){
+
+
+       if(!(limitedSmsChkBx.isChecked())&&!(unlimitedSmsChkBx.isChecked())){
+           new AlertDialog.Builder(getContext())
+                   .setMessage("Please set number of SMS limit !")
+                   .setCancelable(false)
+                   .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                       }
+                   }).show();
+       }
+
+       if(!(limitedSmsEditTxt.getText().toString().isEmpty())){
+           smsNbLimit=Integer.parseInt(limitedSmsEditTxt.getText().toString());
+       }
+       else if(limitedSmsEditTxt.getText().toString().isEmpty()&&(limitedSmsChkBx.isChecked())){
+           new AlertDialog.Builder(getContext())
+                   .setMessage("You forgot to set limit number of SMS !")
+                   .setCancelable(false)
+                   .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                       }
+                   }).show();
+       }
+
        /** pass selected contacts to jobScheduler **/
        PersistableBundle bundle = new PersistableBundle();
-       /** if it's all contacts **/
+       /** if it's all selected **/
            Log.d("Gonna Crush :D","hh");
            ArrayList<String> sendTo = new ArrayList<>();
            SharedPreferences sendToListShp = getContext().getSharedPreferences("sendToList",0);
@@ -299,11 +332,11 @@ public class ConfigFragment extends Fragment{
                sendTo.add(entry.getValue().toString());
            }
            bundle.clear();
-           Toast.makeText(getContext(),"Selected nb: "+(sendTo.toArray(new String[sendTo.size()])).length,Toast.LENGTH_LONG).show();
            bundle.putStringArray("selectedContacts",sendTo.toArray(new String[sendTo.size()]));
+           bundle.putInt("maxToSend",smsNbLimit);
        //}
 
-       /** if it's selected contacts**/
+       /** if it's all contacts **/
       /** else if(isAllContacts){
                                    List<String> sendToAll = new ArrayList<>();
                                     SharedPreferences sendToListShpAll = getContext().getSharedPreferences("sendToListAll",0);
@@ -316,7 +349,6 @@ public class ConfigFragment extends Fragment{
                                     Log.d("TEST TEST ","hh"+bundle.getStringArray("selectedContacts").toString());
        }**/
        /** sending sms , this is just a test, will configure it with number of sms/contacts **/
-       //Toast.makeText(getContext(), "sms sent 2", Toast.LENGTH_LONG).show();
        /** ------------------------- TEST TEST ----------------------------- **/
        ComponentName componentName = new ComponentName(getContext(), SMSService.class);
        JobInfo jobInfo = new JobInfo.Builder(1, componentName)
