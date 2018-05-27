@@ -1,15 +1,11 @@
 package amalhichri.androidprojects.com.adschain.utils;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
-import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
@@ -57,47 +53,49 @@ public class  SMSService extends JobService {
 
         @Override
         protected Void doInBackground(Void... params) {
-            sendSms();
+            sendSms(sendTo.size());
+           /* if(smsNbLimit==0)
+                sendSms(sendTo.size());
+             else if(smsNbLimit>0)
+                sendSms(smsNbLimit);*/
             return null;
         }
     }
 
-    // send sms in background
-    private void sendSms()
+    private void sendSms(int limit)
     {
-       // Toast.makeText(getApplicationContext(), "Value1 :  "+  sendTo.toString(), Toast.LENGTH_LONG).show();
-
         if(isSimExists())
         {
             try
             {
                 final PendingIntent sentPI = PendingIntent.getBroadcast(getBaseContext(), 0, new Intent("SMS_SENT"), 0);
-               for(int i=0;i<sendTo.size();i++){
-                   SmsManager.getDefault().sendTextMessage(sendTo.get(i), null,   "this is an advertisement", sentPI, null);
-                   getApplicationContext().registerReceiver(new BroadcastReceiver() {
-                       @Override
-                       public void onReceive(Context arg0, Intent arg1) {
-                           int resultCode = getResultCode();
-                           switch (resultCode) {
-                               case Activity.RESULT_OK:
-                                   Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
-                                   break;
-                               case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                   Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
-                                   break;
-                               case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                   Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
-                                   break;
-                               case SmsManager.RESULT_ERROR_NULL_PDU:
-                                   Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
-                                   break;
-                               case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                   Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
-                                   break;
-                           }
-                       }
-                   }, new IntentFilter("SMS_SENT"));
-               }
+                Toast.makeText(this, "LIMIT: "+String.valueOf(limit), Toast.LENGTH_LONG).show();
+               /* for(int i=0;i<limit;i++){
+                    SmsManager.getDefault().sendTextMessage(sendTo.get(i), null,   "this is an advertisement", sentPI, null);
+                    getApplicationContext().registerReceiver(new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context arg0, Intent arg1) {
+                            int resultCode = getResultCode();
+                            switch (resultCode) {
+                                case Activity.RESULT_OK:
+                                    Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                    Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                    Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_NULL_PDU:
+                                    Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_LONG).show();
+                                    break;
+                                case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                    Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+                    }, new IntentFilter("SMS_SENT"));
+                }*/
 
 
             }
